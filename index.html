@@ -128,6 +128,7 @@ body.menu-open .overlay a:nth-child(5){transition-delay:.32s}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;text-transform:uppercase;letter-spacing:.22em;
   font-weight:600;color:var(--muted);border:1px solid var(--hairline);border-radius:999px;padding:7px 14px;background:var(--surface)}
 .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.eyebrow{display:none!important}
 .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:52px}
 .sec-title{font-size:clamp(2rem,4.6vw,3.4rem)}
 .sec-note{color:var(--muted);max-width:34ch;font-size:15px}
@@ -149,7 +150,7 @@ body.menu-open .overlay a:nth-child(5){transition-delay:.32s}
 
 /* ---------- HERO ---------- */
 .hero{min-height:100dvh;display:flex;align-items:center;padding-top:120px;padding-bottom:60px}
-.hero-grid{display:grid;grid-template-columns:1.55fr .95fr;gap:48px;align-items:center;width:100%}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:48px;align-items:center;width:100%;max-width:840px}
 .hero h1{font-size:clamp(2.7rem,7vw,5.6rem);margin:26px 0 22px;letter-spacing:-.03em}
 .hero h1 em{font-style:normal;color:var(--accent)}
 .hero-sub{font-size:clamp(1rem,1.6vw,1.22rem);color:var(--muted);max-width:52ch;margin-bottom:36px}
@@ -397,7 +398,6 @@ footer{padding:40px 0 60px;border-top:1px solid var(--hairline);margin-top:40px}
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <span class="eyebrow reveal"><span class="dot"></span><span data-en="Product Designer · Fintech &amp; E-commerce">Product Designer · Fintech va E-commerce</span></span>
         <h1 class="reveal d1"><span data-en="I turn complex products into simple, trustworthy">Murakkab mahsulotlarni sodda va ishonchli</span> <em><span data-en="interfaces.">interfeyslarga aylantiraman.</span></em></h1>
         <p class="hero-sub reveal d2" data-en="Product designer with 3.5+ years of experience in UX/UI and product design. I've worked end-to-end on fintech and e-commerce products — research, UX architecture, UI, design systems and product launch.">UX/UI va Product Design sohasida 3,5 yildan ortiq tajribaga egaman. Fintech va E-commerce mahsulotlarini end-to-end dizayn qilganman — tadqiqot, UX-arxitektura, UI, design system va product launch.</p>
         <div class="hero-cta reveal d3">
@@ -408,15 +408,6 @@ footer{padding:40px 0 60px;border-top:1px solid var(--hairline);margin-top:40px}
           <div><div class="m-num">3.5<em style="color:var(--accent)">+</em></div><div class="m-lab" data-en="Years in design">Yillik tajriba</div></div>
           <div><div class="m-num">10K<em style="color:var(--accent)">+</em></div><div class="m-lab" data-en="Daily active users">Kunlik faol foydalanuvchi</div></div>
           <div><div class="m-num">500<em style="color:var(--accent)">+</em></div><div class="m-lab" data-en="Screens shipped">Tayyorlangan ekran</div></div>
-        </div>
-      </div>
-      <div class="portrait reveal d2">
-        <div class="card">
-          <div class="inner">
-            <div class="mono">AU</div>
-            <div class="avail"><span class="g"></span><span data-en="Open to opportunities">Yangi imkoniyatlarga ochiq</span></div>
-          </div>
-          <div class="tag" data-en="Based in Tashkent, UZ">Toshkent, O‘zbekiston</div>
         </div>
       </div>
     </div>
