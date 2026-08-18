@@ -143,11 +143,19 @@ section{scroll-margin-top:80px}
 .chip{border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:600;background:var(--bg);box-shadow:none;color:var(--ink);transition:transform .25s var(--ease),border-color .25s var(--ease),background .25s var(--ease)}
 .chip:hover{transform:translateY(-2px);background:var(--accent-soft)}
 
+.marquee{position:relative;overflow:hidden;margin:0 -6px 30px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.marquee-track{display:flex;align-items:center;width:max-content;animation:marq 34s linear infinite;padding:2px 0}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marq-item{display:inline-flex;align-items:center;white-space:nowrap;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);transition:color .3s var(--ease)}
+.marq-item:hover{color:var(--ink)}
+.marq-star{width:10px;height:10px;fill:var(--accent);opacity:.85;margin:0 24px;flex-shrink:0}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.marquee-track{animation:none;flex-wrap:wrap;gap:6px 0}}
+.about-facts{margin-top:6px}
 .about-facts{display:flex;flex-direction:column}
-.fact{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--line);padding:13px 4px;border-radius:8px;transition:background .25s var(--ease),padding .25s var(--ease)}
+.fact{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--line);padding:13px 4px}
 .fact:first-child{padding-top:4px}
 .fact:last-child{border-bottom:none}
-.fact:hover{background:color-mix(in srgb,var(--ink) 4%,transparent);padding-left:10px;padding-right:10px}
 .fl{color:var(--muted);font-size:14.5px}
 .fv{font-weight:600;font-size:14.5px;text-align:right}
 
@@ -232,11 +240,15 @@ section{scroll-margin-top:80px}
 
 /* TOOLS — plain line */
 .tools{padding:0 0 64px}
-.tool-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-.tool{display:flex;align-items:center;justify-content:center;gap:9px;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:18px 12px;font-weight:600;font-size:14.5px;box-shadow:none;color:var(--ink);transition:transform .3s var(--ease),border-color .3s var(--ease)}
-.tool:hover{transform:translateY(-2px)}
+.tool-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.tool{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:flex-start;gap:13px;background:var(--surface-2);border:1px solid var(--line);border-radius:18px;padding:16px 18px;font-weight:600;font-size:14.5px;box-shadow:none;color:var(--ink);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.tool::before{content:"";position:absolute;inset:0;background:radial-gradient(90% 120% at 18% -10%,var(--accent-soft),transparent 55%);opacity:0;transition:opacity .35s var(--ease);pointer-events:none}
+.tool:hover::before{opacity:1}
+.tool>*{position:relative;z-index:1}
+.tool:hover{transform:translateY(-3px);box-shadow:0 14px 30px -20px rgba(0,0,0,.55)}
 .tool .d{display:block;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.9;flex-shrink:0}
-.tool .ic{display:block;width:20px;height:20px;object-fit:contain;flex-shrink:0}
+.tool .ic{display:block;width:22px;height:22px;padding:8px;box-sizing:content-box;background:var(--bg);border:1px solid var(--line);border-radius:11px;object-fit:contain;flex-shrink:0;transition:transform .3s var(--ease)}
+.tool:hover .ic{transform:scale(1.06)}
 
 
 /* RECOMMENDATIONS */
@@ -247,15 +259,15 @@ section{scroll-margin-top:80px}
 .quote{display:flex;flex-direction:column;border-radius:32px;background:var(--surface-2);border:1px solid var(--line);padding:26px;box-shadow:none;position:relative;text-decoration:none;color:inherit;cursor:pointer;transition:transform .3s var(--ease),border-color .3s var(--ease),box-shadow .3s var(--ease)}
 .quote:hover{transform:translateY(-3px);box-shadow:0 16px 36px -22px rgba(0,0,0,.5)}
 .quote .mark{display:none}
-.quote p{font-size:14.5px;color:var(--ink);margin-bottom:18px;line-height:1.62}
-.quote .who{display:flex;align-items:center;gap:11px;border-top:1px solid var(--line-2);padding-top:14px;margin-top:auto}
+.quote p{font-size:15.5px;color:var(--ink);margin-bottom:18px;line-height:1.75;letter-spacing:.002em;max-width:62ch}
+.quote .who{display:flex;align-items:center;gap:13px;border-top:1px solid var(--line);padding-top:16px;margin-top:auto}
 .quote .qbody{overflow:hidden;transition:max-height .5s var(--ease)}
 .quote:not(.expanded) .qbody{-webkit-mask-image:linear-gradient(180deg,#000 58%,transparent 100%);mask-image:linear-gradient(180deg,#000 58%,transparent 100%)}
 .quote .vmore{padding:8px 0 14px}
 .quote .qbody p{margin-bottom:0}
-.quote .av{width:36px;height:36px;border-radius:50%;background:var(--surface-2);color:var(--muted);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;font-size:12.5px}
-.quote .nm{font-weight:600;font-size:14.5px}
-.quote .rl{font-size:12.5px;color:var(--muted)}
+.quote .av{width:46px;height:46px;flex-shrink:0;border-radius:50%;background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 30%,var(--surface-2)),color-mix(in srgb,var(--accent) 12%,var(--surface-2)));border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);color:var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;font-size:15px;letter-spacing:.01em}
+.quote .nm{font-weight:700;font-size:15px;color:var(--ink);letter-spacing:-.01em}
+.quote .rl{font-size:13px;color:var(--muted);margin-top:1px}
 
 /* CONTACT */
 .contact{padding:0 0 48px}
@@ -395,22 +407,14 @@ footer{padding:24px 0 52px;border-top:1px solid var(--line);margin-top:28px}
         <div class="about-top">
           <p class="about-lead" data-en="I design products people understand instantly — and the design systems that help teams ship faster.">Men foydalanuvchi bir qarashda tushunadigan mahsulotlar — va jamoalarga tezroq yetkazishga yordam beradigan design system’lar yarataman.</p>
         </div>
-        <div class="about-grid">
-          <div>
-            <div class="mini-h" data-en="Core strengths">Asosiy kuchli tomonlarim</div>
-            <div class="chips">
-              <span class="chip">Product Design</span>
-              <span class="chip">Figma &amp; Design Systems</span>
-              <span class="chip">Prototyping &amp; User Flows</span>
-              <span class="chip">UX Research</span>
-              <span class="chip" data-en="Communication &amp; Collaboration">Muloqot va hamkorlik</span>
-            </div>
-          </div>
-          <div class="about-facts">
-            <div class="fact"><span class="fl" data-en="Focus">Yo‘nalish</span><span class="fv" data-en="B2B · B2C · E-commerce · Fintech">B2B · B2C · E-commerce · Fintech</span></div>
-            <div class="fact"><span class="fl" data-en="Location">Joylashuv</span><span class="fv" data-en="Tashkent, Uzbekistan">Toshkent, O‘zbekiston</span></div>
-            <div class="fact"><span class="fl" data-en="Languages">Tillar</span><span class="fv" data-en="Uzbek · Russian · English">O‘zbek · Rus · English</span></div>
-          </div>
+        <div class="mini-h" data-en="Core strengths" style="margin-bottom:16px">Asosiy kuchli tomonlarim</div>
+        <div class="marquee" aria-label="Core strengths">
+          <div class="marquee-track"><span class="marq-item">Product Design</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Design Systems</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Figma</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Prototyping</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">User Flows</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">User Research</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">UX Architecture</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Wireframing</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Style Guides</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">A/B Testing</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Journey Mapping</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Usability Testing</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Communication</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Time Management</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Product Design</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Design Systems</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Figma</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Prototyping</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">User Flows</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">User Research</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">UX Architecture</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Wireframing</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Style Guides</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">A/B Testing</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Journey Mapping</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Usability Testing</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Communication</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg><span class="marq-item">Time Management</span><svg class="marq-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14.5 9.5 L24 12 L14.5 14.5 L12 24 L9.5 14.5 L0 12 L9.5 9.5 Z"/></svg></div>
+        </div>
+        <div class="about-facts">
+          <div class="fact"><span class="fl" data-en="Focus">Yo‘nalish</span><span class="fv" data-en="B2B · B2C · E-commerce · Fintech">B2B · B2C · E-commerce · Fintech</span></div>
+          <div class="fact"><span class="fl" data-en="Location">Joylashuv</span><span class="fv" data-en="Tashkent, Uzbekistan">Toshkent, O‘zbekiston</span></div>
+          <div class="fact"><span class="fl" data-en="Languages">Tillar</span><span class="fv" data-en="Uzbek · Russian · English">O‘zbek · Rus · English</span></div>
         </div>
       </div>
     </div>
@@ -712,9 +716,8 @@ footer{padding:24px 0 52px;border-top:1px solid var(--line);margin-top:28px}
         <div class="socials">
           <a href="https://www.linkedin.com/in/aliumirov/" target="_blank" rel="noopener" class="soc"><svg viewBox="0 0 24 24"><path d="M4 9v11M4 5.5a1.5 1.5 0 100-.01M9 20V13a3 3 0 016 0v7"/></svg>LinkedIn</a>
           <a href="https://t.me/aliumirov_blog" target="_blank" rel="noopener" class="soc"><svg viewBox="0 0 24 24"><path d="M21.5 4.2 2.8 11.1l5.4 1.9 2 5.9 2.9-3.6"/><path d="M21.5 4.2 9.7 13.6"/></svg>Telegram</a>
-          <a href="#" class="soc" data-social="dribbble"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5 8c5 3 10 3 14 1M8.5 4.5C13 9 15 14 15.5 20M20 13c-6-1.5-11 .5-14 5"/></svg>Dribbble</a>
-          <a href="#" class="soc" data-social="medium"><svg viewBox="0 0 24 24"><circle cx="6.5" cy="12" r="4.5"/><ellipse cx="16" cy="12" rx="2" ry="4.5"/><ellipse cx="21" cy="12" rx=".6" ry="4.5"/></svg>Medium</a>
-          <a href="mailto:aliumirov.me@gmail.com" class="soc"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg>Email</a>
+          <a href="https://dribbble.com/aliumirov" target="_blank" rel="noopener" class="soc" data-social="dribbble"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5 8c5 3 10 3 14 1M8.5 4.5C13 9 15 14 15.5 20M20 13c-6-1.5-11 .5-14 5"/></svg>Dribbble</a>
+          <a href="https://medium.com/@aliumirov.me" target="_blank" rel="noopener" class="soc" data-social="medium"><svg viewBox="0 0 24 24"><circle cx="6.5" cy="12" r="4.5"/><ellipse cx="16" cy="12" rx="2" ry="4.5"/><ellipse cx="21" cy="12" rx=".6" ry="4.5"/></svg>Medium</a>
         </div>
       </div>
     </div>
