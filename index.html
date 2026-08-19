@@ -19,14 +19,14 @@
   --ink:#101114;--muted:#55575e;--faint:#a2a4ab;
   --line:#e8e8ea;--line-2:#f1f1f3;
   --accent:#0f62fe;--accent-soft:rgba(15,98,254,.07);
-  --ok:#0f9d63;
+  --ok:#0f9d63;--pos:#0f9d63;
   --ease:cubic-bezier(.22,.68,0,1);--ease2:cubic-bezier(.32,.72,0,1);--ease-soft:cubic-bezier(.16,1,.3,1);
 }
 [data-theme="dark"]{
   --bg:#0d0e10;--surface:#0d0e10;--surface-2:#191a1e;
   --ink:#f1f1f3;--muted:#a4a6ad;--faint:#5a5c64;
   --line:#242529;--line-2:#1a1b1f;
-  --accent:#5b95ff;--accent-soft:rgba(91,149,255,.1);
+  --accent:#5b95ff;--accent-soft:rgba(91,149,255,.1);--pos:#37c98d;
   --ok:#2fbf83;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -259,7 +259,7 @@ section{scroll-margin-top:80px}
 .impact .stat-bar{margin-top:auto;height:6px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden;position:relative}
 .impact .stat-bar-fill{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--accent),#8ab4ff);transition:width 1.15s cubic-bezier(.22,1,.36,1) .12s}
 .impact .stat.vis .stat-bar-fill{width:var(--w)}
-.impact .stat .spark{display:block;width:100%;height:auto;margin-top:auto;padding-top:18px}
+.impact .stat .spark{display:block;width:100%;height:auto;margin-top:auto;padding-top:18px;overflow:visible}
 .spark-line{stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.5s ease}
 .spark-main{stroke-width:2.4}
 .spark-glow{stroke-width:5;opacity:.55}
@@ -273,6 +273,22 @@ section{scroll-margin-top:80px}
 .stats .stat::before{display:none}
 .stats .stat>*{position:relative;z-index:1}
 .stats .stat:hover{transform:translateY(-3px);box-shadow:0 16px 36px -22px rgba(0,0,0,.5)}
+/* impact — clearer, honest stat cards */
+.stats .stat{display:flex;flex-direction:column;padding:26px 26px 24px}
+.stat-badge{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:5px 11px 5px 8px;border-radius:999px;margin-bottom:18px;background:color-mix(in srgb,var(--pos) 15%,transparent);color:var(--pos);border:1px solid color-mix(in srgb,var(--pos) 32%,transparent)}
+.stat-badge svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.stat-badge.neu{background:color-mix(in srgb,var(--accent) 15%,transparent);color:color-mix(in srgb,var(--accent) 94%,#fff);border-color:color-mix(in srgb,var(--accent) 32%,transparent)}
+.stats .stat .n{font-size:clamp(2rem,4.2vw,2.5rem)}
+.stats .stat .l{color:color-mix(in srgb,var(--ink) 88%,transparent);font-size:14.5px;font-weight:500;line-height:1.5;margin-top:6px}
+.stat .ctx{margin-top:11px;font-size:12.5px;color:var(--faint);display:flex;align-items:center;gap:8px;letter-spacing:.01em}
+.stat .ctx .cdot{width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:.85;flex-shrink:0}
+.stats .stat .spark{margin-top:auto;padding-top:20px;overflow:visible}
+.stat .go{position:absolute;top:22px;right:22px;z-index:2;width:30px;height:30px;border-radius:50%;display:none;align-items:center;justify-content:center;border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);color:color-mix(in srgb,var(--ink) 55%,transparent);background:color-mix(in srgb,var(--ink) 5%,transparent);transition:color .3s var(--ease),border-color .3s var(--ease),background .3s var(--ease),transform .3s var(--ease)}
+.stat .go svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.stat[data-case] .go{display:inline-flex}
+.stat[data-case]{cursor:pointer}
+.stat[data-case]:hover .go,.stat[data-case]:focus-visible .go{color:#fff;border-color:color-mix(in srgb,var(--accent) 60%,transparent);background:color-mix(in srgb,var(--accent) 22%,transparent);transform:translate(2px,-2px)}
+.stat[data-case]:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 
 /* EXPERIENCE */
 .exp{padding:0 0 64px}
@@ -403,10 +419,21 @@ footer{padding:24px 0 52px;border-top:1px solid var(--line);margin-top:28px}
 .case-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
 
 /* responsive */
+html,body{overflow-x:hidden;max-width:100%}
 @media(max-width:900px){
   .nav-links{display:none}
-  .burger{display:flex;flex-direction:column;justify-content:center;align-items:center;width:40px;height:38px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.05);cursor:pointer;transition:background .25s var(--ease)}
+  .burger{display:flex;flex-direction:column;justify-content:center;align-items:center;width:40px;height:38px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.05);cursor:pointer;transition:background .25s var(--ease);flex-shrink:0}
   .burger:hover{background:rgba(255,255,255,.09)}
+  .nav-tools{flex-shrink:0}
+}
+@media(max-width:560px){
+  .nav-inner{padding:12px 16px;gap:8px}
+  .nav-tools{gap:7px}
+  .langseg{height:34px;padding:2px}
+  .langseg-btn{padding:0 11px;font-size:12.5px}
+  .burger{width:36px;height:34px}
+  .orbit{width:min(600px,90vw)}
+  .orbit .p3{left:74%}.orbit .p4{left:76%}.orbit .p5{left:70%}.orbit .p7{left:19%}.orbit .p8{left:20%}
 }
 @media(max-width:760px){
   .about-grid{grid-template-columns:1fr;gap:30px}
@@ -614,12 +641,12 @@ footer{padding:24px 0 52px;border-top:1px solid var(--line);margin-top:28px}
       <p class="sec-note" data-en="A selection of measurable results across products and teams." data-ru="Подборка измеримых результатов по продуктам и командам.">Turli mahsulot va jamoalar bo‘yicha o‘lchangan natijalardan namunalar.</p>
     </div>
     <div class="stats">
-      <div class="stat up reveal d1"><div class="n" data-num="43" data-sign="+" data-suf="%">+43<em>%</em></div><div class="l" data-en="Higher invoice conversion after UX optimization" data-ru="Рост конверсии счетов после UX-оптимизации">UX optimizatsiyadan so‘ng invoys konversiyasi o‘sishi</div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-24,50 C24,50 60,52 108,46 C146,41 168,16 200,16 C232,16 252,40 296,46 C330,50 348,50 360,49" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-24,50 C24,50 60,52 108,46 C146,41 168,16 200,16 C232,16 252,40 296,46 C330,50 348,50 360,49" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="200" cy="16" r="3.6" fill="#eef4ff"/></svg></div>
-      <div class="stat down reveal d2"><div class="n" data-num="27" data-sign="−" data-suf="%">−27<em>%</em></div><div class="l" data-en="Faster task completion (Doczon dashboard redesign)" data-ru="Быстрее выполнение задач (редизайн дашборда Doczon)">Vazifa bajarish tezlashuvi (Doczon dashboard redizayni)</div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-24,50 C24,50 60,52 108,46 C146,41 168,16 200,16 C232,16 252,40 296,46 C330,50 348,50 360,49" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-24,50 C24,50 60,52 108,46 C146,41 168,16 200,16 C232,16 252,40 296,46 C330,50 348,50 360,49" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="200" cy="16" r="3.6" fill="#eef4ff"/></svg></div>
-      <div class="stat up reveal d3"><div class="n" data-num="8" data-sign="+" data-suf="%">+8<em>%</em></div><div class="l" data-en="Order conversion on the foodee app redesign" data-ru="Конверсия заказов в редизайне приложения foodee">foodee ilovasi redizaynida buyurtma konversiyasi</div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-24,50 C24,50 60,52 108,46 C146,41 168,16 200,16 C232,16 252,40 296,46 C330,50 348,50 360,49" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-24,50 C24,50 60,52 108,46 C146,41 168,16 200,16 C232,16 252,40 296,46 C330,50 348,50 360,49" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="200" cy="16" r="3.6" fill="#eef4ff"/></svg></div>
-      <div class="stat down reveal d1"><div class="n" data-num="14" data-sign="−" data-suf="%">−14<em>%</em></div><div class="l" data-en="Reduced checkout drop-off on Zon.uz" data-ru="Снижение оттока на оформлении в Zon.uz">Zon.uz checkout drop-off kamayishi</div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-24,50 C24,50 60,52 108,46 C146,41 168,16 200,16 C232,16 252,40 296,46 C330,50 348,50 360,49" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-24,50 C24,50 60,52 108,46 C146,41 168,16 200,16 C232,16 252,40 296,46 C330,50 348,50 360,49" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="200" cy="16" r="3.6" fill="#eef4ff"/></svg></div>
-      <div class="stat down reveal d2"><div class="n" data-num="40" data-sign="−" data-suf="%">−40<em>%</em></div><div class="l" data-en="Smaller design–development gap via design system" data-ru="Меньший разрыв дизайн–разработка благодаря дизайн-системе">Design system orqali dizayn–dev farqi kamayishi</div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-24,50 C24,50 60,52 108,46 C146,41 168,16 200,16 C232,16 252,40 296,46 C330,50 348,50 360,49" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-24,50 C24,50 60,52 108,46 C146,41 168,16 200,16 C232,16 252,40 296,46 C330,50 348,50 360,49" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="200" cy="16" r="3.6" fill="#eef4ff"/></svg></div>
-      <div class="stat up reveal d3"><div class="n" data-num="500" data-sign="" data-suf="+">500<em>+</em></div><div class="l" data-en="Screens refactored with Figma component architecture" data-ru="Экранов переработано на компонентной архитектуре Figma">Figma komponent arxitekturasi bilan qayta ishlangan ekran</div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-24,50 C24,50 60,52 108,46 C146,41 168,16 200,16 C232,16 252,40 296,46 C330,50 348,50 360,49" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-24,50 C24,50 60,52 108,46 C146,41 168,16 200,16 C232,16 252,40 296,46 C330,50 348,50 360,49" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="200" cy="16" r="3.6" fill="#eef4ff"/></svg></div>
+      <div class="stat up reveal d1"><div class="n" data-num="43" data-sign="" data-suf="%">43<em>%</em></div><div class="l" data-en="Higher invoice conversion after UX optimization" data-ru="Рост конверсии счетов после UX-оптимизации">UX optimizatsiyadan so‘ng invoys konversiyasi o‘sishi</div><div class="ctx"><span class="cdot"></span><span data-en="Invoice flow · UX audit" data-ru="Поток счетов · UX-аудит">Invoys oqimi · UX audit</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="280" cy="15" r="3.6" fill="#eef4ff"/></svg></div>
+      <div class="stat down reveal d2" data-case="case-doczon" role="button" tabindex="0" aria-label="Doczon — case study"><div class="n" data-num="27" data-sign="" data-suf="%">27<em>%</em></div><div class="l" data-en="Faster task completion" data-ru="Быстрее выполнение задач">Vazifa bajarish tezlashuvi</div><div class="ctx"><span class="cdot"></span><span data-en="Doczon · dashboard redesign" data-ru="Doczon · редизайн дашборда">Doczon · dashboard redizayni</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="280" cy="47" r="3.6" fill="#eef4ff"/></svg><span class="go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      <div class="stat up reveal d3" data-case="case-foodee" role="button" tabindex="0" aria-label="Foodee — case study"><div class="n" data-num="8" data-sign="" data-suf="%">8<em>%</em></div><div class="l" data-en="Higher order conversion" data-ru="Рост конверсии заказов">Buyurtma konversiyasi o‘sishi</div><div class="ctx"><span class="cdot"></span><span data-en="Foodee · app redesign" data-ru="Foodee · редизайн приложения">Foodee · ilova redizayni</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="280" cy="15" r="3.6" fill="#eef4ff"/></svg><span class="go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      <div class="stat down reveal d1" data-case="case-zon" role="button" tabindex="0" aria-label="Zon.uz — case study"><div class="n" data-num="14" data-sign="" data-suf="%">14<em>%</em></div><div class="l" data-en="Fewer checkout drop-offs" data-ru="Меньше отказов на оформлении">Checkout drop-off kamayishi</div><div class="ctx"><span class="cdot"></span><span data-en="Zon.uz · checkout" data-ru="Zon.uz · оформление">Zon.uz · checkout</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="280" cy="47" r="3.6" fill="#eef4ff"/></svg><span class="go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      <div class="stat down reveal d2" data-case="case-iwon" role="button" tabindex="0" aria-label="iWon Super App — case study"><div class="n" data-num="40" data-sign="" data-suf="%">40<em>%</em></div><div class="l" data-en="Smaller design–development gap" data-ru="Меньший разрыв дизайн–разработка">Dizayn–dev farqi kamayishi</div><div class="ctx"><span class="cdot"></span><span data-en="Design system · iWon" data-ru="Дизайн-система · iWon">Design system · iWon</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="280" cy="47" r="3.6" fill="#eef4ff"/></svg><span class="go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      <div class="stat up reveal d3"><div class="n" data-num="500" data-sign="" data-suf="+">500<em>+</em></div><div class="l" data-en="Screens refactored on Figma component architecture" data-ru="Экранов переработано на компонентной архитектуре Figma">Figma komponent arxitekturasi bilan qayta ishlangan ekran</div><div class="ctx"><span class="cdot"></span><span data-en="Component library · multiple products" data-ru="Библиотека компонентов · несколько продуктов">Komponent kutubxonasi · bir nechta mahsulot</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="280" cy="15" r="3.6" fill="#eef4ff"/></svg></div>
     </div>
   </div>
 </section>
