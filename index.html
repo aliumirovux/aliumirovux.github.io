@@ -373,7 +373,7 @@ section{scroll-margin-top:80px}
 .quote .mark{display:none}
 .quote p{font-size:15.5px;color:var(--ink);margin-bottom:18px;line-height:1.75;letter-spacing:.002em;max-width:62ch}
 .quote .who{display:flex;align-items:center;gap:13px;border-top:1px solid var(--line);padding-top:16px;margin-top:auto}
-.quote .qbody{overflow:hidden;transition:max-height .5s var(--ease)}
+.quote .qbody{overflow:hidden;transition:height .5s var(--ease)}
 .quote:not(.expanded) .qbody{-webkit-mask-image:linear-gradient(180deg,#000 58%,transparent 100%);mask-image:linear-gradient(180deg,#000 58%,transparent 100%)}
 .quote .vmore{padding:8px 0 14px}
 .quote .qbody p{margin-bottom:0}
@@ -1101,7 +1101,7 @@ html,body{overflow-x:hidden;max-width:100%}
   var burger=document.getElementById("burger"), overlay=document.getElementById("overlay");
   var menuScrollY=0;
   function openMenu(){ menuScrollY=window.scrollY||window.pageYOffset||0; document.body.classList.add("menu-open"); document.body.style.top=(-menuScrollY)+"px"; document.body.classList.add("scroll-lock"); }
-  function closeMenu(){ if(!document.body.classList.contains("menu-open"))return; document.body.classList.remove("menu-open"); document.body.classList.remove("scroll-lock"); document.body.style.top=""; window.scrollTo(0,menuScrollY); }
+  function closeMenu(){ if(!document.body.classList.contains("menu-open"))return; document.body.classList.remove("menu-open"); document.body.classList.remove("scroll-lock"); document.body.style.top=""; var pb=docEl.style.scrollBehavior; docEl.style.scrollBehavior="auto"; window.scrollTo(0,menuScrollY); docEl.style.scrollBehavior=pb; }
   burger.addEventListener("click",function(){ if(document.body.classList.contains("menu-open")) closeMenu(); else openMenu(); });
   overlay.querySelectorAll("a").forEach(function(a){ a.addEventListener("click",closeMenu); });
 
@@ -1205,21 +1205,27 @@ html,body{overflow-x:hidden;max-width:100%}
 
   /* ---- recommendations: preview + view more + open LinkedIn ---- */
   var QCOL=132;
+  function collapseQuotes(){
+    document.querySelectorAll(".quote").forEach(function(q){
+      var body=q.querySelector(".qbody");
+      if(body && !q.classList.contains("expanded")) body.style.height=QCOL+"px";
+    });
+  }
   document.querySelectorAll(".quote").forEach(function(q){
     var body=q.querySelector(".qbody"), btn=q.querySelector(".vmore");
     if(body&&btn){
-      body.style.maxHeight=QCOL+"px";
-      if(body.scrollHeight<=QCOL+4){ btn.style.display="none"; q.classList.add("expanded"); body.style.maxHeight="none"; }
+      body.style.height=QCOL+"px";
       btn.addEventListener("click",function(e){ e.preventDefault(); e.stopPropagation();
         if(q.classList.contains("expanded")){
-          body.style.maxHeight=body.scrollHeight+"px";
-          requestAnimationFrame(function(){ requestAnimationFrame(function(){ body.style.maxHeight=QCOL+"px"; }); });
+          body.style.height=body.scrollHeight+"px";
+          requestAnimationFrame(function(){ requestAnimationFrame(function(){ body.style.height=QCOL+"px"; }); });
           q.classList.remove("expanded");
-        } else { q.classList.add("expanded"); body.style.maxHeight=body.scrollHeight+"px"; }
+        } else { q.classList.add("expanded"); body.style.height=body.scrollHeight+"px"; }
       });
     }
     q.addEventListener("click",function(e){ if(e.target.closest(".vmore")) return; var u=q.getAttribute("data-url"); if(u) window.open(u,"_blank","noopener"); });
   });
+  window.addEventListener("load", collapseQuotes);
 
 
 })();
