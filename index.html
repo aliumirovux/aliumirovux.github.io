@@ -94,8 +94,10 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-5.6px) rotate(-45
 .overlay{position:fixed;inset:0;z-index:65;background:color-mix(in srgb,var(--bg) 94%,transparent);
   backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   display:flex;flex-direction:column;justify-content:center;gap:2px;padding:40px;
-  opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s var(--ease)}
+  opacity:0;visibility:hidden;overscroll-behavior:contain;transition:opacity .4s var(--ease),visibility .4s var(--ease)}
 body.menu-open .overlay{opacity:1;visibility:visible}
+body.menu-open{overflow:hidden}
+body.scroll-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 .overlay a{font-family:var(--fd);font-size:clamp(1.8rem,7.5vw,2.5rem);font-weight:700;color:var(--ink);padding:9px 0;
   transform:translateY(22px);opacity:0;transition:transform .5s var(--ease2),opacity .5s var(--ease)}
 body.menu-open .overlay a{transform:none;opacity:1}
@@ -301,6 +303,7 @@ section{scroll-margin-top:80px}
 .role[open]{box-shadow:none}
 .role summary{list-style:none;cursor:pointer;padding:20px 0;display:flex;align-items:center;gap:18px}
 .role summary::-webkit-details-marker{display:none}
+.role .rlogo{flex-shrink:0;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;font-size:15.5px;letter-spacing:-.01em;color:var(--ink);background:radial-gradient(120% 120% at 30% 22%,color-mix(in srgb,var(--accent) 30%,transparent),transparent 70%),color-mix(in srgb,var(--surface-2) 62%,transparent);border:none}
 .role .rmain{flex:1;min-width:0;display:flex;justify-content:space-between;align-items:center;gap:18px}
 .role .rtitle{font-family:var(--fd);font-weight:700;font-size:1.08rem;letter-spacing:-.014em}
 .role .rtitle b{display:block;margin-top:4px;font-size:.94em}
@@ -356,6 +359,7 @@ section{scroll-margin-top:80px}
 
 /* RECOMMENDATIONS */
 .quotes{padding:0 0 64px}
+.quotes .sec-head{border-top-color:rgba(255,255,255,.1)}
 .q-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;align-items:stretch}
 .q-link{display:inline-flex;align-items:center;gap:7px;font-size:15px;font-weight:600;color:var(--accent);white-space:nowrap;margin-top:10px}
 .q-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.9}
@@ -439,6 +443,7 @@ html,body{overflow-x:hidden;max-width:100%}
   .brand{gap:9px}
   .brand .brand-name{font-size:13.5px}
   .brand .brand-role{font-size:9.5px;letter-spacing:.01em}
+  .foot{flex-direction:column;align-items:center;text-align:center;gap:10px}
   .orbit{width:min(600px,90vw)}
   .orbit .p3{left:74%}.orbit .p4{left:76%}.orbit .p5{left:70%}.orbit .p7{left:19%}.orbit .p8{left:20%}
 }
@@ -459,6 +464,8 @@ html,body{overflow-x:hidden;max-width:100%}
   .tool-grid{grid-template-columns:repeat(2,1fr)}
   .case-body{padding:34px 20px 72px}
   .role .rmain{flex-direction:column;align-items:flex-start;gap:6px}
+  .role summary{align-items:flex-start}
+  .role .rlogo{margin-top:1px}
   .role .rdate{text-align:left;white-space:normal;margin-top:2px}
   .exp-list{padding:2px 18px}
   .about,.work,.impact,.exp,.tools,.quotes{padding:0 0 52px}
@@ -672,6 +679,7 @@ html,body{overflow-x:hidden;max-width:100%}
 
       <details class="role reveal d1" open>
         <summary>
+          <span class="rlogo" aria-hidden="true">L</span>
           <div class="rmain">
             <div class="rtitle">Senior Product Designer <b>Linear Technology Solutions</b></div>
             <div class="rdate" data-en="Jun 2026 — Present" data-ru="Июнь 2026 — н.в.">Iyun 2026 — hozirgacha</div>
@@ -691,6 +699,7 @@ html,body{overflow-x:hidden;max-width:100%}
 
       <details class="role reveal d2">
         <summary>
+          <span class="rlogo" aria-hidden="true">iW</span>
           <div class="rmain">
             <div class="rtitle">Product Designer <b>iWon FinTech</b></div>
             <div class="rdate" data-en="Aug 2025 — Present" data-ru="Август 2025 — н.в.">Avg 2025 — hozirgacha</div>
@@ -713,6 +722,7 @@ html,body{overflow-x:hidden;max-width:100%}
 
       <details class="role reveal d3">
         <summary>
+          <span class="rlogo" aria-hidden="true">N</span>
           <div class="rmain">
             <div class="rtitle">Product Designer <b>New Edu LLC</b></div>
             <div class="rdate" data-en="Feb 2026 — May 2026" data-ru="Февраль 2026 — Май 2026">Fev 2026 — May 2026</div>
@@ -732,6 +742,7 @@ html,body{overflow-x:hidden;max-width:100%}
 
       <details class="role reveal d1">
         <summary>
+          <span class="rlogo" aria-hidden="true">Z</span>
           <div class="rmain">
             <div class="rtitle">Middle UX/UI Designer <b>Zon Cloud LLC</b></div>
             <div class="rdate" data-en="Sep 2024 — May 2026" data-ru="Сентябрь 2024 — Май 2026">Sen 2024 — May 2026</div>
@@ -753,6 +764,7 @@ html,body{overflow-x:hidden;max-width:100%}
 
       <details class="role reveal d2">
         <summary>
+          <span class="rlogo" aria-hidden="true">J</span>
           <div class="rmain">
             <div class="rtitle">UX/UI Designer <b>Jobo.uz</b></div>
             <div class="rdate" data-en="Apr 2023 — Aug 2024" data-ru="Апрель 2023 — Август 2024">Apr 2023 — Avg 2024</div>
@@ -1063,8 +1075,11 @@ html,body{overflow-x:hidden;max-width:100%}
 
   /* ---- mobile menu ---- */
   var burger=document.getElementById("burger"), overlay=document.getElementById("overlay");
-  burger.addEventListener("click",function(){ document.body.classList.toggle("menu-open"); });
-  overlay.querySelectorAll("a").forEach(function(a){ a.addEventListener("click",function(){ document.body.classList.remove("menu-open"); }); });
+  var menuScrollY=0;
+  function openMenu(){ menuScrollY=window.scrollY||window.pageYOffset||0; document.body.classList.add("menu-open"); document.body.style.top=(-menuScrollY)+"px"; document.body.classList.add("scroll-lock"); }
+  function closeMenu(){ if(!document.body.classList.contains("menu-open"))return; document.body.classList.remove("menu-open"); document.body.classList.remove("scroll-lock"); document.body.style.top=""; window.scrollTo(0,menuScrollY); }
+  burger.addEventListener("click",function(){ if(document.body.classList.contains("menu-open")) closeMenu(); else openMenu(); });
+  overlay.querySelectorAll("a").forEach(function(a){ a.addEventListener("click",closeMenu); });
 
   /* ---- marquee ---- */
   var skills=["UI/UX Design","Prototyping","Design Systems","User Flow & Journey Mapping","User Research","A/B Testing","Product Design","Usability Testing","Product Thinking","Design QA"];
