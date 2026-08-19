@@ -198,6 +198,29 @@ section{scroll-margin-top:80px}
 .about-card{box-shadow:inset 0 1px 0 color-mix(in srgb,var(--ink) 7%,transparent)}
 .about-core{position:relative;z-index:1}
 .about-core::after{display:none}
+/* 3D tilt on hover */
+.about-card{transform-style:preserve-3d;will-change:transform}
+.about-card.tilt{transition:transform .1s ease-out}
+.about-card .about-core{transition:transform .3s var(--ease-soft)}
+.about-card.tilt .about-core{transform:translateZ(26px)}
+@media (hover:none),(prefers-reduced-motion:reduce){.about-card.tilt{transform:none!important}.about-card.tilt .about-core{transform:none}}
+.impact .stat{transform-style:preserve-3d;will-change:transform}
+.impact .stat.tilt{transition:transform .1s ease-out,border-color .3s var(--ease)}
+@media (hover:none),(prefers-reduced-motion:reduce){.impact .stat.tilt{transform:none!important}}
+.orbit{transform-style:preserve-3d;will-change:transform}
+.orbit.tilt{transition:transform .12s ease-out}
+.orbit-core,.orbit .ocore-glow{transition:transform .35s var(--ease-soft)}
+.orbit.tilt .orbit-core{transform:translate(-50%,-50%) translateZ(48px)}
+.orbit.tilt .ocore-glow{transform:translate(-50%,-50%) translateZ(26px)}
+@media (hover:none),(prefers-reduced-motion:reduce){.orbit.tilt{transform:none!important}.orbit.tilt .orbit-core{transform:translate(-50%,-50%)}.orbit.tilt .ocore-glow{transform:translate(-50%,-50%)}}
+.contact-card{transform-style:preserve-3d;will-change:transform}
+.contact-card.tilt{transition:transform .1s ease-out}
+@media (hover:none),(prefers-reduced-motion:reduce){.contact-card.tilt{transform:none!important}}
+/* cursor spotlight glow */
+.tilt-glow{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;opacity:0;transition:opacity .5s var(--ease);background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--accent) 13%,transparent),color-mix(in srgb,var(--accent) 4%,transparent) 38%,transparent 72%);mix-blend-mode:screen}
+.tilt .tilt-glow{opacity:.7}
+.impact .stat .tilt-glow{background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--accent) 32%,transparent),color-mix(in srgb,var(--accent) 11%,transparent) 42%,transparent 72%)}
+@media (hover:none),(prefers-reduced-motion:reduce){.tilt-glow{display:none}}
 .about-top{display:block;text-align:center;margin-bottom:34px}
 .about-photo{width:112px;height:auto;aspect-ratio:1;object-fit:cover;border-radius:12px;border:1px solid var(--line);box-shadow:none;flex-shrink:0}
 .about-lead{font-family:var(--fd);font-weight:700;font-size:clamp(1.15rem,2.3vw,1.5rem);line-height:1.35;letter-spacing:-.02em;margin:0 auto;max-width:36ch}
@@ -1228,6 +1251,36 @@ html,body{overflow-x:hidden;max-width:100%}
   window.addEventListener("load", collapseQuotes);
 
 
+})();
+</script>
+<script>
+(function(){
+  if(window.matchMedia('(hover:none)').matches||window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  function tilt(card,max,persp,glow){
+    var raf=null,tx=0,ty=0,mx='50%',my='50%';
+    if(glow){var g=document.createElement('i');g.className='tilt-glow';card.insertBefore(g,card.firstChild);}
+    function apply(){
+      card.style.transform='perspective('+persp+'px) rotateY('+tx+'deg) rotateX('+ty+'deg)';
+      if(glow){card.style.setProperty('--mx',mx);card.style.setProperty('--my',my);}
+      raf=null;
+    }
+    card.addEventListener('mouseenter',function(){card.classList.add('tilt');});
+    card.addEventListener('mousemove',function(e){
+      var r=card.getBoundingClientRect();
+      var fx=(e.clientX-r.left)/r.width, fy=(e.clientY-r.top)/r.height;
+      tx=(fx-.5)*max*2; ty=-(fy-.5)*max*2;
+      mx=(fx*100)+'%'; my=(fy*100)+'%';
+      if(!raf)raf=requestAnimationFrame(apply);
+    });
+    card.addEventListener('mouseleave',function(){card.classList.remove('tilt');card.style.transform='';});
+  }
+  var about=document.querySelector('.about-card');
+  if(about)tilt(about,7,1100,true);
+  document.querySelectorAll('.impact .stat').forEach(function(s){tilt(s,6,900,true);});
+  var orbit=document.querySelector('.orbit');
+  if(orbit)tilt(orbit,9,1200,false);
+  var contact=document.querySelector('.contact-card');
+  if(contact)tilt(contact,6,1100,true);
 })();
 </script>
 </body>
