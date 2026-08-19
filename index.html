@@ -175,6 +175,9 @@ body.menu-open .overlay a:nth-child(5){transition-delay:.25s}
 .reveal.proj,.reveal.stat,.reveal.role,.reveal.quote,.reveal.about-card,.reveal.contact-card,.reveal.tool-grid{filter:none;transform:translateY(20px);transition:opacity .8s var(--ease-soft),transform .8s var(--ease-soft)}
 .reveal.proj.vis,.reveal.stat.vis,.reveal.role.vis,.reveal.quote.vis,.reveal.about-card.vis,.reveal.contact-card.vis,.reveal.tool-grid.vis{filter:none;transform:none}
 .reveal.d1{transition-delay:.09s}.reveal.d2{transition-delay:.18s}.reveal.d3{transition-delay:.27s}.reveal.d4{transition-delay:.36s}
+.reveal.proj{transform:translateY(30px) scale(.955);transition:opacity .55s var(--ease-soft),transform .72s cubic-bezier(.34,1.44,.5,1),filter .55s var(--ease-soft)}
+.reveal.proj.vis{transform:none}
+@media (prefers-reduced-motion:reduce){.reveal.proj{transform:none;transition:opacity .3s ease}}
 @media (prefers-reduced-motion:reduce){.reveal{transition:opacity .3s ease;transform:none;filter:none}.reveal.vis{filter:none}}
 
 /* sections */
@@ -309,6 +312,8 @@ section{scroll-margin-top:80px}
 .role .rtitle b{display:block;margin-top:4px;font-size:.94em}
 .role .rtitle b{color:var(--accent);font-weight:700}
 .role .rdate{font-size:13.5px;color:var(--muted);white-space:nowrap;text-align:right;display:inline-flex;align-items:center;gap:8px}
+.role .rdate-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+.role .rdur{font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--faint)}
 .role .chev{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:transform .45s var(--ease2),background .3s var(--ease)}
 .role .chev svg{width:13px;height:13px;stroke:var(--ink);fill:none;stroke-width:1.7}
 .role[open] .chev{transform:rotate(45deg);background:var(--accent-soft);border-color:transparent}
@@ -465,6 +470,7 @@ html,body{overflow-x:hidden;max-width:100%}
   .case-body{padding:34px 20px 72px}
   .role .rmain{flex-direction:column;align-items:flex-start;gap:6px}
   .role summary{align-items:flex-start}
+  .role .rdate-wrap{align-items:flex-start}
   .role .rlogo{margin-top:1px}
   .role .rdate{text-align:left;white-space:normal;margin-top:2px}
   .exp-list{padding:2px 18px}
@@ -679,10 +685,9 @@ html,body{overflow-x:hidden;max-width:100%}
 
       <details class="role reveal d1" open>
         <summary>
-          <span class="rlogo" aria-hidden="true">L</span>
           <div class="rmain">
             <div class="rtitle">Senior Product Designer <b>Linear Technology Solutions</b></div>
-            <div class="rdate" data-en="Jun 2026 — Present" data-ru="Июнь 2026 — н.в.">Iyun 2026 — hozirgacha</div>
+            <div class="rdate" data-en="Jun 2026 — Present" data-ru="Июнь 2026 — н.в." data-s="2026-06" data-e="present">Iyun 2026 — hozirgacha</div>
           </div>
           <span class="chev"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
         </summary>
@@ -699,10 +704,9 @@ html,body{overflow-x:hidden;max-width:100%}
 
       <details class="role reveal d2">
         <summary>
-          <span class="rlogo" aria-hidden="true">iW</span>
           <div class="rmain">
             <div class="rtitle">Product Designer <b>iWon FinTech</b></div>
-            <div class="rdate" data-en="Aug 2025 — Present" data-ru="Август 2025 — н.в.">Avg 2025 — hozirgacha</div>
+            <div class="rdate" data-en="Aug 2025 — Present" data-ru="Август 2025 — н.в." data-s="2025-08" data-e="present">Avg 2025 — hozirgacha</div>
           </div>
           <span class="chev"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
         </summary>
@@ -722,10 +726,9 @@ html,body{overflow-x:hidden;max-width:100%}
 
       <details class="role reveal d3">
         <summary>
-          <span class="rlogo" aria-hidden="true">N</span>
           <div class="rmain">
             <div class="rtitle">Product Designer <b>New Edu LLC</b></div>
-            <div class="rdate" data-en="Feb 2026 — May 2026" data-ru="Февраль 2026 — Май 2026">Fev 2026 — May 2026</div>
+            <div class="rdate" data-en="Feb 2026 — May 2026" data-ru="Февраль 2026 — Май 2026" data-s="2026-02" data-e="2026-05">Fev 2026 — May 2026</div>
           </div>
           <span class="chev"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
         </summary>
@@ -742,10 +745,9 @@ html,body{overflow-x:hidden;max-width:100%}
 
       <details class="role reveal d1">
         <summary>
-          <span class="rlogo" aria-hidden="true">Z</span>
           <div class="rmain">
             <div class="rtitle">Middle UX/UI Designer <b>Zon Cloud LLC</b></div>
-            <div class="rdate" data-en="Sep 2024 — May 2026" data-ru="Сентябрь 2024 — Май 2026">Sen 2024 — May 2026</div>
+            <div class="rdate" data-en="Sep 2024 — May 2026" data-ru="Сентябрь 2024 — Май 2026" data-s="2024-09" data-e="2026-05">Sen 2024 — May 2026</div>
           </div>
           <span class="chev"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
         </summary>
@@ -764,10 +766,9 @@ html,body{overflow-x:hidden;max-width:100%}
 
       <details class="role reveal d2">
         <summary>
-          <span class="rlogo" aria-hidden="true">J</span>
           <div class="rmain">
             <div class="rtitle">UX/UI Designer <b>Jobo.uz</b></div>
-            <div class="rdate" data-en="Apr 2023 — Aug 2024" data-ru="Апрель 2023 — Август 2024">Apr 2023 — Avg 2024</div>
+            <div class="rdate" data-en="Apr 2023 — Aug 2024" data-ru="Апрель 2023 — Август 2024" data-s="2023-04" data-e="2024-08">Apr 2023 — Avg 2024</div>
           </div>
           <span class="chev"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
         </summary>
@@ -1069,6 +1070,29 @@ html,body{overflow-x:hidden;max-width:100%}
   }
   langBtns.forEach(function(b){ b.addEventListener("click",function(){ setLang(b.getAttribute("data-lang")); }); });
   setLang("en");
+
+  /* ---- job duration (auto) ---- */
+  function renderDur(){
+    var l=docEl.lang||"en";
+    var U={uz:["yil","oy"],ru:["г","мес"],en:["yr","mo"]}[l]||["yr","mo"];
+    document.querySelectorAll(".rdate[data-s]").forEach(function(el){
+      var sp=el.getAttribute("data-s").split("-"), sy=+sp[0], sm=+sp[1];
+      var e=el.getAttribute("data-e"), ey, em;
+      if(e==="present"){ var d=new Date(); ey=d.getFullYear(); em=d.getMonth()+1; }
+      else { var ep=e.split("-"); ey=+ep[0]; em=+ep[1]; }
+      var months=(ey-sy)*12+(em-sm)+1; if(months<1) months=1;
+      var y=Math.floor(months/12), m=months%12, parts=[];
+      if(y>0) parts.push(y+" "+U[0]);
+      if(m>0) parts.push(m+" "+U[1]);
+      if(!parts.length) parts.push("1 "+U[1]);
+      var old=el.querySelector(".rdur"); if(old) old.remove();
+      var span=document.createElement("span");
+      span.className="rdur"; span.textContent="· "+parts.join(" ");
+      el.appendChild(span);
+    });
+  }
+  renderDur();
+  langBtns.forEach(function(b){ b.addEventListener("click",renderDur); });
 
   /* ---- theme (locked dark) ---- */
   docEl.setAttribute("data-theme","dark");
