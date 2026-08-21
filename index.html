@@ -317,7 +317,7 @@ section{scroll-margin-top:80px}
 .stat .n em{font-style:normal;color:var(--accent)}
 .stat .l{color:var(--muted);font-size:14px;margin-top:8px;line-height:1.5}
 .impact .stat{display:flex;flex-direction:column;overflow:hidden}
-.impact .stat .n{font-variant-numeric:tabular-nums}
+.impact .stat .n{font-variant-numeric:tabular-nums;contain:layout}
 .impact .stat .l{flex:0 0 auto}
 .impact .stat-bar{margin-top:auto;height:6px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden;position:relative}
 .impact .stat-bar-fill{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--accent),#8ab4ff);transition:width 1.15s cubic-bezier(.22,1,.36,1) .12s}
@@ -325,12 +325,26 @@ section{scroll-margin-top:80px}
 .impact .stat .spark{display:block;width:100%;height:auto;margin-top:auto;padding-top:18px;overflow:visible}
 .spark-line{stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.5s ease}
 .spark-main{stroke-width:2.4}
-.spark-glow{stroke-width:5;opacity:.55}
+.spark-glow{stroke-width:9;opacity:.26}
 .stat.spark-play .spark-line{stroke-dashoffset:0}
-.spark-dot{opacity:0;filter:drop-shadow(0 0 5px #cfe0ff) drop-shadow(0 0 11px var(--accent));transition:opacity .5s ease .7s}
+.spark-dot,.spark-halo{opacity:0;transition:opacity .5s ease .7s}
 .stat.spark-play .spark-dot{opacity:1;animation:sparkPulse 2.6s ease-in-out 1.3s infinite}
+.stat.spark-play .spark-halo{opacity:1}
 @keyframes sparkPulse{0%,100%{r:3.6}50%{r:4.5}}
-@media (prefers-reduced-motion:reduce){.spark-line{transition:none;stroke-dashoffset:0}.spark-dot{opacity:1;transition:none;animation:none}}
+/* one-shot light running along the sparkline: enters at the start, exits at the end, never loops */
+.spark-runner{stroke:url(#runGrad);stroke-linecap:round;opacity:0}
+.spark-runner.r1{stroke-width:3.4;stroke-opacity:.13;stroke-dasharray:.17 1.4;stroke-dashoffset:.185}
+.spark-runner.r2{stroke-width:2.8;stroke-opacity:.3;stroke-dasharray:.11 1.4;stroke-dashoffset:.155}
+.spark-runner.r3{stroke-width:2.2;stroke-opacity:.8;stroke-dasharray:.05 1.4;stroke-dashoffset:.125}
+.stat.spark-play .spark-runner{opacity:1}
+.stat.spark-play .spark-runner.r1{animation:sparkRunA 3.6s linear .95s infinite}
+.stat.spark-play .spark-runner.r2{animation:sparkRunB 3.6s linear .95s infinite}
+.stat.spark-play .spark-runner.r3{animation:sparkRunC 3.6s linear .95s infinite}
+@keyframes sparkRunA{from{stroke-dashoffset:.185}to{stroke-dashoffset:-1.015}}
+@keyframes sparkRunB{from{stroke-dashoffset:.155}to{stroke-dashoffset:-1.045}}
+@keyframes sparkRunC{from{stroke-dashoffset:.125}to{stroke-dashoffset:-1.075}}
+@media (prefers-reduced-motion:reduce){.spark-runner{animation:none;opacity:0}}
+@media (prefers-reduced-motion:reduce){.spark-line{transition:none;stroke-dashoffset:0}.spark-dot,.spark-halo{opacity:1;transition:none;animation:none}}
 @media (prefers-reduced-motion:reduce){.impact .stat-bar-fill{transition:none}}
 .stats .stat{position:relative;overflow:hidden;border:none;border-radius:28px;padding:30px 28px;background:color-mix(in srgb,var(--surface-2) 40%,transparent);backdrop-filter:blur(18px) saturate(1.15);-webkit-backdrop-filter:blur(18px) saturate(1.15);box-shadow:inset 0 1px 0 color-mix(in srgb,var(--ink) 7%,transparent);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
 .stats .stat::before{display:none}
@@ -520,7 +534,7 @@ footer{padding:24px 0 52px;border-top:1px solid var(--line);margin-top:28px}
 .skill-card{position:absolute;left:50%;top:50%;width:min(560px,92vw);max-height:min(82vh,700px);overflow-y:auto;
   background:linear-gradient(180deg,rgba(40,42,48,.72),rgba(25,26,30,.8));
   backdrop-filter:blur(18px) saturate(1.15);-webkit-backdrop-filter:blur(18px) saturate(1.15);
-  border-radius:26px;padding:36px 38px 32px;
+  border-radius:36px;padding:36px 38px 32px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 40px 90px -24px rgba(0,0,0,.65);
   transform:translate(-50%,-50%);backface-visibility:hidden;
   transition:transform .6s var(--ease-soft),opacity .45s var(--ease),filter .45s var(--ease)}
@@ -550,11 +564,11 @@ footer{padding:24px 0 52px;border-top:1px solid var(--line);margin-top:28px}
 .skill-item p:last-child{margin-bottom:0}
 .skill-item ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
 .skill-item ul li{position:relative;padding-left:22px;font-size:14.5px;line-height:1.55;color:color-mix(in srgb,var(--ink) 86%,transparent)}
-.skill-item ul li::before{content:"";position:absolute;left:2px;top:.58em;width:7px;height:7px;border-radius:50%;
-  background:var(--accent);box-shadow:0 0 8px color-mix(in srgb,var(--accent) 60%,transparent)}
+.skill-item ul li::before{content:"";position:absolute;left:3px;top:.62em;width:5px;height:5px;border-radius:50%;
+  background:var(--faint)}
 @media(max-width:560px){
   .skill-modal{padding:14px}
-  .skill-card{padding:28px 22px 24px;border-radius:20px}
+  .skill-card{padding:28px 22px 24px;border-radius:36px}
   .skill-quote{font-size:60px;margin:4px 0 14px}
   .skill-item h3{font-size:22px}
   .skill-item p{font-size:14.5px}
@@ -619,6 +633,14 @@ html,body{overflow-x:hidden;max-width:100%}
 .cursor-trail{position:fixed;inset:0;width:100%;height:100%;z-index:9999;pointer-events:none}
 @media (hover:none),(prefers-reduced-motion:reduce){.cursor-trail{display:none}}
 
+.about-card{cursor:pointer}
+/* How-I-work modal rows */
+.hwm-item{padding:15px 0 0;margin-top:15px;border-top:1px solid var(--line-2)}
+.hwm-item:first-of-type{margin-top:4px;padding-top:0;border-top:none}
+.hwm-k{display:flex;align-items:center;gap:2px;font-family:var(--fd);font-weight:700;font-size:17px;letter-spacing:-.01em;color:var(--ink);margin-bottom:5px}
+.hwm-ic{width:20px;height:20px;flex:none;display:block}
+.hwm-d,p.hwm-d{font-size:14.5px;line-height:1.65;color:var(--muted);margin:0}
+.tool{cursor:pointer}
 /* ===== PERF: identical look, cheaper pixels ===== */
 /* drop per-element layers once the reveal has finished */
 .reveal.vis{will-change:auto}
@@ -626,7 +648,7 @@ html,body{overflow-x:hidden;max-width:100%}
 .about-card.offview::after,.contact-card.offview::after{animation-play-state:paused!important}
 .marquee.offview .marquee-track{animation-play-state:paused!important}
 .orbit.offview .ospin,.orbit.offview .opill{animation-play-state:paused!important}
-.stat.offview .spark-dot{animation-play-state:paused!important}
+.stat.offview .spark-dot,.stat.offview .spark-runner{animation-play-state:paused!important}
 /* touch devices: swap live backdrop blur for equivalent opaque surfaces */
 @media (hover:none){
   .nav{background:color-mix(in srgb,var(--bg) 96%,transparent);backdrop-filter:none;-webkit-backdrop-filter:none}
@@ -657,7 +679,7 @@ html,body{overflow-x:hidden;max-width:100%}
           </linearGradient><linearGradient id="icArea" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stop-color="var(--accent)" stop-opacity=".22"/>
             <stop offset="1" stop-color="var(--accent)" stop-opacity="0"/>
-          </linearGradient><linearGradient id="icSpark" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="320" y2="0"><stop offset="0" stop-color="var(--accent)" stop-opacity="0"/><stop offset=".09" stop-color="var(--accent)" stop-opacity=".55"/><stop offset=".5" stop-color="#aecbff" stop-opacity="1"/><stop offset=".91" stop-color="#aecbff" stop-opacity=".7"/><stop offset="1" stop-color="#aecbff" stop-opacity="0"/></linearGradient><filter id="icGlowS" x="-40%" y="-80%" width="180%" height="300%"><feGaussianBlur stdDeviation="2.4"/></filter></defs></svg>
+          </linearGradient><linearGradient id="icSpark" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="320" y2="0"><stop offset="0" stop-color="var(--accent)" stop-opacity="0"/><stop offset=".09" stop-color="var(--accent)" stop-opacity=".55"/><stop offset=".5" stop-color="#aecbff" stop-opacity="1"/><stop offset=".91" stop-color="#aecbff" stop-opacity=".7"/><stop offset="1" stop-color="#aecbff" stop-opacity="0"/></linearGradient><linearGradient id="runGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="320" y2="0"><stop offset="0" stop-color="#e8f1ff" stop-opacity="0"/><stop offset=".14" stop-color="#e8f1ff" stop-opacity=".5"/><stop offset=".5" stop-color="#eef4ff" stop-opacity=".75"/><stop offset=".86" stop-color="#e8f1ff" stop-opacity=".5"/><stop offset="1" stop-color="#e8f1ff" stop-opacity="0"/></linearGradient><filter id="icGlowS" x="-40%" y="-80%" width="180%" height="300%"><feGaussianBlur stdDeviation="2.4"/></filter><radialGradient id="dotHalo"><stop offset="0%" stop-color="#cfe0ff" stop-opacity=".8"/><stop offset="30%" stop-color="var(--accent)" stop-opacity=".38"/><stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/></radialGradient></defs></svg>
 <div class="grain"></div>
 <div class="orb a"></div>
 <div class="orb b"></div>
@@ -752,7 +774,7 @@ html,body{overflow-x:hidden;max-width:100%}
     <div class="about-card reveal">
       <div class="about-core">
         <div class="about-top">
-          <p class="about-lead" data-en="I design products people understand instantly — and the design systems that help teams ship faster." data-ru="Я создаю продукты, понятные с первого взгляда, — и дизайн-системы, которые помогают командам работать быстрее.">Men foydalanuvchi bir qarashda tushunadigan mahsulotlar — va jamoalarga tezroq yetkazishga yordam beradigan design system’lar yarataman.</p>
+          <p class="about-lead" data-en="I design products people understand instantly and the design systems that help teams ship faster." data-ru="Я создаю продукты, понятные с первого взгляда, и дизайн-системы, которые помогают командам работать быстрее.">Men foydalanuvchi bir qarashda tushunadigan mahsulotlar va jamoalarga tezroq yetkazishga yordam beradigan design system’lar yarataman.</p>
         </div>
         <div class="about-facts">
           <div class="fact"><span class="fl" data-en="Focus" data-ru="Направление">Yo‘nalish</span><span class="fv" data-en="E-commerce · Fintech" data-ru="E-commerce · Финтех">E-commerce · Fintech</span></div>
@@ -838,12 +860,12 @@ html,body{overflow-x:hidden;max-width:100%}
       <p class="sec-note" data-en="A selection of measurable results across products and teams." data-ru="Подборка измеримых результатов по продуктам и командам.">Turli mahsulot va jamoalar bo‘yicha o‘lchangan natijalardan namunalar.</p>
     </div>
     <div class="stats">
-      <div class="stat up reveal d1"><div class="n" data-num="43" data-sign="" data-suf="%">43<em>%</em></div><div class="l" data-en="Higher invoice conversion after UX optimization" data-ru="Рост конверсии счетов после UX-оптимизации">UX optimizatsiyadan so‘ng invoys konversiyasi o‘sishi</div><div class="ctx"><span class="cdot"></span><span data-en="Invoice flow · UX audit" data-ru="Поток счетов · UX-аудит">Invoys oqimi · UX audit</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="280" cy="15" r="3.6" fill="#eef4ff"/></svg></div>
-      <div class="stat down reveal d2" data-case="case-doczon" role="button" tabindex="0" aria-label="Doczon — case study"><div class="n" data-num="27" data-sign="" data-suf="%">27<em>%</em></div><div class="l" data-en="Faster task completion" data-ru="Быстрее выполнение задач">Vazifa bajarish tezlashuvi</div><div class="ctx"><span class="cdot"></span><span data-en="Doczon · dashboard redesign" data-ru="Doczon · редизайн дашборда">Doczon · dashboard redizayni</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="280" cy="47" r="3.6" fill="#eef4ff"/></svg><span class="go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-      <div class="stat up reveal d3" data-case="case-foodee" role="button" tabindex="0" aria-label="Foodee — case study"><div class="n" data-num="8" data-sign="" data-suf="%">8<em>%</em></div><div class="l" data-en="Higher order conversion" data-ru="Рост конверсии заказов">Buyurtma konversiyasi o‘sishi</div><div class="ctx"><span class="cdot"></span><span data-en="Foodee · app redesign" data-ru="Foodee · редизайн приложения">Foodee · ilova redizayni</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="280" cy="15" r="3.6" fill="#eef4ff"/></svg><span class="go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-      <div class="stat down reveal d1" data-case="case-zon" role="button" tabindex="0" aria-label="Zon.uz — case study"><div class="n" data-num="14" data-sign="" data-suf="%">14<em>%</em></div><div class="l" data-en="Fewer checkout drop-offs" data-ru="Меньше отказов на оформлении">Checkout drop-off kamayishi</div><div class="ctx"><span class="cdot"></span><span data-en="Zon.uz · checkout" data-ru="Zon.uz · оформление">Zon.uz · checkout</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="280" cy="47" r="3.6" fill="#eef4ff"/></svg><span class="go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-      <div class="stat down reveal d2" data-case="case-iwon" role="button" tabindex="0" aria-label="iWon Super App — case study"><div class="n" data-num="40" data-sign="" data-suf="%">40<em>%</em></div><div class="l" data-en="Smaller design–development gap" data-ru="Меньший разрыв дизайн–разработка">Dizayn–dev farqi kamayishi</div><div class="ctx"><span class="cdot"></span><span data-en="Design system · iWon" data-ru="Дизайн-система · iWon">Design system · iWon</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="280" cy="47" r="3.6" fill="#eef4ff"/></svg><span class="go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-      <div class="stat up reveal d3"><div class="n" data-num="500" data-sign="" data-suf="+">500<em>+</em></div><div class="l" data-en="Screens refactored on Figma component architecture" data-ru="Экранов переработано на компонентной архитектуре Figma">Figma komponent arxitekturasi bilan qayta ishlangan ekran</div><div class="ctx"><span class="cdot"></span><span data-en="Component library · multiple products" data-ru="Библиотека компонентов · несколько продуктов">Komponent kutubxonasi · bir nechta mahsulot</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" filter="url(#icGlowS)" pathLength="1"/><path class="spark-line spark-main" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" pathLength="1"/><circle class="spark-dot" cx="280" cy="15" r="3.6" fill="#eef4ff"/></svg></div>
+      <div class="stat up reveal d1"><div class="n" data-num="43" data-sign="" data-suf="%">43<em>%</em></div><div class="l" data-en="Higher invoice conversion after UX optimization" data-ru="Рост конверсии счетов после UX-оптимизации">UX optimizatsiyadan so‘ng invoys konversiyasi o‘sishi</div><div class="ctx"><span class="cdot"></span><span data-en="Invoice flow · UX audit" data-ru="Поток счетов · UX-аудит">Invoys oqimi · UX audit</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" pathLength="1"/><path class="spark-line spark-main" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" pathLength="1"/><path class="spark-runner r1" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" pathLength="1"/><path class="spark-runner r2" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" pathLength="1"/><path class="spark-runner r3" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" pathLength="1"/><circle class="spark-halo" cx="280" cy="15" r="13" fill="url(#dotHalo)"/><circle class="spark-dot" cx="280" cy="15" r="3.6" fill="#eef4ff"/></svg></div>
+      <div class="stat down reveal d2" data-case="case-doczon" role="button" tabindex="0" aria-label="Doczon — case study"><div class="n" data-num="27" data-sign="" data-suf="%">27<em>%</em></div><div class="l" data-en="Faster task completion" data-ru="Быстрее выполнение задач">Vazifa bajarish tezlashuvi</div><div class="ctx"><span class="cdot"></span><span data-en="Doczon · dashboard redesign" data-ru="Doczon · редизайн дашборда">Doczon · dashboard redizayni</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" pathLength="1"/><path class="spark-line spark-main" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" pathLength="1"/><path class="spark-runner r1" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" pathLength="1"/><path class="spark-runner r2" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" pathLength="1"/><path class="spark-runner r3" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" pathLength="1"/><circle class="spark-halo" cx="280" cy="47" r="13" fill="url(#dotHalo)"/><circle class="spark-dot" cx="280" cy="47" r="3.6" fill="#eef4ff"/></svg><span class="go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      <div class="stat up reveal d3" data-case="case-foodee" role="button" tabindex="0" aria-label="Foodee — case study"><div class="n" data-num="8" data-sign="" data-suf="%">8<em>%</em></div><div class="l" data-en="Higher order conversion" data-ru="Рост конверсии заказов">Buyurtma konversiyasi o‘sishi</div><div class="ctx"><span class="cdot"></span><span data-en="Foodee · app redesign" data-ru="Foodee · редизайн приложения">Foodee · ilova redizayni</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" pathLength="1"/><path class="spark-line spark-main" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" pathLength="1"/><path class="spark-runner r1" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" pathLength="1"/><path class="spark-runner r2" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" pathLength="1"/><path class="spark-runner r3" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" pathLength="1"/><circle class="spark-halo" cx="280" cy="15" r="13" fill="url(#dotHalo)"/><circle class="spark-dot" cx="280" cy="15" r="3.6" fill="#eef4ff"/></svg><span class="go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      <div class="stat down reveal d1" data-case="case-zon" role="button" tabindex="0" aria-label="Zon.uz — case study"><div class="n" data-num="14" data-sign="" data-suf="%">14<em>%</em></div><div class="l" data-en="Fewer checkout drop-offs" data-ru="Меньше отказов на оформлении">Checkout drop-off kamayishi</div><div class="ctx"><span class="cdot"></span><span data-en="Zon.uz · checkout" data-ru="Zon.uz · оформление">Zon.uz · checkout</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" pathLength="1"/><path class="spark-line spark-main" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" pathLength="1"/><path class="spark-runner r1" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" pathLength="1"/><path class="spark-runner r2" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" pathLength="1"/><path class="spark-runner r3" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" pathLength="1"/><circle class="spark-halo" cx="280" cy="47" r="13" fill="url(#dotHalo)"/><circle class="spark-dot" cx="280" cy="47" r="3.6" fill="#eef4ff"/></svg><span class="go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      <div class="stat down reveal d2" data-case="case-iwon" role="button" tabindex="0" aria-label="iWon Super App — case study"><div class="n" data-num="40" data-sign="" data-suf="%">40<em>%</em></div><div class="l" data-en="Smaller design–development gap" data-ru="Меньший разрыв дизайн–разработка">Dizayn–dev farqi kamayishi</div><div class="ctx"><span class="cdot"></span><span data-en="Design system · iWon" data-ru="Дизайн-система · iWon">Design system · iWon</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" pathLength="1"/><path class="spark-line spark-main" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" stroke="url(#icSpark)" pathLength="1"/><path class="spark-runner r1" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" pathLength="1"/><path class="spark-runner r2" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" pathLength="1"/><path class="spark-runner r3" d="M-16,12 C44,13 90,15 148,21 C204,27 244,42 280,47 C310,51 338,51.5 360,51.5" fill="none" pathLength="1"/><circle class="spark-halo" cx="280" cy="47" r="13" fill="url(#dotHalo)"/><circle class="spark-dot" cx="280" cy="47" r="3.6" fill="#eef4ff"/></svg><span class="go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      <div class="stat up reveal d3"><div class="n" data-num="500" data-sign="" data-suf="+">500<em>+</em></div><div class="l" data-en="Screens refactored on Figma component architecture" data-ru="Экранов переработано на компонентной архитектуре Figma">Figma komponent arxitekturasi bilan qayta ishlangan ekran</div><div class="ctx"><span class="cdot"></span><span data-en="Component library · multiple products" data-ru="Библиотека компонентов · несколько продуктов">Komponent kutubxonasi · bir nechta mahsulot</span></div><svg class="spark" viewBox="0 0 320 60" role="img" aria-hidden="true"><path class="spark-line spark-glow" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" pathLength="1"/><path class="spark-line spark-main" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" stroke="url(#icSpark)" pathLength="1"/><path class="spark-runner r1" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" pathLength="1"/><path class="spark-runner r2" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" pathLength="1"/><path class="spark-runner r3" d="M-16,50 C44,49 90,47 148,41 C204,35 244,20 280,15 C310,11.5 338,11 360,11" fill="none" pathLength="1"/><circle class="spark-halo" cx="280" cy="15" r="13" fill="url(#dotHalo)"/><circle class="spark-dot" cx="280" cy="15" r="3.6" fill="#eef4ff"/></svg></div>
     </div>
   </div>
 </section>
@@ -1228,6 +1250,168 @@ html,body{overflow-x:hidden;max-width:100%}
   </div>
 </div>
 
+
+
+<!-- HOW I WORK MODAL -->
+<div class="skill-modal" id="howModal" role="dialog" aria-modal="true">
+  <div class="skill-backdrop"></div>
+  <button class="skill-close" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <div class="skill-stage">
+    <div class="skill-goo" aria-hidden="true"><span class="goo-blob goo-main"></span><span class="goo-blob goo-drop"></span><span class="goo-blob goo-drop"></span><span class="goo-blob goo-drop"></span></div>
+    <div class="skill-card" data-skill="howiwork">
+      <div class="skill-quote" aria-hidden="true">&ldquo;</div>
+      <div class="skill-item" data-skill="howiwork">
+      <h3 data-en="How I work" data-ru="Как я работаю">Qanday ishlayman</h3>
+      <div class="hwm-item">
+        <div class="hwm-k"><span data-en="Complexity" data-ru="Сложность">Murakkablik</span><svg class="hwm-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.84916 19.6403C8.62216 19.6403 8.39816 19.5633 8.21616 19.4143L5.36616 17.0823C5.12316 16.8993 4.96716 16.6093 4.96716 16.2833C4.96716 15.9463 5.13316 15.6483 5.38816 15.4673L8.21616 13.1523C8.51516 12.9073 8.92716 12.8563 9.27716 13.0223C9.62616 13.1873 9.84916 13.5393 9.84916 13.9263V15.2833H18.0332C18.5852 15.2833 19.0332 15.7303 19.0332 16.2833C19.0332 16.8353 18.5852 17.2833 18.0332 17.2833H9.84916V18.6403C9.84916 19.0264 9.62616 19.3783 9.27716 19.5443C9.14116 19.6083 8.99516 19.6403 8.84916 19.6403Z" fill="currentColor"></path><path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M15.1508 11.4495C15.0048 11.4495 14.8588 11.4175 14.7228 11.3535C14.3738 11.1875 14.1508 10.8355 14.1508 10.4495V9.09151H5.9668C5.4148 9.09151 4.9668 8.64351 4.9668 8.09151C4.9668 7.53951 5.4148 7.09151 5.9668 7.09151H14.1508V5.73451C14.1508 5.34851 14.3738 4.99651 14.7228 4.83051C15.0708 4.66551 15.4848 4.71551 15.7838 4.96051L18.6158 7.27851C18.8688 7.46051 19.0328 7.75651 19.0328 8.09151C19.0328 8.41551 18.8798 8.70251 18.6408 8.88651L15.7838 11.2235C15.6018 11.3725 15.3778 11.4495 15.1508 11.4495Z" fill="currentColor"></path></svg><span data-en="Clarity" data-ru="Ясность">Aniqlik</span></div>
+        <p class="hwm-d" data-en="Simplifying complex product flows into intuitive experiences." data-ru="Упрощаю сложные продуктовые сценарии до интуитивных решений.">Murakkab mahsulot oqimlarini intuitiv tajribalarga soddalashtiraman.</p>
+      </div>
+      <div class="hwm-item">
+        <div class="hwm-k"><span data-en="Systems" data-ru="Системы">Tizimlar</span><svg class="hwm-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.84916 19.6403C8.62216 19.6403 8.39816 19.5633 8.21616 19.4143L5.36616 17.0823C5.12316 16.8993 4.96716 16.6093 4.96716 16.2833C4.96716 15.9463 5.13316 15.6483 5.38816 15.4673L8.21616 13.1523C8.51516 12.9073 8.92716 12.8563 9.27716 13.0223C9.62616 13.1873 9.84916 13.5393 9.84916 13.9263V15.2833H18.0332C18.5852 15.2833 19.0332 15.7303 19.0332 16.2833C19.0332 16.8353 18.5852 17.2833 18.0332 17.2833H9.84916V18.6403C9.84916 19.0264 9.62616 19.3783 9.27716 19.5443C9.14116 19.6083 8.99516 19.6403 8.84916 19.6403Z" fill="currentColor"></path><path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M15.1508 11.4495C15.0048 11.4495 14.8588 11.4175 14.7228 11.3535C14.3738 11.1875 14.1508 10.8355 14.1508 10.4495V9.09151H5.9668C5.4148 9.09151 4.9668 8.64351 4.9668 8.09151C4.9668 7.53951 5.4148 7.09151 5.9668 7.09151H14.1508V5.73451C14.1508 5.34851 14.3738 4.99651 14.7228 4.83051C15.0708 4.66551 15.4848 4.71551 15.7838 4.96051L18.6158 7.27851C18.8688 7.46051 19.0328 7.75651 19.0328 8.09151C19.0328 8.41551 18.8798 8.70251 18.6408 8.88651L15.7838 11.2235C15.6018 11.3725 15.3778 11.4495 15.1508 11.4495Z" fill="currentColor"></path></svg><span data-en="Scale" data-ru="Масштаб">Masshtab</span></div>
+        <p class="hwm-d" data-en="Creating reusable components and design systems that help teams ship faster." data-ru="Создаю переиспользуемые компоненты и дизайн-системы, ускоряющие работу команд.">Jamoalarga tezroq yetkazishga yordam beradigan komponentlar va design system’lar yarataman.</p>
+      </div>
+      <div class="hwm-item">
+        <div class="hwm-k"><span data-en="Ideas" data-ru="Идеи">G‘oyalar</span><svg class="hwm-ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.84916 19.6403C8.62216 19.6403 8.39816 19.5633 8.21616 19.4143L5.36616 17.0823C5.12316 16.8993 4.96716 16.6093 4.96716 16.2833C4.96716 15.9463 5.13316 15.6483 5.38816 15.4673L8.21616 13.1523C8.51516 12.9073 8.92716 12.8563 9.27716 13.0223C9.62616 13.1873 9.84916 13.5393 9.84916 13.9263V15.2833H18.0332C18.5852 15.2833 19.0332 15.7303 19.0332 16.2833C19.0332 16.8353 18.5852 17.2833 18.0332 17.2833H9.84916V18.6403C9.84916 19.0264 9.62616 19.3783 9.27716 19.5443C9.14116 19.6083 8.99516 19.6403 8.84916 19.6403Z" fill="currentColor"></path><path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M15.1508 11.4495C15.0048 11.4495 14.8588 11.4175 14.7228 11.3535C14.3738 11.1875 14.1508 10.8355 14.1508 10.4495V9.09151H5.9668C5.4148 9.09151 4.9668 8.64351 4.9668 8.09151C4.9668 7.53951 5.4148 7.09151 5.9668 7.09151H14.1508V5.73451C14.1508 5.34851 14.3738 4.99651 14.7228 4.83051C15.0708 4.66551 15.4848 4.71551 15.7838 4.96051L18.6158 7.27851C18.8688 7.46051 19.0328 7.75651 19.0328 8.09151C19.0328 8.41551 18.8798 8.70251 18.6408 8.88651L15.7838 11.2235C15.6018 11.3725 15.3778 11.4495 15.1508 11.4495Z" fill="currentColor"></path></svg><span data-en="Products" data-ru="Продукты">Mahsulotlar</span></div>
+        <p class="hwm-d" data-en="Turning product requirements into clear, production-ready experiences." data-ru="Превращаю требования к продукту в понятные, готовые к продакшену решения.">Mahsulot talablarini aniq, production-ready tajribalarga aylantiraman.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOL MODAL -->
+<div class="skill-modal" id="toolModal" role="dialog" aria-modal="true">
+  <div class="skill-backdrop"></div>
+  <button class="skill-close" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <div class="skill-stage">
+    <div class="skill-goo" aria-hidden="true"><span class="goo-blob goo-main"></span><span class="goo-blob goo-drop"></span><span class="goo-blob goo-drop"></span><span class="goo-blob goo-drop"></span></div>
+    <div class="skill-card" data-skill="figma">
+      <div class="skill-quote" aria-hidden="true">&ldquo;</div>
+      <div class="skill-item" data-skill="figma">
+      <h3>Figma</h3>
+      <p data-en="My main workspace — one place for interface design, components and team collaboration. Everything from idea to final mockup lives here." data-ru="Моя основная рабочая среда — единое пространство для дизайна интерфейсов, компонентов и командной работы. Всё от идеи до финального макета живёт здесь.">Asosiy ish muhitim — interfeys dizayni, komponentlar va jamoaviy ishlash uchun yagona makon. Fikrdan tayyor maketgacha hammasi shu yerda.</p>
+      <ul>
+        <li data-en="UI design, auto-layout and variables" data-ru="UI-дизайн, auto-layout и variables">UI dizayn, auto-layout va variables</li>
+        <li data-en="Component libraries and variants" data-ru="Библиотеки компонентов и варианты">Komponent kutubxonalari va variantlar</li>
+        <li data-en="Developer handoff via Dev Mode" data-ru="Хендофф разработчикам через Dev Mode">Dev Mode orqali ishlab chiquvchilarga handoff</li>
+      </ul>
+    </div>
+    </div>
+    <div class="skill-card" data-skill="figjam">
+      <div class="skill-quote" aria-hidden="true">&ldquo;</div>
+      <div class="skill-item" data-skill="figjam">
+      <h3>FigJam</h3>
+      <p data-en="A board for quick visual thinking: I use it for brainstorms, user flows and team sessions." data-ru="Доска для быстрой визуализации идей: брейнштормы, пользовательские сценарии и командные сессии.">G‘oyalarni tez vizuallashtirish doskasi: brainstorm, user flow va jamoaviy sessiyalar uchun ishlataman.</p>
+      <ul>
+        <li data-en="Brainstorm and workshop sessions" data-ru="Брейншторм и воркшоп-сессии">Brainstorm va workshop sessiyalari</li>
+        <li data-en="User flows and diagrams" data-ru="Пользовательские сценарии и диаграммы">User flow va diagrammalar</li>
+        <li data-en="Retro and planning boards" data-ru="Ретро и доски планирования">Retro va rejalashtirish doskalari</li>
+      </ul>
+    </div>
+    </div>
+    <div class="skill-card" data-skill="miro">
+      <div class="skill-quote" aria-hidden="true">&ldquo;</div>
+      <div class="skill-item" data-skill="miro">
+      <h3>Miro</h3>
+      <p data-en="Space for the big picture: research maps, customer journeys and system diagrams live here." data-ru="Пространство для общей картины: карты исследований, CJM и системные схемы строю здесь.">Katta rasm bilan ishlash maydoni: research xaritalari, CJM va tizim sxemalarini shu yerda quraman.</p>
+      <ul>
+        <li data-en="Customer journey maps" data-ru="Customer Journey Map">Customer Journey Map’lar</li>
+        <li data-en="UX architecture diagrams" data-ru="Схемы UX-архитектуры">UX arxitektura sxemalari</li>
+        <li data-en="Remote team collaboration" data-ru="Удалённая командная работа">Masofaviy jamoaviy hamkorlik</li>
+      </ul>
+    </div>
+    </div>
+    <div class="skill-card" data-skill="notion">
+      <div class="skill-quote" aria-hidden="true">&ldquo;</div>
+      <div class="skill-item" data-skill="notion">
+      <h3>Notion</h3>
+      <p data-en="My knowledge base and docs hub: research findings, specs and design decisions are stored here." data-ru="Моя база знаний и центр документации: результаты исследований, спеки и дизайн-решения хранятся здесь.">Bilim bazam va hujjatlar markazi: research natijalari, spec’lar va dizayn qarorlari shu yerda saqlanadi.</p>
+      <ul>
+        <li data-en="Design docs and specs" data-ru="Дизайн-документация и спеки">Dizayn hujjatlari va spec’lar</li>
+        <li data-en="Organizing research findings" data-ru="Систематизация результатов исследований">Research natijalarini tizimlash</li>
+        <li data-en="Personal plans and tasks" data-ru="Личные планы и задачи">Shaxsiy reja va vazifalar</li>
+      </ul>
+    </div>
+    </div>
+    <div class="skill-card" data-skill="trello">
+      <div class="skill-quote" aria-hidden="true">&ldquo;</div>
+      <div class="skill-item" data-skill="trello">
+      <h3>Trello</h3>
+      <p data-en="Lightweight kanban: the fastest way to keep small-team and personal flows in order." data-ru="Лёгкий канбан: самый быстрый способ держать в порядке личные и небольшие командные процессы.">Yengil kanban: kichik jamoa va shaxsiy oqimlarni tartibda ushlash uchun eng tez vosita.</p>
+      <ul>
+        <li data-en="Kanban boards and cards" data-ru="Канбан-доски и карточки">Kanban doskalar va kartochkalar</li>
+        <li data-en="Tracking sprints and deadlines" data-ru="Отслеживание спринтов и дедлайнов">Sprint va deadline’larni kuzatish</li>
+        <li data-en="Checklists and automation" data-ru="Чек-листы и автоматизация">Checklist va avtomatlashtirish</li>
+      </ul>
+    </div>
+    </div>
+    <div class="skill-card" data-skill="asana">
+      <div class="skill-quote" aria-hidden="true">&ldquo;</div>
+      <div class="skill-item" data-skill="asana">
+      <h3>Asana</h3>
+      <p data-en="Project management: tasks, deadlines and dependencies across larger teams." data-ru="Управление проектами: задачи, сроки и зависимости в больших командах.">Loyiha boshqaruvi: katta jamoalarda vazifalar, muddatlar va bog‘liqliklarni boshqarish uchun.</p>
+      <ul>
+        <li data-en="Project and milestone planning" data-ru="Планирование проектов и вех">Loyiha va milestone rejalash</li>
+        <li data-en="Team task distribution" data-ru="Распределение задач в команде">Jamoaviy vazifalar taqsimoti</li>
+        <li data-en="Deadline and priority control" data-ru="Контроль сроков и приоритетов">Muddat va prioritet nazorati</li>
+      </ul>
+    </div>
+    </div>
+    <div class="skill-card" data-skill="photoshop">
+      <div class="skill-quote" aria-hidden="true">&ldquo;</div>
+      <div class="skill-item" data-skill="photoshop">
+      <h3>Photoshop</h3>
+      <p data-en="Raster graphics: photo retouching, complex visuals and marketing assets." data-ru="Растровая графика: ретушь, сложные визуалы и маркетинговые материалы.">Rastr grafika: rasm retushi, murakkab vizuallar va marketing materiallarini tayyorlash.</p>
+      <ul>
+        <li data-en="Image editing and retouching" data-ru="Обработка и ретушь изображений">Rasm tahriri va retush</li>
+        <li data-en="Banners and marketing visuals" data-ru="Баннеры и маркетинговые визуалы">Banner va marketing vizuallari</li>
+        <li data-en="Export and optimization" data-ru="Экспорт и оптимизация">Eksport va optimizatsiya</li>
+      </ul>
+    </div>
+    </div>
+    <div class="skill-card" data-skill="sketch">
+      <div class="skill-quote" aria-hidden="true">&ldquo;</div>
+      <div class="skill-item" data-skill="sketch">
+      <h3>Sketch</h3>
+      <p data-en="My former main tool: still handy for legacy projects and older libraries." data-ru="Мой прежний основной инструмент: до сих пор выручает на legacy-проектах и старых библиотеках.">Avvalgi asosiy vositam: legacy loyihalar va eski kutubxonalar bilan ishlashda hali ham asqotadi.</p>
+      <ul>
+        <li data-en="Legacy design files" data-ru="Legacy-файлы дизайна">Legacy dizayn fayllari</li>
+        <li data-en="Symbol libraries" data-ru="Библиотеки символов">Symbol kutubxonalari</li>
+        <li data-en="Migration experience to Figma" data-ru="Опыт миграции в Figma">Figma’ga migratsiya tajribasi</li>
+      </ul>
+    </div>
+    </div>
+    <div class="skill-card" data-skill="hotjar">
+      <div class="skill-quote" aria-hidden="true">&ldquo;</div>
+      <div class="skill-item" data-skill="hotjar">
+      <h3>Hotjar</h3>
+      <p data-en="Behavior analytics: I find real problems through heatmaps and session recordings." data-ru="Аналитика поведения: нахожу реальные проблемы через тепловые карты и записи сессий.">Foydalanuvchi xatti-harakati tahlili: heatmap va session yozuvlari orqali real muammolarni topaman.</p>
+      <ul>
+        <li data-en="Heatmap analysis" data-ru="Анализ тепловых карт">Heatmap tahlili</li>
+        <li data-en="Session recordings" data-ru="Записи сессий">Session recording ko‘rish</li>
+        <li data-en="Funnels and surveys" data-ru="Воронки и опросы">Funnel va so‘rovnomalar</li>
+      </ul>
+    </div>
+    </div>
+    <div class="skill-card" data-skill="vscode">
+      <div class="skill-quote" aria-hidden="true">&ldquo;</div>
+      <div class="skill-item" data-skill="vscode">
+      <h3>VS Code</h3>
+      <p data-en="On friendly terms with code: HTML/CSS prototypes and speaking the same language as developers." data-ru="В дружбе с кодом: HTML/CSS-прототипы и общий язык с разработчиками.">Kod bilan do‘stona munosabat: HTML/CSS prototiplar va dev jamoasi bilan bir tilda gaplashish uchun.</p>
+      <ul>
+        <li data-en="HTML/CSS prototypes" data-ru="HTML/CSS-прототипы">HTML/CSS prototiplar</li>
+        <li data-en="Reviewing design tokens" data-ru="Проверка дизайн-токенов">Dizayn tokenlarini tekshirish</li>
+        <li data-en="Handoff quality checks" data-ru="Контроль качества хендоффа">Handoff sifat nazorati</li>
+      </ul>
+    </div>
+    </div>
+    <div class="skill-arrows">
+      <button class="skill-arrow skill-arrow-prev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <button class="skill-arrow skill-arrow-next" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+</div>
+
 <!-- SKILL MODAL -->
 <div class="skill-modal" id="skillModal" role="dialog" aria-modal="true">
   <div class="skill-backdrop"></div>
@@ -1246,9 +1430,8 @@ html,body{overflow-x:hidden;max-width:100%}
 
     <div class="skill-card" data-skill="wireframing">
       <div class="skill-quote" aria-hidden="true">&ldquo;</div>
-      <div class="skill-eyebrow" data-en="Skill" data-ru="Навык">Ko&lsquo;nikma</div>
       <div class="skill-item" data-skill="wireframing">
-      <h3><span class="hash">#</span>Wireframing</h3>
+      <h3>Wireframing</h3>
       <p data-en="Before turning an idea into pixels, I turn it into structure. Wireframes let me sketch the skeleton of a screen fast and align with the team on direction — before any time is spent on UI." data-ru="Прежде чем превращать идею в пиксели, я превращаю её в структуру. Вайрфреймы позволяют быстро набросать скелет экрана и согласовать направление с командой — ещё до работы над UI.">G&lsquo;oyani pikselga aylantirishdan oldin uni strukturaga aylantiraman. Wireframe orqali ekran skeletini tez chizib, UI&rsquo;ga vaqt sarflamasdan jamoa bilan yo&lsquo;nalishni kelishib olaman.</p>
       <ul>
         <li data-en="Rapidly explore several directions with lo-fi sketches" data-ru="Быстро проверяю несколько вариантов через lo-fi-наброски">Lo-fi eskizlar bilan bir necha variantni tez sinab ko&lsquo;raman</li>
@@ -1260,9 +1443,8 @@ html,body{overflow-x:hidden;max-width:100%}
 
     <div class="skill-card" data-skill="designsystems">
       <div class="skill-quote" aria-hidden="true">&ldquo;</div>
-      <div class="skill-eyebrow" data-en="Skill" data-ru="Навык">Ko&lsquo;nikma</div>
       <div class="skill-item" data-skill="designsystems">
-      <h3><span class="hash">#</span>Design Systems</h3>
+      <h3>Design Systems</h3>
       <p data-en="A design system is what makes speed and consistency possible. I built the iWon Super App design system from scratch — tokens, components, variants and docs — so the whole team speaks one language." data-ru="Дизайн-система — залог скорости и консистентности. Я построил дизайн-систему iWon Super App с нуля: токены, компоненты, варианты и документация — чтобы команда говорила на одном языке.">Design system — tezlik va izchillik garovi. iWon Super App uchun design system&rsquo;ni 0&rsquo;dan qurganman: tokenlar, komponentlar, variantlar va hujjatlar — jamoa bir tilda gaplashishi uchun.</p>
       <ul>
         <li data-en="Design tokens: color, typography, spacing" data-ru="Дизайн-токены: цвет, типографика, отступы">Design tokenlar: rang, tipografika, spacing</li>
@@ -1274,9 +1456,8 @@ html,body{overflow-x:hidden;max-width:100%}
 
     <div class="skill-card" data-skill="productdesign">
       <div class="skill-quote" aria-hidden="true">&ldquo;</div>
-      <div class="skill-eyebrow" data-en="Skill" data-ru="Навык">Ko&lsquo;nikma</div>
       <div class="skill-item" data-skill="productdesign">
-      <h3><span class="hash">#</span>Product Design</h3>
+      <h3>Product Design</h3>
       <p data-en="I design products, not just interfaces: I find where business goals meet user needs and carry the work end-to-end — from idea to launch." data-ru="Я проектирую продукт, а не просто интерфейс: нахожу точку пересечения целей бизнеса и потребностей пользователя и веду работу end-to-end — от идеи до запуска.">Men shunchaki interfeys emas, mahsulot dizayn qilaman: biznes maqsadi va foydalanuvchi ehtiyoji kesishgan nuqtani topib, ishni g&lsquo;oyadan launch&rsquo;gacha end-to-end olib boraman.</p>
       <ul>
         <li data-en="Framing the problem: research, competitor analysis, hypotheses" data-ru="Формулирование проблемы: исследования, анализ конкурентов, гипотезы">Muammoni aniqlash: tadqiqot, raqobat tahlili, gipotezalar</li>
@@ -1288,9 +1469,8 @@ html,body{overflow-x:hidden;max-width:100%}
 
     <div class="skill-card" data-skill="figma">
       <div class="skill-quote" aria-hidden="true">&ldquo;</div>
-      <div class="skill-eyebrow" data-en="Skill" data-ru="Навык">Ko&lsquo;nikma</div>
       <div class="skill-item" data-skill="figma">
-      <h3><span class="hash">#</span>Figma</h3>
+      <h3>Figma</h3>
       <p data-en="Figma is my primary workspace. With auto-layout, variables and component architecture I keep even large files fast and organized, and I&rsquo;m used to working in shared team libraries." data-ru="Figma — моя основная рабочая среда. Благодаря auto-layout, variables и архитектуре компонентов даже большие файлы остаются быстрыми и упорядоченными; привык работать с командными библиотеками.">Figma — asosiy ish muhitim. Auto-layout, variables va komponent arxitekturasi bilan katta fayllarni ham tez, ham tartibli boshqaraman; jamoaviy kutubxonalar bilan ishlashga o&lsquo;rganganman.</p>
       <ul>
         <li data-en="Auto-layout and responsive components" data-ru="Auto-layout и адаптивные компоненты">Auto-layout va moslashuvchan komponentlar</li>
@@ -1302,9 +1482,8 @@ html,body{overflow-x:hidden;max-width:100%}
 
     <div class="skill-card" data-skill="usabilitytesting">
       <div class="skill-quote" aria-hidden="true">&ldquo;</div>
-      <div class="skill-eyebrow" data-en="Skill" data-ru="Навык">Ko&lsquo;nikma</div>
       <div class="skill-item" data-skill="usabilitytesting">
-      <h3><span class="hash">#</span>Usability Testing</h3>
+      <h3>Usability Testing</h3>
       <p data-en="Design shouldn&rsquo;t be a guess — it should be a tested solution. I run tests with real users, watch where they stumble, and iterate the interface based on what I observe." data-ru="Дизайн — не догадка, а проверенное решение. Я провожу тесты с реальными пользователями, наблюдаю, где они спотыкаются, и дорабатываю интерфейс на основе наблюдений.">Dizayn taxmin emas — tekshiruvdan o&lsquo;tgan yechim bo&lsquo;lishi kerak. Real foydalanuvchilar bilan test o&lsquo;tkazib, qayerda qoqilishlarini kuzataman va interfeysni shu asosda qayta ishlayman.</p>
       <ul>
         <li data-en="Moderated tests with scenarios and tasks" data-ru="Модерируемые тесты со сценариями и задачами">Stsenariy va vazifalar bilan moderatsiyalangan testlar</li>
@@ -1316,9 +1495,8 @@ html,body{overflow-x:hidden;max-width:100%}
 
     <div class="skill-card" data-skill="prototyping">
       <div class="skill-quote" aria-hidden="true">&ldquo;</div>
-      <div class="skill-eyebrow" data-en="Skill" data-ru="Навык">Ko&lsquo;nikma</div>
       <div class="skill-item" data-skill="prototyping">
-      <h3><span class="hash">#</span>Prototyping</h3>
+      <h3>Prototyping</h3>
       <p data-en="I make ideas tangible before a line of code is written. Interactive prototypes let me test flows live, present them to stakeholders, and hand development a precise brief." data-ru="Я делаю идею осязаемой до написания кода. Интерактивные прототипы позволяют вживую проверить флоу, показать их стейкхолдерам и передать разработке точное ТЗ.">Kod yozilmasdan oldin g&lsquo;oyani &ldquo;ushlab ko&lsquo;rish&rdquo; imkonini beraman. Interaktiv prototiplar orqali flow&rsquo;larni jonli sinayman, stakeholder&rsquo;larga taqdim etaman va devlarga aniq topshiriq beraman.</p>
       <ul>
         <li data-en="Clickable flows: onboarding, payments, forms" data-ru="Кликабельные флоу: онбординг, оплата, формы">Bosib ko&lsquo;riladigan flow&rsquo;lar: onboarding, to&lsquo;lov, formalar</li>
@@ -1330,9 +1508,8 @@ html,body{overflow-x:hidden;max-width:100%}
 
     <div class="skill-card" data-skill="userresearch">
       <div class="skill-quote" aria-hidden="true">&ldquo;</div>
-      <div class="skill-eyebrow" data-en="Skill" data-ru="Навык">Ko&lsquo;nikma</div>
       <div class="skill-item" data-skill="userresearch">
-      <h3><span class="hash">#</span>User Research</h3>
+      <h3>User Research</h3>
       <p data-en="Every design decision starts with understanding users. Through interviews, surveys and competitive analysis I uncover real needs and turn them into design decisions." data-ru="Каждое дизайн-решение начинается с понимания пользователя. Через интервью, опросы и анализ конкурентов я выявляю реальные потребности и превращаю их в решения.">Har bir dizayn qarori foydalanuvchini tushunishdan boshlanadi. Intervyular, so&lsquo;rovnomalar va raqobat tahlili orqali real ehtiyojlarni aniqlab, ularni dizayn yechimlariga aylantiraman.</p>
       <ul>
         <li data-en="User interviews and surveys" data-ru="Интервью с пользователями и опросы">Foydalanuvchi intervyulari va so&lsquo;rovnomalar</li>
@@ -1344,9 +1521,8 @@ html,body{overflow-x:hidden;max-width:100%}
 
     <div class="skill-card" data-skill="uxarchitecture">
       <div class="skill-quote" aria-hidden="true">&ldquo;</div>
-      <div class="skill-eyebrow" data-en="Skill" data-ru="Навык">Ko&lsquo;nikma</div>
       <div class="skill-item" data-skill="uxarchitecture">
-      <h3><span class="hash">#</span>UX Architecture</h3>
+      <h3>UX Architecture</h3>
       <p data-en="Behind a beautiful screen there must be solid logic. I design information architecture and user flows so people reach what they need without thinking." data-ru="За красивым экраном должна стоять прочная логика. Я проектирую информационную архитектуру и пользовательские потоки так, чтобы человек попадал куда нужно, не задумываясь.">Chiroyli ekran ortida mustahkam mantiq turishi kerak. Axborot arxitekturasi va user flow&rsquo;larni shunday loyihalaymanki, foydalanuvchi o&lsquo;ylab o&lsquo;tirmasdan kerakli joyga yetib boradi.</p>
       <ul>
         <li data-en="Information architecture and navigation structure" data-ru="Информационная архитектура и структура навигации">Axborot arxitekturasi va navigatsiya tuzilmasi</li>
@@ -1572,10 +1748,18 @@ html,body{overflow-x:hidden;max-width:100%}
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var nums = document.querySelectorAll(".impact .stat .n[data-num]");
     if(!nums.length) return;
-    function render(el, val){
+    function prep(el){
       var s=el.getAttribute("data-sign")||"", f=el.getAttribute("data-suf")||"";
-      el.innerHTML = s + val + "<em>" + f + "</em>";
+      el.textContent="";
+      if(s) el.appendChild(document.createTextNode(s));
+      var t=document.createTextNode("0");
+      el.appendChild(t);
+      var em=document.createElement("em"); em.textContent=f;
+      el.appendChild(em);
+      el.__cnt=t;
+      return t;
     }
+    function render(el, val){ (el.__cnt||prep(el)).data=String(val); }
     function run(el){
       var target = parseInt(el.getAttribute("data-num"),10)||0;
       if(reduce){ render(el, target); return; }
@@ -1611,17 +1795,15 @@ html,body{overflow-x:hidden;max-width:100%}
   document.querySelectorAll(".case-close,.js-close").forEach(function(b){ b.addEventListener("click",closeCases); });
   document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeCases(); });
 
-  /* ---- skill modal: 3D coverflow ---- */
-  (function(){
-    var modal=document.getElementById("skillModal");
-    if(!modal) return;
+  /* ---- coverflow modal (skills + tools) ---- */
+  function initCoverflow(modalId, anchorList){
+    var modal=document.getElementById(modalId);
+    if(!modal||!anchorList||!anchorList.length) return;
     var stage=modal.querySelector(".skill-stage");
     var closeBtn=modal.querySelector(".skill-close");
     var prevBtn=modal.querySelector(".skill-arrow-prev");
     var nextBtn=modal.querySelector(".skill-arrow-next");
     var cards=Array.prototype.slice.call(stage.querySelectorAll(".skill-card"));
-    var pills=document.querySelectorAll(".orbit .opill");
-    var core=document.querySelector(".orbit .orbit-core");
     var keys=cards.map(function(c){ return c.getAttribute("data-skill"); });
     var pillByKey={}, lastAnchor=null, cur=0, zoomTimer=0;
     var goo=modal.querySelector(".skill-goo"), gMain=goo?goo.querySelector(".goo-main"):null,
@@ -1668,7 +1850,7 @@ html,body{overflow-x:hidden;max-width:100%}
       var cx=(cr.left-sr.left+cr.width/2)-gc.x, cy=(cr.top-sr.top+cr.height/2)-gc.y;
       gMain.style.width=Math.round(cr.width-10)+"px";
       gMain.style.height=Math.round(cr.height-10)+"px";
-      gMain.style.borderRadius="26px";
+      gMain.style.borderRadius="36px";
       clearTimeout(gooTimer);
       goo.style.transition="none"; goo.style.opacity="1";
       var tx=(pr.left-sr.left+pr.width/2)-gc.x, ty=(pr.top-sr.top+pr.height/2)-gc.y;
@@ -1698,14 +1880,14 @@ html,body{overflow-x:hidden;max-width:100%}
       if(!canAnim) return;
       cancelContentFills();
       var card=cards[cur];
-      var parts=card.querySelectorAll(".skill-quote,.skill-eyebrow,.skill-ava,.skill-item > h3,.skill-item > .skill-role,.skill-item > p,.skill-item > ul > li");
+      var parts=card.querySelectorAll(".skill-quote,.skill-eyebrow,.skill-ava,.skill-item > h3,.skill-item > .skill-role,.skill-item > p,.skill-item > .hwm-item,.skill-item > ul > li");
       Array.prototype.forEach.call(parts,function(el,i){
         el.animate([{opacity:0,transform:"translateY(12px)"},{opacity:1,transform:"translateY(0)"}],
           {duration:380,delay:130+i*34,easing:"cubic-bezier(.16,1,.3,1)",fill:"backwards"});
       });
     }
     function keyFor(t){ return (t||"").trim().toLowerCase().replace(/[^a-z]/g,""); }
-    function anchorFor(k){ return k==="aboutme" ? core : pillByKey[k]; }
+    function anchorFor(k){ return pillByKey[k]; }
     function slotTransform(off){
       var a=Math.abs(off), sign=off<0?-1:1;
       var t="translate(-50%,-50%)";
@@ -1794,7 +1976,6 @@ html,body{overflow-x:hidden;max-width:100%}
         });
         layout(false); /* animate every card to its slot */
         popContent();
-        setTimeout(function(){ gooSplash(); }, 250); /* taffy splash as the card lands */
       });
       zoomTimer=setTimeout(function(){
         if(modal.classList.contains("open")) cards.forEach(function(c){ c.style.transition=""; });
@@ -1876,21 +2057,14 @@ html,body{overflow-x:hidden;max-width:100%}
       }
       if(lastAnchor){ lastAnchor.focus({preventScroll:true}); }
     }
-    pills.forEach(function(p){
-      p.setAttribute("role","button");
-      p.setAttribute("tabindex","0");
-      var k=keyFor(p.textContent);
-      pillByKey[k]=p;
-      p.addEventListener("click",function(){ openModal(k,p); });
-      p.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openModal(k,p); } });
+    anchorList.forEach(function(a){
+      var el=a.el;
+      el.setAttribute("role","button");
+      el.setAttribute("tabindex","0");
+      pillByKey[a.key]=el;
+      el.addEventListener("click",function(){ openModal(a.key,el); });
+      el.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openModal(a.key,el); } });
     });
-    if(core){
-      core.setAttribute("role","button");
-      core.setAttribute("tabindex","0");
-      core.setAttribute("aria-label","About Ali Umirov");
-      core.addEventListener("click",function(){ openModal("aboutme",core); });
-      core.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openModal("aboutme",core); } });
-    }
     cards.forEach(function(c,i){
       c.addEventListener("click",function(){ if(dragMoved){ dragMoved=false; return; } if(i!==cur) goTo(i); });
     });
@@ -1935,7 +2109,21 @@ html,body{overflow-x:hidden;max-width:100%}
       else if(e.key==="ArrowLeft") goTo(cur-1);
     });
     layout(true);
+  }
+  (function(){
+    function kf(t){ return (t||"").trim().toLowerCase().replace(/[^a-z]/g,""); }
+    var sa=[];
+    document.querySelectorAll(".orbit .opill").forEach(function(pl){ sa.push({el:pl,key:kf(pl.textContent)}); });
+    var core=document.querySelector(".orbit .orbit-core");
+    if(core){ core.setAttribute("aria-label","About Ali Umirov"); sa.push({el:core,key:"aboutme"}); }
+    initCoverflow("skillModal", sa);
+    var ta=[];
+    document.querySelectorAll("#tools .tool").forEach(function(t){ ta.push({el:t,key:kf(t.textContent)}); });
+    initCoverflow("toolModal", ta);
+    var aboutCard=document.querySelector(".about-card");
+    if(aboutCard) initCoverflow("howModal", [{el:aboutCard, key:"howiwork"}]);
   })();
+
 
   /* ---- experience: preview + view more ---- */
   var COLLAPSED=76;
@@ -2006,6 +2194,7 @@ html,body{overflow-x:hidden;max-width:100%}
     });
     card.addEventListener('mouseleave',function(){card.classList.remove('tilt');card.style.transform='';});
   }
+
   var about=document.querySelector('.about-card');
   if(about)tilt(about,7,1100,true);
   document.querySelectorAll('.impact .stat').forEach(function(s){tilt(s,6,900,true);});
