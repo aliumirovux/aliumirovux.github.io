@@ -195,6 +195,25 @@ body.menu-open .overlay a:nth-child(5){transition-delay:.25s}
 .btn .ic svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
 .btn:active{transform:scale(.97)}
 .btn-primary{background:var(--ink);color:var(--bg)}
+/* liquid-metal CTA (CSS take on the shader look) */
+.btn-metal{position:relative;background:linear-gradient(180deg,#2e3036,#17181c);color:#f3f5f9;
+  border:none;isolation:isolate;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -1px 0 rgba(0,0,0,.45),0 14px 30px -18px rgba(0,0,0,.9)}
+.btn-metal::before{content:"";position:absolute;inset:-1.5px;border-radius:inherit;padding:1.5px;z-index:-1;
+  background:conic-gradient(from var(--nangle),
+    rgba(255,255,255,.85) 0deg,rgba(213,223,255,.25) 42deg,rgba(255,213,236,.65) 84deg,
+    rgba(255,255,255,.12) 126deg,rgba(213,255,243,.55) 168deg,rgba(255,243,213,.2) 210deg,
+    rgba(223,213,255,.7) 252deg,rgba(255,255,255,.16) 294deg,rgba(255,222,213,.55) 336deg,
+    rgba(255,255,255,.85) 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;
+  animation:neonspin 5s linear infinite;opacity:.8;transition:opacity .3s var(--ease)}
+.btn-metal::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,0) 42%,rgba(0,0,0,.16))}
+.btn-metal:hover{transform:translateY(-1px)}
+.btn-metal:hover::before{opacity:1}
+@media (prefers-reduced-motion:reduce){.btn-metal::before{animation:none}}
+
 .btn-primary .ic{background:none}
 .btn-primary:hover{opacity:.88}
 .btn-primary:hover .ic{transform:translateX(3px)}
@@ -649,6 +668,7 @@ html,body{overflow-x:hidden;max-width:100%}
 .marquee.offview .marquee-track{animation-play-state:paused!important}
 .orbit.offview .ospin,.orbit.offview .opill{animation-play-state:paused!important}
 .stat.offview .spark-dot,.stat.offview .spark-runner{animation-play-state:paused!important}
+.contact-card.offview .btn-metal::before{animation-play-state:paused!important}
 /* touch devices: swap live backdrop blur for equivalent opaque surfaces */
 @media (hover:none){
   .nav{background:color-mix(in srgb,var(--bg) 96%,transparent);backdrop-filter:none;-webkit-backdrop-filter:none}
@@ -1076,7 +1096,7 @@ html,body{overflow-x:hidden;max-width:100%}
         <h2 style="margin-top:20px" data-en="Let's build something great" data-ru="Давайте создадим что-то отличное">Keling, birga ajoyib narsa yaratamiz</h2>
         <p class="lead" data-en="Have a product, a team, or an idea? I'm open to new opportunities and collaborations." data-ru="Есть продукт, команда или идея? Я открыт к новым возможностям и сотрудничеству.">Mahsulot, jamoa yoki g‘oyangiz bormi? Yangi imkoniyat va hamkorliklarga ochiqman.</p>
         <div class="cta-row">
-          <a href="mailto:aliumirov.me@gmail.com" class="btn btn-primary"><span data-en="Email me" data-ru="Написать мне">Xat yozish</span></a>
+          <a href="mailto:aliumirov.me@gmail.com" class="btn btn-metal"><span data-en="Email me" data-ru="Написать мне">Xat yozish</span></a>
         </div>
         <div class="socials">
           <a href="https://www.linkedin.com/in/aliumirov/" target="_blank" rel="noopener" class="soc"><svg viewBox="0 0 24 24"><path d="M4 9v11M4 5.5a1.5 1.5 0 100-.01M9 20V13a3 3 0 016 0v7"/></svg>LinkedIn</a>
