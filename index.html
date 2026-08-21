@@ -195,6 +195,32 @@ body.menu-open .overlay a:nth-child(5){transition-delay:.25s}
 .btn .ic svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
 .btn:active{transform:scale(.97)}
 .btn-primary{background:var(--ink);color:var(--bg)}
+/* back-to-top: circular liquid-metal button, appears after scrolling down */
+.to-top{position:fixed;right:22px;bottom:calc(22px + env(safe-area-inset-bottom,0px));z-index:60;
+  width:48px;height:48px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;border:none;isolation:isolate;color:#f3f5f9;
+  background:linear-gradient(180deg,#2e3036,#17181c);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -1px 0 rgba(0,0,0,.45),0 14px 30px -18px rgba(0,0,0,.9);
+  opacity:0;visibility:hidden;transform:translateY(14px) scale(.9);
+  transition:opacity .35s var(--ease),transform .35s var(--ease),visibility .35s var(--ease)}
+.to-top.show{opacity:1;visibility:visible;transform:none}
+.to-top.show:hover{transform:translateY(-2px)}
+.to-top:active{transform:scale(.94)}
+.to-top svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.to-top::before{content:"";position:absolute;inset:-1.5px;border-radius:inherit;padding:1.5px;z-index:-1;
+  background:conic-gradient(from var(--nangle),
+    rgba(255,255,255,.85) 0deg,rgba(213,223,255,.25) 42deg,rgba(255,213,236,.65) 84deg,
+    rgba(255,255,255,.12) 126deg,rgba(213,255,243,.55) 168deg,rgba(255,243,213,.2) 210deg,
+    rgba(223,213,255,.7) 252deg,rgba(255,255,255,.16) 294deg,rgba(255,222,213,.55) 336deg,
+    rgba(255,255,255,.85) 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;
+  opacity:.8;animation:neonspin 5s linear infinite;animation-play-state:paused;transition:opacity .3s var(--ease)}
+.to-top.show::before{animation-play-state:running}
+.to-top:hover::before{opacity:1}
+.to-top::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,0) 42%,rgba(0,0,0,.16))}
+@media (prefers-reduced-motion:reduce){.to-top::before{animation:none}}
 /* liquid-metal CTA (CSS take on the shader look) */
 .btn-metal{position:relative;background:linear-gradient(180deg,#2e3036,#17181c);color:#f3f5f9;
   border:none;isolation:isolate;
@@ -1272,6 +1298,8 @@ html,body{overflow-x:hidden;max-width:100%}
 
 
 
+<button class="to-top" aria-label="Back to top"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
 <!-- HOW I WORK MODAL -->
 <div class="skill-modal" id="howModal" role="dialog" aria-modal="true">
   <div class="skill-backdrop"></div>
@@ -1804,6 +1832,18 @@ html,body{overflow-x:hidden;max-width:100%}
   })();
 
   /* ---- case study modals ---- */
+  /* ---- back to top ---- */
+  (function(){
+    var bt=document.querySelector(".to-top");
+    if(!bt) return;
+    var shown=false, raf=0;
+    function check(){ raf=0; var need=(window.scrollY||window.pageYOffset||0)>700;
+      if(need!==shown){ shown=need; bt.classList.toggle("show",need); } }
+    window.addEventListener("scroll",function(){ if(!raf) raf=requestAnimationFrame(check); },{passive:true});
+    check();
+    bt.addEventListener("click",function(){ window.scrollTo({top:0,behavior:"smooth"}); });
+  })();
+
   /* ---- scroll lock (works on iOS too: position:fixed body) ---- */
   var scrollLockY=0, scrollLocked=false;
   function lockScroll(){
