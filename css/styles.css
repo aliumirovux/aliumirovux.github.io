@@ -255,7 +255,8 @@ section {
   right: 0;
   z-index: 70;
   background: none;
-  border-bottom: none
+  border-bottom: 1px solid transparent;
+  transition: background .3s var(--ease), border-color .3s var(--ease)
 }
 
 .nav-inner {
@@ -3538,11 +3539,11 @@ body {
 }
 
 @media(max-width:900px) {
-  .nav {
+  .nav.scrolled {
     background: color-mix(in srgb, var(--bg) 92%, transparent);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--line-2)
+    border-bottom-color: var(--line-2)
   }
 
   .nav-links {
@@ -3589,17 +3590,9 @@ body {
     padding: 2px
   }
 
-  .langseg-ind {
-    display: none
-  }
-
   .langseg-btn {
     padding: 0 9px;
     font-size: 12px
-  }
-
-  .langseg-btn.active {
-    background: rgba(255, 255, 255, .14)
   }
 
   .burger {
@@ -3878,11 +3871,11 @@ p.hwm-d {
 
 /* touch devices: swap live backdrop blur for equivalent opaque surfaces */
 @media (hover:none) {
-  .nav {
+  .nav.scrolled {
     background: var(--bg);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    border-bottom: 1px solid var(--line-2)
+    border-bottom-color: var(--line-2)
   }
 
   .nav-links {
