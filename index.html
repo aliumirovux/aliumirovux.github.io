@@ -2292,6 +2292,7 @@ html,body{overflow-x:hidden;max-width:100%}
 
 <script>
 (function(){
+  return; /* cursor-trail disabled (kept for reference, does not run) */
   try{ if(matchMedia('(hover:none)').matches||matchMedia('(prefers-reduced-motion:reduce)').matches) return; }catch(e){}
   var canvas=document.querySelector('.cursor-trail'); if(!canvas) return;
   var ctx=canvas.getContext('2d'); if(!ctx) return;
