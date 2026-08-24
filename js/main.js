@@ -73,13 +73,16 @@
     var sr = seg.getBoundingClientRect(),
       r = a.getBoundingClientRect();
     if (sr.width === 0) return;
+    var cs = getComputedStyle(seg),
+      bl = parseFloat(cs.borderLeftWidth) || 0,
+      bt = parseFloat(cs.borderTopWidth) || 0;
     if (!slide) {
       segInd.style.transition = "none";
     }
-    segInd.style.top = (r.top - sr.top) + "px";
+    segInd.style.top = (r.top - sr.top - bt) + "px";
     segInd.style.height = r.height + "px";
     segInd.style.width = r.width + "px";
-    segInd.style.transform = "translateX(" + (r.left - sr.left) + "px)";
+    segInd.style.transform = "translateX(" + (r.left - sr.left - bl) + "px)";
     if (!slide) {
       void segInd.offsetWidth;
       segInd.style.transition = "";
@@ -1543,4 +1546,17 @@
       e.preventDefault();
     }
   });
+})();
+
+/* ---- nav: reveal glass background after scrolling past threshold ---- */
+(function() {
+  var nav = document.querySelector('.nav');
+  if (!nav) return;
+  var THRESHOLD = 120;
+  function onScroll() {
+    var y = window.scrollY || window.pageYOffset || 0;
+    nav.classList.toggle('scrolled', y > THRESHOLD);
+  }
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 })();
