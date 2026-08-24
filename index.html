@@ -1662,7 +1662,7 @@ input,textarea{-webkit-user-select:text;user-select:text}
       var e=el.getAttribute("data-e"), ey, em;
       if(e==="present"){ var d=new Date(); ey=d.getFullYear(); em=d.getMonth()+1; }
       else { var ep=e.split("-"); ey=+ep[0]; em=+ep[1]; }
-      var months=(ey-sy)*12+(em-sm)+1; if(months<1) months=1;
+      var months=(ey-sy)*12+(em-sm); if(months<1) months=1;
       var y=Math.floor(months/12), m=months%12, parts=[];
       if(y>0) parts.push(y+" "+U[0]);
       if(m>0) parts.push(m+" "+U[1]);
