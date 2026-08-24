@@ -34,7 +34,11 @@ and a dark theme.
 
 ```
 .
-├── index.html              # markup + styles + script
+├── index.html              # semantic markup (styles & script external)
+├── css/
+│   └── styles.css          # design tokens, layout, components, responsive, motion
+├── js/
+│   └── main.js             # i18n, nav & scroll-spy, auto durations, modals, UI
 ├── og-image.png            # social share preview card (1200×630)
 ├── assets/
 │   ├── fonts/              # Geist font (400/500/600/700)
@@ -50,9 +54,9 @@ and a dark theme.
 └── .gitignore
 ```
 
-> Assets were extracted from inline base64 into `assets/` so the HTML stays
-> readable and the browser can cache images and fonts separately.
-> A future step may also split CSS into `css/` and JS into `js/`.
+> Assets were extracted from inline base64 into `assets/`, and the CSS and JS
+> were split into `css/styles.css` and `js/main.js`, so each concern lives in its
+> own file and the browser can cache styles, scripts, images and fonts separately.
 
 ## Local preview
 
