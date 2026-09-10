@@ -133,11 +133,6 @@ img {
   .chip:hover {
     transform: none
   }
-
-  .tlink:hover,
-  .q-link:hover {
-    gap: inherit
-  }
 }
 
 .grain {
@@ -231,8 +226,7 @@ img {
   }
 }
 
-.eyebrow,
-.kicker {
+.eyebrow {
   display: none !important
 }
 
@@ -468,7 +462,8 @@ section {
   color: var(--ink)
 }
 
-/* desktop: collapsible lang switcher — hover to expand, collapse shows selected */
+/* desktop: collapsible lang switcher — hover to expand,
+collapse shows selected */
 @media (hover:hover) and (pointer:fine) and (min-width:901px) {
   .langseg {
     gap: 0;
@@ -516,40 +511,6 @@ section {
 
 [data-theme="light"] .brand .logo-dark {
   display: none
-}
-
-.pillbtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 34px;
-  min-width: 34px;
-  padding: 0 10px;
-  border-radius: 8px;
-  border: none;
-  background: var(--surface-2);
-  color: var(--ink);
-  font-family: var(--fb);
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background .3s var(--ease), transform .3s var(--ease)
-}
-
-.pillbtn:hover {
-  background: color-mix(in srgb, var(--ink) 8%, var(--surface-2))
-}
-
-.pillbtn:active {
-  transform: scale(.94)
-}
-
-.pillbtn svg {
-  width: 14px;
-  height: 14px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 1.6
 }
 
 #theme-ic {
@@ -661,7 +622,8 @@ body.menu-open .overlay a:nth-child(5) {
   color: var(--accent)
 }
 
-/* HERO — quiet, type-first */
+/* HERO — quiet,
+type-first */
 .hero {
   min-height: auto;
   display: block;
@@ -678,25 +640,6 @@ body.menu-open .overlay a:nth-child(5) {
   max-width: 760px;
   margin: 0 auto;
   text-align: center
-}
-
-.hk {
-  font-size: 14.5px;
-  color: var(--muted);
-  font-weight: 500;
-  margin-bottom: 22px;
-  letter-spacing: .005em
-}
-
-.hero-photo {
-  width: 132px;
-  height: 132px;
-  aspect-ratio: 1;
-  object-fit: cover;
-  border-radius: 22px;
-  border: 1px solid var(--line);
-  display: block;
-  margin: 0 auto 32px
 }
 
 /* HERO ORBIT (eclipse) */
@@ -920,7 +863,7 @@ body.menu-open .overlay a:nth-child(5) {
 @media (prefers-reduced-motion:reduce) {
 
   .orbit .ospin,
-  .orbit .opill {
+.orbit .opill {
     animation: none
   }
 }
@@ -962,50 +905,6 @@ body.menu-open .overlay a:nth-child(5) {
   max-width: 56ch;
   margin: 22px auto 0;
   line-height: 1.65
-}
-
-.hl .co {
-  color: var(--accent);
-  font-weight: 600
-}
-
-.hl .co:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px
-}
-
-.hero-cta {
-  display: flex;
-  gap: 28px;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-top: 34px
-}
-
-.tlink {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  font-size: 16px;
-  color: var(--accent);
-  transition: gap .3s var(--ease)
-}
-
-.tlink .ar {
-  transition: transform .3s var(--ease)
-}
-
-.tlink:hover .ar {
-  transform: translateX(3px)
-}
-
-.tlink.tmut {
-  color: var(--ink)
-}
-
-.tlink.tmut:hover .ar {
-  transform: translateY(3px)
 }
 
 /* buttons (contact only) */
@@ -1050,7 +949,8 @@ body.menu-open .overlay a:nth-child(5) {
   color: var(--bg)
 }
 
-/* back-to-top: circular liquid-metal button, appears after scrolling down */
+/* back-to-top: circular liquid-metal button,
+appears after scrolling down */
 .to-top {
   position: fixed;
   right: 22px;
@@ -1209,16 +1109,6 @@ body.menu-open .overlay a:nth-child(5) {
   transform: translateX(3px)
 }
 
-.btn-ghost {
-  background: var(--bg);
-  color: var(--ink);
-  border-color: var(--line)
-}
-
-.btn-ghost:hover {
-  background: var(--surface-2)
-}
-
 /* reveal */
 .reveal {
   opacity: 0;
@@ -1267,10 +1157,6 @@ body.menu-open .overlay a:nth-child(5) {
 
 .reveal.d3 {
   transition-delay: .27s
-}
-
-.reveal.d4 {
-  transition-delay: .36s
 }
 
 .reveal.proj {
@@ -1366,7 +1252,7 @@ section {
 @media (prefers-reduced-motion:reduce) {
 
   .about-card::after,
-  .contact-card::after {
+.contact-card::after {
     animation: none
   }
 }
@@ -1542,17 +1428,6 @@ section {
   margin-bottom: 34px
 }
 
-.about-photo {
-  width: 112px;
-  height: auto;
-  aspect-ratio: 1;
-  object-fit: cover;
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  box-shadow: none;
-  flex-shrink: 0
-}
-
 .about-lead {
   font-family: var(--fd);
   font-weight: 700;
@@ -1568,12 +1443,6 @@ section {
   font-weight: 700
 }
 
-.about-grid {
-  display: grid;
-  grid-template-columns: 1.25fr 1fr;
-  gap: 44px
-}
-
 .mini-h {
   font-size: 12px;
   text-transform: uppercase;
@@ -1581,12 +1450,6 @@ section {
   color: var(--faint);
   font-weight: 600;
   margin-bottom: 14px
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px
 }
 
 .chip {
@@ -1718,7 +1581,8 @@ section {
   text-align: right
 }
 
-/* WORK — image-first, quiet */
+/* WORK — image-first,
+quiet */
 .work {
   padding: 0 0 64px
 }
@@ -1857,34 +1721,6 @@ section {
   margin-top: 2px
 }
 
-.proj-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 16px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: var(--fb);
-  font-weight: 600;
-  font-size: 15.5px;
-  color: var(--accent);
-  padding: 0;
-  transition: gap .3s var(--ease)
-}
-
-.proj-link svg {
-  width: 15px;
-  height: 15px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 1.9
-}
-
-.proj-link:hover {
-  gap: 13px
-}
-
 /* IMPACT — plain numbers */
 .impact {
   padding: 0 0 64px
@@ -1951,28 +1787,6 @@ section {
   flex: 0 0 auto
 }
 
-.impact .stat-bar {
-  margin-top: auto;
-  height: 6px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .07);
-  overflow: hidden;
-  position: relative
-}
-
-.impact .stat-bar-fill {
-  display: block;
-  height: 100%;
-  width: 0;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--accent), #8ab4ff);
-  transition: width 1.15s cubic-bezier(.22, 1, .36, 1) .12s
-}
-
-.impact .stat.vis .stat-bar-fill {
-  width: var(--w)
-}
-
 .impact .stat .spark {
   display: block;
   width: 100%;
@@ -2030,7 +1844,9 @@ section {
   }
 }
 
-/* one-shot light running along the sparkline: enters at the start, exits at the end, never loops */
+/* one-shot light running along the sparkline: enters at the start,
+exits at the end,
+never loops */
 .spark-runner {
   stroke: url(#runGrad);
   stroke-linecap: round;
@@ -2118,16 +1934,10 @@ section {
   }
 
   .spark-dot,
-  .spark-halo {
+.spark-halo {
     opacity: 1;
     transition: none;
     animation: none
-  }
-}
-
-@media (prefers-reduced-motion:reduce) {
-  .impact .stat-bar-fill {
-    transition: none
   }
 }
 
@@ -2158,44 +1968,12 @@ section {
   box-shadow: 0 16px 36px -22px rgba(0, 0, 0, .5)
 }
 
-/* impact — clearer, honest stat cards */
+/* impact — clearer,
+honest stat cards */
 .stats .stat {
   display: flex;
   flex-direction: column;
   padding: 26px 26px 24px
-}
-
-.stat-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  align-self: flex-start;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  padding: 5px 11px 5px 8px;
-  border-radius: 999px;
-  margin-bottom: 18px;
-  background: color-mix(in srgb, var(--pos) 15%, transparent);
-  color: var(--pos);
-  border: 1px solid color-mix(in srgb, var(--pos) 32%, transparent)
-}
-
-.stat-badge svg {
-  width: 13px;
-  height: 13px;
-  stroke: currentColor;
-  stroke-width: 2.6;
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round
-}
-
-.stat-badge.neu {
-  background: color-mix(in srgb, var(--accent) 15%, transparent);
-  color: color-mix(in srgb, var(--accent) 94%, #fff);
-  border-color: color-mix(in srgb, var(--accent) 32%, transparent)
 }
 
 .stats .stat .n {
@@ -2328,23 +2106,6 @@ section {
   display: none
 }
 
-.role .rlogo {
-  flex-shrink: 0;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--fd);
-  font-weight: 700;
-  font-size: 15.5px;
-  letter-spacing: -.01em;
-  color: var(--ink);
-  background: radial-gradient(120% 120% at 30% 22%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 70%), color-mix(in srgb, var(--surface-2) 62%, transparent);
-  border: none
-}
-
 .role .rmain {
   flex: 1;
   min-width: 0;
@@ -2380,14 +2141,6 @@ section {
   display: inline-flex;
   align-items: center;
   gap: 8px
-}
-
-.role .rdate-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
-  flex-shrink: 0
 }
 
 .role .rdur {
@@ -2548,7 +2301,6 @@ section {
   display: inline
 }
 
-
 /* TOOLS — plain line */
 .tools {
   padding: 0 0 64px
@@ -2679,7 +2431,6 @@ section {
   transition: transform .3s var(--ease)
 }
 
-
 /* RECOMMENDATIONS */
 .quotes {
   padding: 0 0 64px
@@ -2694,25 +2445,6 @@ section {
   grid-template-columns: repeat(2, 1fr);
   gap: 18px;
   align-items: stretch
-}
-
-.q-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--accent);
-  white-space: nowrap;
-  margin-top: 10px
-}
-
-.q-link svg {
-  width: 14px;
-  height: 14px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 1.9
 }
 
 .quote {
@@ -3450,10 +3182,6 @@ footer {
   color: var(--ink)
 }
 
-.skill-item h3 .hash {
-  color: var(--accent)
-}
-
 .skill-item p {
   font-size: 15.5px;
   line-height: 1.7;
@@ -3646,10 +3374,6 @@ body {
 }
 
 @media(max-width:760px) {
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 30px
-  }
 
   .stats {
     grid-template-columns: repeat(2, 1fr)
@@ -3685,13 +3409,8 @@ body {
     gap: 18px
   }
 
-  .about-photo {
-    width: 92px;
-    border-radius: 10px
-  }
-
   .stats,
-  .case-results {
+.case-results {
     grid-template-columns: 1fr;
     gap: 20px
   }
@@ -3714,14 +3433,6 @@ body {
     align-items: flex-start
   }
 
-  .role .rdate-wrap {
-    align-items: flex-start
-  }
-
-  .role .rlogo {
-    margin-top: 1px
-  }
-
   .role .rdate {
     text-align: left;
     white-space: normal;
@@ -3733,11 +3444,11 @@ body {
   }
 
   .about,
-  .work,
-  .impact,
-  .exp,
-  .tools,
-  .quotes {
+.work,
+.impact,
+.exp,
+.tools,
+.quotes {
     padding: 0 0 52px
   }
 }
@@ -3773,22 +3484,6 @@ body {
 .visual.img-foodee,
 .shot.img-foodee {
   background-image: url(../assets/img/work/foodee.webp)
-}
-
-.cursor-trail {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
-  pointer-events: none
-}
-
-@media (hover:none),
-(prefers-reduced-motion:reduce) {
-  .cursor-trail {
-    display: none
-  }
 }
 
 .about-card {
@@ -3839,7 +3534,8 @@ p.hwm-d {
   cursor: pointer
 }
 
-/* ===== PERF: identical look, cheaper pixels ===== */
+/* ===== PERF: identical look,
+cheaper pixels ===== */
 /* drop per-element layers once the reveal has finished */
 .reveal.vis {
   will-change: auto
@@ -3901,12 +3597,6 @@ p.hwm-d {
   }
 
   .orbit .opill {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none
-  }
-
-  .case-head {
-    background: color-mix(in srgb, var(--bg) 97%, transparent);
     backdrop-filter: none;
     -webkit-backdrop-filter: none
   }
