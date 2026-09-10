@@ -23,7 +23,7 @@ and a dark theme.
 - **Responsive** — desktop, tablet and mobile
 - **Accessible** — semantic HTML, ARIA labels, keyboard-friendly navigation
 - **SEO & social ready** — Open Graph / Twitter cards and JSON-LD structured data
-- **Privacy-friendly analytics** — Umami Cloud (no cookies, no consent banner); traffic sources via `?utm_source=`, plus custom events for clicks, section views, dwell time and scroll depth
+- **Analytics** — Yandex Metrica (Webvisor session replay, click & scroll maps); traffic sources via `?utm_source=`, plus custom goals for clicks, section views, dwell time and scroll depth
 
 ## Tech
 
