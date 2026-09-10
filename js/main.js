@@ -1356,22 +1356,34 @@
   window.addEventListener('scroll', onScroll, { passive: true });
 })();
 
-/* ---- analytics events (Umami): clicks, section views, dwell time, scroll depth ---- */
+/* ---- analytics: Yandex Metrica (webvisor, click map, links, bounce) ---- */
+var METRICA_ID = 112470767;
+(function(m, e, t, r, i, k, a) {
+  if (!METRICA_ID) return;
+  m[i] = m[i] || function() { (m[i].a = m[i].a || []).push(arguments); };
+  m[i].l = 1 * new Date();
+  for (var j = 0; j < e.scripts.length; j++) { if (e.scripts[j].src === r) return; }
+  k = e.createElement(t); a = e.getElementsByTagName(t)[0];
+  k.async = 1; k.src = r; a.parentNode.insertBefore(k, a);
+})(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=' + METRICA_ID, 'ym');
+if (METRICA_ID) {
+  ym(METRICA_ID, 'init', {
+    ssr: true, webvisor: true, clickmap: true, trackLinks: true, accurateTrackBounce: true,
+    referrer: document.referrer, url: location.href
+  });
+}
+
+/* ---- analytics events: clicks, section views, dwell time, scroll depth ---- */
 (function() {
-  var queue = [];
-  function ready() { return window.umami && typeof window.umami.track === 'function'; }
+  /* Metrica: a goal (reachGoal) + a visit parameter tree (params) — the latter needs no dashboard setup */
   function track(name, data) {
-    if (ready()) { try { window.umami.track(name, data); } catch (e) {} }
-    else queue.push([name, data]);
+    if (!METRICA_ID || typeof window.ym !== 'function') return;
+    var p = {}; p[name] = data || {};
+    try {
+      window.ym(METRICA_ID, 'reachGoal', name, data || {});
+      window.ym(METRICA_ID, 'params', p);
+    } catch (e) {}
   }
-  /* flush queued events once the tracker loads (give up quietly if it is blocked) */
-  var tries = 0, wait = setInterval(function() {
-    if (ready()) {
-      clearInterval(wait);
-      queue.forEach(function(q) { try { window.umami.track(q[0], q[1]); } catch (e) {} });
-      queue = [];
-    } else if (++tries > 40) { clearInterval(wait); queue = []; }
-  }, 500);
 
   /* 1) Clicks (delegated, capture phase so existing handlers are untouched) */
   document.addEventListener('click', function(e) {
