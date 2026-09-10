@@ -1560,3 +1560,92 @@
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 })();
+
+/* ---- analytics events (Umami): clicks, section views, dwell time, scroll depth ---- */
+(function() {
+  var queue = [];
+  function ready() { return window.umami && typeof window.umami.track === 'function'; }
+  function track(name, data) {
+    if (ready()) { try { window.umami.track(name, data); } catch (e) {} }
+    else queue.push([name, data]);
+  }
+  /* flush queued events once the tracker loads (give up quietly if it is blocked) */
+  var tries = 0, wait = setInterval(function() {
+    if (ready()) {
+      clearInterval(wait);
+      queue.forEach(function(q) { try { window.umami.track(q[0], q[1]); } catch (e) {} });
+      queue = [];
+    } else if (++tries > 40) { clearInterval(wait); queue = []; }
+  }, 500);
+
+  /* 1) Clicks (delegated, capture phase so existing handlers are untouched) */
+  document.addEventListener('click', function(e) {
+    var t = e.target, el;
+    if (!t || !t.closest) return;
+    if ((el = t.closest('[data-case]'))) {
+      track('case-open', { case: (el.getAttribute('data-case') || '').replace(/^case-/, '') }); return;
+    }
+    if ((el = t.closest('.cta-row a[href^="mailto:"]'))) { track('contact-email'); return; }
+    if ((el = t.closest('a.soc'))) {
+      var h = el.getAttribute('href') || '';
+      track('social-click', { network: /linkedin/.test(h) ? 'linkedin' : /t\.me/.test(h) ? 'telegram' : /dribbble/.test(h) ? 'dribbble' : 'other' });
+      return;
+    }
+    if ((el = t.closest('#pillnav .pill-item, #overlay a'))) {
+      track('nav-click', { section: (el.getAttribute('href') || '').replace('#', '') || 'top' }); return;
+    }
+    if ((el = t.closest('.langseg-btn'))) { track('lang-switch', { lang: el.getAttribute('data-lang') || '' }); return; }
+    if ((el = t.closest('.vmore'))) {
+      track('view-more', { where: el.closest('.role') ? 'experience' : el.closest('.quote') ? 'recommendation' : 'other' }); return;
+    }
+    if ((el = t.closest('.quote'))) {
+      var nm = el.querySelector('.nm');
+      track('recommendation-open', { person: nm ? nm.textContent.trim() : '' }); return;
+    }
+    if ((el = t.closest('details.role summary'))) {
+      var rt = el.querySelector('.rtitle');
+      track('experience-expand', { role: rt ? rt.textContent.trim().slice(0, 60) : '' }); return;
+    }
+  }, true);
+
+  /* 2) Section views + dwell time per section */
+  var sections = [].slice.call(document.querySelectorAll('section[id]'));
+  var seen = {}, enterAt = {};
+  function flush(id) {
+    if (!enterAt[id]) return;
+    var secs = Math.round((performance.now() - enterAt[id]) / 1000);
+    enterAt[id] = 0;
+    if (secs >= 3) track('section-time', { section: id, seconds: secs });
+  }
+  if ('IntersectionObserver' in window && sections.length) {
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(en) {
+        var id = en.target.id; if (!id) return;
+        if (en.isIntersecting) {
+          if (!seen[id]) { seen[id] = true; track('section-view', { section: id }); }
+          if (!enterAt[id]) enterAt[id] = performance.now();
+        } else { flush(id); }
+      });
+    }, { threshold: 0.1 });
+    sections.forEach(function(s) { io.observe(s); });
+    document.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'hidden') Object.keys(enterAt).forEach(flush);
+    });
+  }
+
+  /* 3) Scroll depth milestones */
+  var marks = [25, 50, 75, 100], hit = {}, ticking = false;
+  function depth() {
+    var scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    if (scrollable <= 0) return 100;
+    return Math.round(((window.scrollY || window.pageYOffset || 0) / scrollable) * 100);
+  }
+  window.addEventListener('scroll', function() {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function() {
+      ticking = false;
+      var d = depth();
+      marks.forEach(function(m) { if (!hit[m] && d >= m) { hit[m] = true; track('scroll-depth', { depth: m }); } });
+    });
+  }, { passive: true });
+})();
