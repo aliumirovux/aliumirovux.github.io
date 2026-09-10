@@ -1356,27 +1356,11 @@
   window.addEventListener('scroll', onScroll, { passive: true });
 })();
 
-/* ---- analytics: Yandex Metrica (webvisor, click map, links, bounce) ---- */
-var METRICA_ID = 112470767;
-(function(m, e, t, r, i, k, a) {
-  if (!METRICA_ID) return;
-  m[i] = m[i] || function() { (m[i].a = m[i].a || []).push(arguments); };
-  m[i].l = 1 * new Date();
-  for (var j = 0; j < e.scripts.length; j++) { if (e.scripts[j].src === r) return; }
-  k = e.createElement(t); a = e.getElementsByTagName(t)[0];
-  k.async = 1; k.src = r; a.parentNode.insertBefore(k, a);
-})(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=' + METRICA_ID, 'ym');
-if (METRICA_ID) {
-  ym(METRICA_ID, 'init', {
-    ssr: true, webvisor: true, clickmap: true, trackLinks: true, accurateTrackBounce: true,
-    referrer: document.referrer, url: location.href
-  });
-}
-
 /* ---- analytics events: clicks, section views, dwell time, scroll depth ---- */
 (function() {
   /* Metrica: a goal (reachGoal) + a visit parameter tree (params) — the latter needs no dashboard setup */
   function track(name, data) {
+    var METRICA_ID = window.METRICA_ID;
     if (!METRICA_ID || typeof window.ym !== 'function') return;
     var p = {}; p[name] = data || {};
     try {
