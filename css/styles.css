@@ -2438,6 +2438,65 @@ honest stat cards */
   color: var(--ink)
 }
 
+.rec-lang-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px
+}
+
+.rec-info {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--faint);
+  cursor: help;
+  outline: none
+}
+
+.rec-info svg {
+  width: 17px;
+  height: 17px;
+  display: block
+}
+
+.rec-info:hover {
+  color: var(--muted)
+}
+
+.rec-tip {
+  position: absolute;
+  bottom: calc(100% + 9px);
+  right: -4px;
+  width: max-content;
+  max-width: 250px;
+  background: color-mix(in srgb, #fff 9%, #191a1e);
+  border: 1px solid color-mix(in srgb, #fff 12%, transparent);
+  border-radius: 11px;
+  padding: 10px 13px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: color-mix(in srgb, var(--ink) 90%, transparent);
+  text-align: left;
+  box-shadow: 0 16px 38px -12px rgba(0, 0, 0, .85);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(5px);
+  transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s var(--ease);
+  pointer-events: none;
+  z-index: 6
+}
+
+.rec-info:hover .rec-tip,
+.rec-info:focus .rec-tip,
+.rec-info:focus-visible .rec-tip {
+  opacity: 1;
+  visibility: visible;
+  transform: none
+}
+
 /* TOOLS — plain line */
 .tools {
   padding: 0 0 64px
@@ -2566,6 +2625,15 @@ honest stat cards */
   flex-shrink: 0;
   filter: drop-shadow(0 3px 8px rgba(0, 0, 0, .45));
   transition: transform .3s var(--ease)
+}
+
+.tool .tool-name {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 18px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 18px), transparent)
 }
 
 .tool .ic-pair {
