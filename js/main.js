@@ -1238,11 +1238,6 @@
         }
       });
     }
-    q.addEventListener("click", function(e) {
-      if (e.target.closest(".vmore")) return;
-      var u = q.getAttribute("data-url");
-      if (u) window.open(u, "_blank", "noopener");
-    });
   });
   window.addEventListener("load", collapseQuotes);
 
@@ -1444,4 +1439,119 @@
       marks.forEach(function(m) { if (!hit[m] && d >= m) { hit[m] = true; track('scroll-depth', { depth: m }); } });
     });
   }, { passive: true });
+})();
+
+/* ---- recommendations: per-card translation (original stays verbatim) ---- */
+(function() {
+  var LANGS = ['en', 'ru', 'uz'];
+  var LABEL = { en: 'EN', ru: 'RU', uz: 'UZ' };
+  var GLOBE = '<svg class="rl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18"/></svg>';
+
+  function toParas(text) {
+    return text.split(/\n\n+/).map(function(s) {
+      return '<p>' + s.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</p>';
+    }).join('');
+  }
+
+  document.querySelectorAll('.quote').forEach(function(q) {
+    var body = q.querySelector('.qbody');
+    var vmore = q.querySelector('.vmore');
+    if (!body || !vmore) return;
+    var origLang = body.getAttribute('data-lang');
+    if (!origLang) return;
+    var trans = {};
+    LANGS.forEach(function(l) {
+      if (l === origLang) return;
+      var v = body.getAttribute('data-t-' + l);
+      if (v) trans[l] = v;
+    });
+    if (!Object.keys(trans).length) return;
+
+    var orig = body.innerHTML;
+    var foot = document.createElement('div');
+    foot.className = 'rec-foot';
+    vmore.parentNode.insertBefore(foot, vmore);
+    foot.appendChild(vmore);
+
+    var langs = document.createElement('div');
+    langs.className = 'rec-langs';
+    var html = GLOBE;
+    LANGS.forEach(function(l) {
+      if (l !== origLang && !trans[l]) return;
+      html += '<button class="rl-btn' + (l === origLang ? ' on' : '') + '" type="button" data-l="' + l + '">' + LABEL[l] + '</button>';
+    });
+    langs.innerHTML = html;
+    foot.appendChild(langs);
+
+    langs.addEventListener('click', function(e) {
+      var b = e.target.closest ? e.target.closest('.rl-btn') : null;
+      if (!b) return;
+      var l = b.getAttribute('data-l');
+      langs.querySelectorAll('.rl-btn').forEach(function(x) { x.classList.toggle('on', x === b); });
+      body.innerHTML = (l === origLang) ? orig : toParas(trans[l]);
+      var M = window.METRICA_ID;
+      if (M && typeof window.ym === 'function') {
+        try { window.ym(M, 'reachGoal', 'rec-translate', { lang: l }); } catch (er) {}
+      }
+    });
+  });
+})();
+
+/* ---- recommendation person modal (trust: bio + photo + LinkedIn) ---- */
+(function() {
+  var modal = document.getElementById('personModal');
+  if (!modal) return;
+  var photo = modal.querySelector('.pm-photo'),
+    nameEl = modal.querySelector('.pm-name'),
+    roleEl = modal.querySelector('.pm-role'),
+    bioEl = modal.querySelector('.pm-bio'),
+    link = modal.querySelector('.pm-link'),
+    closeBtn = modal.querySelector('.pm-close'),
+    backdrop = modal.querySelector('.pm-backdrop');
+
+  function bioFor(q) {
+    var lang = document.documentElement.lang || 'uz';
+    return q.getAttribute('data-bio-' + lang) || q.getAttribute('data-bio') || '';
+  }
+
+  function open(q) {
+    var img = q.querySelector('.av img'),
+      nm = q.querySelector('.nm'),
+      rl = q.querySelector('.rl'),
+      url = q.getAttribute('data-url');
+    if (img) { photo.src = img.getAttribute('src'); photo.alt = img.getAttribute('alt') || ''; }
+    nameEl.textContent = nm ? nm.textContent : '';
+    roleEl.textContent = rl ? rl.textContent : '';
+    bioEl.textContent = bioFor(q);
+    if (url) { link.href = url; link.hidden = false; } else { link.hidden = true; }
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    var M = window.METRICA_ID;
+    if (M && typeof window.ym === 'function') {
+      try { window.ym(M, 'reachGoal', 'recommendation-bio', { person: nameEl.textContent }); } catch (er) {}
+    }
+  }
+
+  function close() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.quote .who').forEach(function(who) {
+    who.setAttribute('role', 'button');
+    who.setAttribute('tabindex', '0');
+    who.addEventListener('click', function() {
+      var q = who.closest('.quote'); if (q) open(q);
+    });
+    who.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); var q = who.closest('.quote'); if (q) open(q); }
+    });
+  });
+  closeBtn.addEventListener('click', close);
+  backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.classList.contains('open')) close();
+  });
 })();
