@@ -2292,7 +2292,7 @@ honest stat cards */
   display: inline
 }
 
-/* recommendation person modal */
+/* recommendation person modal (coverflow) */
 .quote .who {
   cursor: pointer;
   border-radius: 14px;
@@ -2303,109 +2303,76 @@ honest stat cards */
   opacity: .82
 }
 
-.person-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 95;
+#recModal .skill-card {
+  border-radius: 32px
+}
+
+#recModal .skill-ava {
+  object-fit: cover
+}
+
+#recModal .pm-head {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 24px;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .3s var(--ease), visibility .3s var(--ease)
+  gap: 18px;
+  margin: 2px 0 22px
 }
 
-.person-modal.open {
-  opacity: 1;
-  visibility: visible
+#recModal .pm-head .skill-ava {
+  margin: 0;
+  flex: none
 }
 
-.person-modal .pm-backdrop {
+#recModal .pm-head-txt {
+  min-width: 0
+}
+
+#recModal .pm-head h3 {
+  margin: 0 0 5px
+}
+
+#recModal .pm-head .skill-role {
+  margin: 0
+}
+
+#recModal .pm-langs {
   position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, .6);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px)
-}
-
-.pm-card {
-  position: relative;
-  z-index: 1;
-  width: min(430px, 100%);
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-  border-radius: 24px;
-  padding: 34px 28px 30px;
-  text-align: center;
-  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .85);
-  transform: translateY(12px) scale(.98);
-  transition: transform .35s var(--ease)
-}
-
-.person-modal.open .pm-card {
-  transform: none
-}
-
-.pm-close {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 34px;
-  height: 34px;
+  top: 26px;
+  right: 26px;
+  z-index: 3;
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  gap: 2px;
+  padding: 3px;
+  background: color-mix(in srgb, #fff 6%, transparent);
   border: 1px solid var(--line);
-  background: var(--bg);
-  border-radius: 50%;
+  border-radius: 999px
+}
+
+#recModal .pm-langs:empty {
+  display: none
+}
+
+#recModal .pm-langs button {
+  border: none;
+  background: none;
   color: var(--muted);
+  font-family: var(--fb);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: .01em;
+  padding: 5px 12px;
+  border-radius: 999px;
   cursor: pointer;
   transition: background .2s var(--ease), color .2s var(--ease)
 }
 
-.pm-close:hover {
-  background: var(--surface);
+#recModal .pm-langs button:hover {
   color: var(--ink)
 }
 
-.pm-close svg {
-  width: 15px;
-  height: 15px
-}
-
-.pm-photo {
-  width: 104px;
-  height: 104px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid var(--line);
-  margin: 0 auto 16px;
-  display: block
-}
-
-.pm-name {
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: -.02em
-}
-
-.pm-role {
-  color: var(--muted);
-  font-size: 14px;
-  margin-top: 4px
-}
-
-.pm-bio {
-  color: var(--muted);
-  font-size: 14.5px;
-  line-height: 1.62;
-  margin: 16px auto 0;
-  max-width: 44ch
-}
-
-.pm-bio:empty {
-  display: none
+#recModal .pm-langs button.on {
+  background: color-mix(in srgb, #fff 13%, transparent);
+  color: var(--ink)
 }
 
 .pm-link {
