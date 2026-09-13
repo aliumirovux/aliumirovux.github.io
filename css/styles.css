@@ -1644,9 +1644,9 @@ quiet */
 
 .tags {
   display: flex;
-  gap: 0;
+  gap: 7px;
   flex-wrap: wrap;
-  margin-bottom: 10px
+  margin-bottom: 12px
 }
 
 .tag-s {
@@ -1661,7 +1661,16 @@ quiet */
   background: none
 }
 
-.tags .tag-s:not(:last-child)::after,
+.tags .tag-s {
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: var(--muted);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 10px
+}
+
 .mods .tag-s:not(:last-child)::after {
   content: "·";
   margin: 0 9px;
