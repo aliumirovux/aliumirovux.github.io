@@ -763,7 +763,7 @@
       if (!canAnim) return;
       cancelContentFills();
       var card = cards[cur];
-      var parts = card.querySelectorAll(".skill-quote,.skill-eyebrow,.skill-ava,.skill-item > h3,.skill-item > .skill-role,.skill-item > p,.skill-item > .hwm-item,.skill-item > ul > li");
+      var parts = card.querySelectorAll(".skill-quote,.skill-eyebrow,.skill-ava,.skill-item h3,.skill-item .skill-role,.skill-item p,.skill-item > .hwm-item,.skill-item > ul > li");
       Array.prototype.forEach.call(parts, function(el, i) {
         el.animate([{
           opacity: 0,
@@ -1164,6 +1164,15 @@
       });
     });
     initCoverflow("toolModal", ta);
+    var ra = [];
+    document.querySelectorAll(".quote").forEach(function(q) {
+      var who = q.querySelector(".who"),
+        img = q.querySelector(".av img");
+      if (!who || !img) return;
+      var m = (img.getAttribute("src") || "").match(/([^\/]+)\.webp$/);
+      if (m) ra.push({ el: who, key: m[1] });
+    });
+    initCoverflow("recModal", ra);
     var aboutCard = document.querySelector(".about-card");
     if (aboutCard) initCoverflow("howModal", [{
       el: aboutCard,
@@ -1497,61 +1506,50 @@
   });
 })();
 
-/* ---- recommendation person modal (trust: bio + photo + LinkedIn) ---- */
+/* ---- recommendation MODAL: per-card language switch (Uz/Ru/En) ---- */
 (function() {
-  var modal = document.getElementById('personModal');
-  if (!modal) return;
-  var photo = modal.querySelector('.pm-photo'),
-    nameEl = modal.querySelector('.pm-name'),
-    roleEl = modal.querySelector('.pm-role'),
-    bioEl = modal.querySelector('.pm-bio'),
-    link = modal.querySelector('.pm-link'),
-    closeBtn = modal.querySelector('.pm-close'),
-    backdrop = modal.querySelector('.pm-backdrop');
+  var LANGS = ['uz', 'ru', 'en'];
+  var LABEL = { uz: 'Uz', ru: 'Ru', en: 'En' };
 
-  function bioFor(q) {
-    var lang = document.documentElement.lang || 'uz';
-    return q.getAttribute('data-bio-' + lang) || q.getAttribute('data-bio') || '';
+  function toParas(text) {
+    return text.split(/\n\n+/).map(function(s) {
+      return '<p>' + s.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</p>';
+    }).join('');
   }
 
-  function open(q) {
-    var img = q.querySelector('.av img'),
-      nm = q.querySelector('.nm'),
-      rl = q.querySelector('.rl'),
-      url = q.getAttribute('data-url');
-    if (img) { photo.src = img.getAttribute('src'); photo.alt = img.getAttribute('alt') || ''; }
-    nameEl.textContent = nm ? nm.textContent : '';
-    roleEl.textContent = rl ? rl.textContent : '';
-    bioEl.textContent = bioFor(q);
-    if (url) { link.href = url; link.hidden = false; } else { link.hidden = true; }
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    var M = window.METRICA_ID;
-    if (M && typeof window.ym === 'function') {
-      try { window.ym(M, 'reachGoal', 'recommendation-bio', { person: nameEl.textContent }); } catch (er) {}
-    }
-  }
-
-  function close() {
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  }
-
-  document.querySelectorAll('.quote .who').forEach(function(who) {
-    who.setAttribute('role', 'button');
-    who.setAttribute('tabindex', '0');
-    who.addEventListener('click', function() {
-      var q = who.closest('.quote'); if (q) open(q);
+  document.querySelectorAll('#recModal .skill-card').forEach(function(card) {
+    var body = card.querySelector('.pm-body'),
+      langs = card.querySelector('.pm-langs');
+    if (!body || !langs) return;
+    var origLang = body.getAttribute('data-lang');
+    if (!origLang) return;
+    var orig = body.innerHTML;
+    var trans = {};
+    LANGS.forEach(function(l) {
+      if (l === origLang) return;
+      var v = body.getAttribute('data-t-' + l);
+      if (v) trans[l] = v;
     });
-    who.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); var q = who.closest('.quote'); if (q) open(q); }
+
+    var html = '';
+    LANGS.forEach(function(l) {
+      if (l !== origLang && !trans[l]) return;
+      html += '<button type="button" data-l="' + l + '" class="' + (l === origLang ? 'on' : '') + '">' + LABEL[l] + '</button>';
     });
-  });
-  closeBtn.addEventListener('click', close);
-  backdrop.addEventListener('click', close);
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && modal.classList.contains('open')) close();
+    langs.innerHTML = html;
+
+    langs.addEventListener('click', function(e) {
+      var b = e.target.closest ? e.target.closest('button') : null;
+      if (!b) return;
+      var l = b.getAttribute('data-l');
+      langs.querySelectorAll('button').forEach(function(x) { x.classList.toggle('on', x === b); });
+      body.innerHTML = (l === origLang) ? orig : toParas(trans[l]);
+      card.scrollTop = 0;
+      var M = window.METRICA_ID;
+      if (M && typeof window.ym === 'function') {
+        try { window.ym(M, 'reachGoal', 'rec-translate-modal', { lang: l }); } catch (er) {}
+      }
+    });
   });
 })();
+
