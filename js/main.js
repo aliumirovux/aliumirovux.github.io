@@ -1164,15 +1164,6 @@
       });
     });
     initCoverflow("toolModal", ta);
-    var ra = [];
-    document.querySelectorAll(".quote").forEach(function(q) {
-      var who = q.querySelector(".who"),
-        img = q.querySelector(".av img");
-      if (!who || !img) return;
-      var m = (img.getAttribute("src") || "").match(/([^\/]+)\.webp$/);
-      if (m) ra.push({ el: who, key: m[1] });
-    });
-    initCoverflow("recModal", ra);
     var aboutCard = document.querySelector(".about-card");
     if (aboutCard) initCoverflow("howModal", [{
       el: aboutCard,
@@ -1452,9 +1443,8 @@
 
 /* ---- recommendations: per-card translation (original stays verbatim) ---- */
 (function() {
-  var LANGS = ['en', 'ru', 'uz'];
-  var LABEL = { en: 'EN', ru: 'RU', uz: 'UZ' };
-  var GLOBE = '<svg class="rl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18"/></svg>';
+  var LANGS = ['uz', 'ru', 'en'];
+  var LABEL = { uz: 'Uz', ru: 'Ru', en: 'En' };
 
   function toParas(text) {
     return text.split(/\n\n+/).map(function(s) {
@@ -1484,7 +1474,7 @@
 
     var langs = document.createElement('div');
     langs.className = 'rec-langs';
-    var html = GLOBE;
+    var html = '';
     LANGS.forEach(function(l) {
       if (l !== origLang && !trans[l]) return;
       html += '<button class="rl-btn' + (l === origLang ? ' on' : '') + '" type="button" data-l="' + l + '">' + LABEL[l] + '</button>';
@@ -1506,50 +1496,50 @@
   });
 })();
 
-/* ---- recommendation MODAL: per-card language switch (Uz/Ru/En) ---- */
-(function() {
-  var LANGS = ['uz', 'ru', 'en'];
-  var LABEL = { uz: 'Uz', ru: 'Ru', en: 'En' };
 
-  function toParas(text) {
-    return text.split(/\n\n+/).map(function(s) {
-      return '<p>' + s.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</p>';
-    }).join('');
+
+/* ---- recommendation person modal (single card) ---- */
+(function() {
+  var modal = document.getElementById('recModal');
+  if (!modal) return;
+  var cards = [].slice.call(modal.querySelectorAll('.skill-card'));
+  var closeBtn = modal.querySelector('.skill-close');
+  var backdrop = modal.querySelector('.skill-backdrop');
+  var arrows = modal.querySelector('.skill-arrows');
+  if (arrows) arrows.parentNode.removeChild(arrows);
+
+  function open(slug) {
+    cards.forEach(function(c) {
+      var on = c.getAttribute('data-skill') === slug;
+      c.classList.toggle('rec-show', on);
+      if (on && closeBtn) c.appendChild(closeBtn); /* close sits in the card's corner */
+    });
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
   }
 
-  document.querySelectorAll('#recModal .skill-card').forEach(function(card) {
-    var body = card.querySelector('.pm-body'),
-      langs = card.querySelector('.pm-langs');
-    if (!body || !langs) return;
-    var origLang = body.getAttribute('data-lang');
-    if (!origLang) return;
-    var orig = body.innerHTML;
-    var trans = {};
-    LANGS.forEach(function(l) {
-      if (l === origLang) return;
-      var v = body.getAttribute('data-t-' + l);
-      if (v) trans[l] = v;
-    });
+  function close() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
 
-    var html = '';
-    LANGS.forEach(function(l) {
-      if (l !== origLang && !trans[l]) return;
-      html += '<button type="button" data-l="' + l + '" class="' + (l === origLang ? 'on' : '') + '">' + LABEL[l] + '</button>';
-    });
-    langs.innerHTML = html;
-
-    langs.addEventListener('click', function(e) {
-      var b = e.target.closest ? e.target.closest('button') : null;
-      if (!b) return;
-      var l = b.getAttribute('data-l');
-      langs.querySelectorAll('button').forEach(function(x) { x.classList.toggle('on', x === b); });
-      body.innerHTML = (l === origLang) ? orig : toParas(trans[l]);
-      card.scrollTop = 0;
-      var M = window.METRICA_ID;
-      if (M && typeof window.ym === 'function') {
-        try { window.ym(M, 'reachGoal', 'rec-translate-modal', { lang: l }); } catch (er) {}
-      }
+  document.querySelectorAll('.quote').forEach(function(q) {
+    var who = q.querySelector('.who'),
+      img = q.querySelector('.av img');
+    if (!who || !img) return;
+    var m = (img.getAttribute('src') || '').match(/([^\/]+)\.webp$/);
+    if (!m) return;
+    var slug = m[1];
+    who.setAttribute('role', 'button');
+    who.setAttribute('tabindex', '0');
+    who.addEventListener('click', function() { open(slug, who); });
+    who.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(slug, who); }
     });
   });
+  if (closeBtn) closeBtn.addEventListener('click', close);
+  if (backdrop) backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.classList.contains('open')) close();
+  });
 })();
-
