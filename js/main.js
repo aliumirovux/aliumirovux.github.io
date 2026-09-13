@@ -1543,6 +1543,8 @@
   if (arrows) arrows.parentNode.removeChild(arrows);
 
   function open(slug) {
+    clearTimeout(closeTimer);
+    modal.classList.remove('closing');
     cards.forEach(function(c) {
       var on = c.getAttribute('data-skill') === slug;
       c.classList.toggle('rec-show', on);
@@ -1553,9 +1555,17 @@
     document.body.style.overflow = 'hidden';
   }
 
+  var closeTimer;
   function close() {
+    if (!modal.classList.contains('open')) return;
+    modal.classList.add('closing');
     modal.classList.remove('open');
     document.body.style.overflow = '';
+    clearTimeout(closeTimer);
+    closeTimer = setTimeout(function() {
+      modal.classList.remove('closing');
+      cards.forEach(function(c) { c.classList.remove('rec-show', 'cur'); });
+    }, 460);
   }
 
   document.querySelectorAll('.quote').forEach(function(q) {
