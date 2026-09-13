@@ -388,12 +388,12 @@
   /* ---- tools ---- */
   var tools = [
     ["Figma", "assets/img/tools/figma.png"],
-    ["FigJam", "assets/img/tools/figjam.png"],
+    ["Metrica", "assets/img/tools/yandex-metrica.png"],
     ["Miro", "assets/img/tools/miro.png"],
     ["Notion", "assets/img/tools/notion.png"],
-    ["Trello", "assets/img/tools/trello.png"],
+    ["Jira", "assets/img/tools/jira.png"],
     ["Asana", "assets/img/tools/asana.png"],
-    ["Photoshop", "assets/img/tools/photoshop.png"],
+    ["Claude & ChatGPT", ["assets/img/tools/claude.png", "assets/img/tools/openai.png"]],
     ["Sketch", "assets/img/tools/sketch.png"],
     ["Hotjar", "assets/img/tools/hotjar.png"],
     ["VS Code", "assets/img/tools/vs-code.png"]
@@ -401,7 +401,12 @@
   var tg = document.getElementById("tools"),
     th = "";
   tools.forEach(function(t) {
-    th += '<span class="tool"><img class="ic" src="' + t[1] + '" alt="" loading="lazy" decoding="async">' + t[0] + '</span>';
+    var imgs = Array.isArray(t[1]) ? t[1] : [t[1]];
+    var multi = imgs.length > 1;
+    var ics = imgs.map(function(src) {
+      return '<img class="ic' + (multi ? ' ic-wl' : '') + '" src="' + src + '" alt="" loading="lazy" decoding="async">';
+    }).join('');
+    th += '<span class="tool">' + (multi ? '<span class="ic-pair">' + ics + '</span>' : ics) + t[0] + '</span>';
   });
   tg.innerHTML = th;
 
