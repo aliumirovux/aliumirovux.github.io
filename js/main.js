@@ -12,13 +12,13 @@
     el.setAttribute("data-uz", el.textContent);
   });
   var langBtns = document.querySelectorAll(".langseg-btn");
-  /* ---- total experience (auto): from earliest job start to now ---- */
+  /* ---- total experience (auto): from earliest job start to now, one decimal ---- */
   function totalExpYears() {
     var starts = [];
     document.querySelectorAll(".rdate[data-s]").forEach(function(el) {
       starts.push(el.getAttribute("data-s"));
     });
-    if (!starts.length) return "3.5";
+    if (!starts.length) return "3.4";
     starts.sort();
     var sp = starts[0].split("-"),
       sy = +sp[0],
@@ -26,8 +26,8 @@
     var d = new Date(),
       months = (d.getFullYear() - sy) * 12 + (d.getMonth() + 1 - sm);
     if (months < 0) months = 0;
-    var yrs = Math.round((months / 12) * 2) / 2; /* nearest 0.5 */
-    return String(yrs);
+    var yrs = Math.floor((months / 12) * 10) / 10; /* one decimal, floor so "{Y}+" stays truthful */
+    return yrs.toFixed(1);
   }
 
   function fillYears() {
