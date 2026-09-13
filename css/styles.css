@@ -2295,12 +2295,18 @@ honest stat cards */
 /* recommendation person modal (coverflow) */
 .quote .who {
   cursor: pointer;
-  border-radius: 14px;
+  outline: none;
   transition: opacity .2s var(--ease)
 }
 
 .quote .who:hover {
   opacity: .82
+}
+
+.quote .who:focus,
+.quote .who:focus-visible {
+  outline: none;
+  border-radius: 0
 }
 
 #recModal .skill-goo {
