@@ -2328,17 +2328,40 @@ honest stat cards */
 
 #recModal .skill-card.rec-show {
   display: block;
-  animation: recIn .4s var(--ease-soft)
+  animation: recIn .5s var(--spring)
+}
+
+#recModal.closing .skill-card.rec-show {
+  animation: recOut .32s var(--ease) forwards
 }
 
 @keyframes recIn {
   from {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(.94)
+    transform: translate(-50%, -50%) scale(.9)
   }
   to {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1)
+  }
+}
+
+@keyframes recOut {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1)
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.92)
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+
+  #recModal .skill-card.rec-show,
+  #recModal.closing .skill-card.rec-show {
+    animation: none
   }
 }
 
