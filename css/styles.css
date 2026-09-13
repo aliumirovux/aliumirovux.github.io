@@ -2303,76 +2303,59 @@ honest stat cards */
   opacity: .82
 }
 
-#recModal .skill-card {
-  border-radius: 32px
-}
-
-#recModal .skill-ava {
-  object-fit: cover
-}
-
-#recModal .pm-head {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin: 2px 0 22px
-}
-
-#recModal .pm-head .skill-ava {
-  margin: 0;
-  flex: none
-}
-
-#recModal .pm-head-txt {
-  min-width: 0
-}
-
-#recModal .pm-head h3 {
-  margin: 0 0 5px
-}
-
-#recModal .pm-head .skill-role {
-  margin: 0
-}
-
-#recModal .pm-langs {
-  position: absolute;
-  top: 26px;
-  right: 26px;
-  z-index: 3;
-  display: inline-flex;
-  gap: 2px;
-  padding: 3px;
-  background: color-mix(in srgb, #fff 6%, transparent);
-  border: 1px solid var(--line);
-  border-radius: 999px
-}
-
-#recModal .pm-langs:empty {
+#recModal .skill-goo {
   display: none
 }
 
-#recModal .pm-langs button {
-  border: none;
-  background: none;
-  color: var(--muted);
-  font-family: var(--fb);
-  font-weight: 600;
-  font-size: 12px;
-  letter-spacing: .01em;
-  padding: 5px 12px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: background .2s var(--ease), color .2s var(--ease)
+#recModal .skill-close {
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px
 }
 
-#recModal .pm-langs button:hover {
-  color: var(--ink)
+#recModal .skill-card {
+  border-radius: 32px;
+  width: min(440px, 92vw);
+  display: none
 }
 
-#recModal .pm-langs button.on {
-  background: color-mix(in srgb, #fff 13%, transparent);
-  color: var(--ink)
+#recModal .skill-card.rec-show {
+  display: block;
+  animation: recIn .4s var(--ease-soft)
+}
+
+@keyframes recIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.94)
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1)
+  }
+}
+
+#recModal .skill-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center
+}
+
+#recModal .skill-ava {
+  object-fit: cover;
+  width: 120px;
+  height: 120px;
+  margin: 6px 0 22px
+}
+
+#recModal .skill-item h3 {
+  margin: 0 0 8px
+}
+
+#recModal .skill-item .skill-role {
+  margin: 0 0 6px
 }
 
 .pm-link {
@@ -2412,45 +2395,40 @@ honest stat cards */
   padding: 10px 0 22px
 }
 
-.rec-foot .vmore {
+.quote .rec-foot .vmore {
   padding: 0
 }
 
 .rec-langs {
   display: inline-flex;
   align-items: center;
-  gap: 6px
-}
-
-.rec-langs .rl-ic {
-  width: 15px;
-  height: 15px;
-  color: var(--faint);
-  flex: none
+  gap: 2px;
+  padding: 3px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 999px
 }
 
 .rl-btn {
-  border: 1px solid var(--line);
-  background: transparent;
+  border: none;
+  background: none;
   color: var(--muted);
   border-radius: 999px;
-  padding: 3px 9px;
+  padding: 5px 12px;
   font-family: var(--fb);
   font-weight: 600;
-  font-size: 11px;
-  letter-spacing: .02em;
+  font-size: 12px;
+  letter-spacing: .01em;
   cursor: pointer;
-  transition: border-color .2s var(--ease), background .2s var(--ease), color .2s var(--ease)
+  transition: background .2s var(--ease), color .2s var(--ease)
 }
 
 .rl-btn:hover {
-  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
   color: var(--ink)
 }
 
 .rl-btn.on {
-  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-  background: var(--accent-soft);
+  background: color-mix(in srgb, #fff 13%, transparent);
   color: var(--ink)
 }
 
