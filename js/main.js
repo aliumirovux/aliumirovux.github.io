@@ -406,7 +406,7 @@
     var ics = imgs.map(function(src) {
       return '<img class="ic' + (multi ? ' ic-wl' : '') + '" src="' + src + '" alt="" loading="lazy" decoding="async">';
     }).join('');
-    th += '<span class="tool">' + (multi ? '<span class="ic-pair">' + ics + '</span>' : ics) + t[0] + '</span>';
+    th += '<span class="tool">' + (multi ? '<span class="ic-pair">' + ics + '</span>' : ics) + '<span class="tool-name">' + t[0] + '</span></span>';
   });
   tg.innerHTML = th;
 
@@ -1445,6 +1445,15 @@
 (function() {
   var LANGS = ['uz', 'ru', 'en'];
   var LABEL = { uz: 'Uz', ru: 'Ru', en: 'En' };
+  var TIP = {
+    uz: 'Bu inson tavsiyani asl holida shu tilda yozgan. Xohlasangiz, o‘zingizga qulay tilga o‘tkazing.',
+    ru: 'Этот человек написал рекомендацию на этом языке. При желании переключите на удобный вам язык.',
+    en: 'This person wrote the recommendation in this language. Switch it to one you’re comfortable with if you like.'
+  };
+  var INFO_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5" stroke-linecap="round"/><circle cx="12" cy="7.6" r="1" fill="currentColor" stroke="none"/></svg>';
+  var tips = [];
+
+  function tipText() { return TIP[document.documentElement.lang] || TIP.en; }
 
   function toParas(text) {
     return text.split(/\n\n+/).map(function(s) {
@@ -1480,7 +1489,24 @@
       html += '<button class="rl-btn' + (l === origLang ? ' on' : '') + '" type="button" data-l="' + l + '">' + LABEL[l] + '</button>';
     });
     langs.innerHTML = html;
-    foot.appendChild(langs);
+
+    var group = document.createElement('div');
+    group.className = 'rec-lang-group';
+    group.appendChild(langs);
+
+    var info = document.createElement('span');
+    info.className = 'rec-info';
+    info.setAttribute('tabindex', '0');
+    info.setAttribute('role', 'img');
+    info.setAttribute('aria-label', tipText());
+    var tip = document.createElement('span');
+    tip.className = 'rec-tip';
+    tip.textContent = tipText();
+    info.innerHTML = INFO_SVG;
+    info.appendChild(tip);
+    tips.push({ info: info, tip: tip });
+    group.appendChild(info);
+    foot.appendChild(group);
 
     langs.addEventListener('click', function(e) {
       var b = e.target.closest ? e.target.closest('.rl-btn') : null;
@@ -1492,6 +1518,14 @@
       if (M && typeof window.ym === 'function') {
         try { window.ym(M, 'reachGoal', 'rec-translate', { lang: l }); } catch (er) {}
       }
+    });
+  });
+
+  /* keep the info tooltip in the current site language */
+  document.querySelectorAll('.langseg-btn').forEach(function(b) {
+    b.addEventListener('click', function() {
+      var t = tipText();
+      tips.forEach(function(o) { o.tip.textContent = t; o.info.setAttribute('aria-label', t); });
     });
   });
 })();
