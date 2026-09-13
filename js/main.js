@@ -1512,6 +1512,7 @@
     cards.forEach(function(c) {
       var on = c.getAttribute('data-skill') === slug;
       c.classList.toggle('rec-show', on);
+      c.classList.toggle('cur', on); /* .cur so children stay interactive (coverflow CSS) */
       if (on && closeBtn) c.appendChild(closeBtn); /* close sits in the card's corner */
     });
     modal.classList.add('open');
@@ -1539,6 +1540,10 @@
   });
   if (closeBtn) closeBtn.addEventListener('click', close);
   if (backdrop) backdrop.addEventListener('click', close);
+  /* click anywhere outside the card closes the modal */
+  modal.addEventListener('click', function(e) {
+    if (!e.target.closest('.skill-card')) close();
+  });
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' && modal.classList.contains('open')) close();
   });
