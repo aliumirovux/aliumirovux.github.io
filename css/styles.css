@@ -732,7 +732,7 @@ type-first */
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) translate3d(var(--fx, 0px), var(--fy, 0px), var(--fz, 0px));
   width: 35%;
   height: 35%;
   aspect-ratio: 1;
@@ -1332,13 +1332,16 @@ section {
   transition: transform .12s ease-out
 }
 
-.orbit-core,
+.orbit-core {
+  transition: transform .16s var(--ease-soft)
+}
+
 .orbit .ocore-glow {
   transition: transform .35s var(--ease-soft)
 }
 
 .orbit.tilt .orbit-core {
-  transform: translate(-50%, -50%) translateZ(48px)
+  --fz: 48px
 }
 
 .orbit.tilt .ocore-glow {
@@ -1352,7 +1355,7 @@ section {
   }
 
   .orbit.tilt .orbit-core {
-    transform: translate(-50%, -50%)
+    --fz: 0px
   }
 
   .orbit.tilt .ocore-glow {
@@ -3308,7 +3311,7 @@ footer {
 
 .orbit .orbit-core {
   cursor: pointer;
-  transition: scale .35s var(--ease)
+  transition: transform .16s var(--ease-soft), scale .35s var(--ease)
 }
 
 .orbit .orbit-core:hover {
