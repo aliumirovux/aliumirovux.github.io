@@ -1297,6 +1297,70 @@
   if (contact) tilt(contact, 6, 1100, true);
 })();
 
+/* hero portrait follows the cursor across the page + a springy poke on click (koboyo-style) */
+(function() {
+  var core = document.querySelector('.orbit .orbit-core');
+  if (!core) return;
+  var fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  if (fine && !reduce) {
+    var MAX = 14, /* max px the face drifts toward the cursor */
+      REACH = 520, /* distance at which the pull reaches full strength */
+      tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+
+    function frame() {
+      cx += (tx - cx) * 0.14;
+      cy += (ty - cy) * 0.14;
+      core.style.setProperty('--fx', cx.toFixed(2) + 'px');
+      core.style.setProperty('--fy', cy.toFixed(2) + 'px');
+      if (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) {
+        raf = requestAnimationFrame(frame);
+      } else {
+        raf = null;
+      }
+    }
+
+    function kick() {
+      if (!raf) raf = requestAnimationFrame(frame);
+    }
+    window.addEventListener('mousemove', function(e) {
+      var r = core.getBoundingClientRect();
+      var ex = e.clientX - (r.left + r.width / 2),
+        ey = e.clientY - (r.top + r.height / 2),
+        d = Math.hypot(ex, ey) || 1,
+        pull = Math.min(d / REACH, 1);
+      tx = (ex / d) * MAX * pull;
+      ty = (ey / d) * MAX * pull;
+      kick();
+    }, {
+      passive: true
+    });
+    document.addEventListener('mouseleave', function() {
+      tx = 0;
+      ty = 0;
+      kick();
+    });
+  }
+
+  core.addEventListener('click', function() {
+    if (reduce || typeof core.animate !== 'function') return;
+    core.animate([{
+      transform: 'scale(1)'
+    }, {
+      transform: 'scale(.86)'
+    }, {
+      transform: 'scale(1.06)'
+    }, {
+      transform: 'scale(1)'
+    }], {
+      duration: 480,
+      easing: 'cubic-bezier(.34,1.56,.64,1)',
+      composite: 'add'
+    });
+  });
+})();
+
 /* perf: pause infinite animations while their section is off screen (no visual change) */
 (function() {
   if (!("IntersectionObserver" in window)) return;
