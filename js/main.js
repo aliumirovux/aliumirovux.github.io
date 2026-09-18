@@ -184,8 +184,7 @@
     b.addEventListener("click", renderDur);
   });
 
-  /* ---- theme (locked dark) ---- */
-  docEl.setAttribute("data-theme", "dark");
+  /* ---- theme follows the system preference; handled by js/theme.js in <head> ---- */
 
   /* ---- mobile menu ---- */
   var burger = document.getElementById("burger"),
@@ -811,9 +810,10 @@
         if (instant) {
           c.style.transition = "none";
         }
+        var lightTheme = document.documentElement.getAttribute("data-theme") === "light";
         c.style.transform = slotTransform(off);
-        c.style.opacity = a >= 3 ? 0 : 1;
-        c.style.filter = off === 0 ? "none" : "brightness(" + (a === 1 ? .72 : .5) + ")";
+        c.style.opacity = a >= 3 ? 0 : (off === 0 ? 1 : (lightTheme ? (a === 1 ? .6 : .4) : 1));
+        c.style.filter = off === 0 || lightTheme ? "none" : "brightness(" + (a === 1 ? .72 : .5) + ")";
         c.style.zIndex = Math.max(0, 30 - a * 10);
         c.style.pointerEvents = a >= 3 ? "none" : "auto";
         c.classList.toggle("cur", off === 0);
