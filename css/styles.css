@@ -3463,6 +3463,32 @@ footer {
   transition: transform .6s var(--ease-soft), opacity .45s var(--ease), filter .45s var(--ease)
 }
 
+/* light-mode surfaces for the coverflow / recommendation modals (base rules are dark-first) */
+[data-theme="light"] .skill-card {
+  background: linear-gradient(180deg, #ffffff, #f6f6f7);
+  box-shadow: inset 0 0 0 1px var(--line), 0 40px 90px -30px rgba(20, 22, 30, .32)
+}
+
+[data-theme="light"] .goo-blob {
+  background: linear-gradient(180deg, #ffffff, #ececed)
+}
+
+[data-theme="light"] .pm-link {
+  background: var(--surface-2)
+}
+
+[data-theme="light"] .skill-close,
+[data-theme="light"] .skill-arrow {
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  color: var(--muted)
+}
+
+[data-theme="light"] .skill-close:hover,
+[data-theme="light"] .skill-arrow:hover {
+  background: color-mix(in srgb, var(--ink) 11%, transparent);
+  color: var(--ink)
+}
+
 .skill-stage {
   cursor: grab
 }
