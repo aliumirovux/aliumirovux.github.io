@@ -2140,14 +2140,13 @@ honest stat cards */
 }
 
 /* employment type next to the company (two concurrent roles):
-   tinted glass chip with a status dot — green pulse for full-time, accent for part-time */
+   tinted glass chip — green for full-time, accent for part-time */
 .role .rtype {
   --tc: var(--accent);
   display: inline-flex;
   align-items: center;
-  gap: 7px;
   margin-left: 10px;
-  padding: 4px 11px 4px 9px;
+  padding: 4px 11px;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--tc) 28%, transparent);
   background: linear-gradient(180deg, color-mix(in srgb, var(--tc) 16%, transparent), color-mix(in srgb, var(--tc) 6%, transparent));
@@ -2165,37 +2164,6 @@ honest stat cards */
 
 .role .rtype.ft {
   --tc: var(--pos)
-}
-
-.role .rtype::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  background: var(--tc);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tc) 22%, transparent)
-}
-
-.role .rtype.ft::before {
-  animation: rtypePulse 2.4s var(--ease-soft) infinite
-}
-
-@keyframes rtypePulse {
-  0% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--tc) 55%, transparent)
-  }
-
-  70%,
-  100% {
-    box-shadow: 0 0 0 7px color-mix(in srgb, var(--tc) 0%, transparent)
-  }
-}
-
-@media (prefers-reduced-motion:reduce) {
-  .role .rtype.ft::before {
-    animation: none
-  }
 }
 
 .role .rdate {
