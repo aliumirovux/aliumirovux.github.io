@@ -3966,15 +3966,13 @@ body {
 }
 
 /* CASE — galleries (real product screens) */
-/* breaks out of the 880px reading column on wide screens, stays full-width on phones */
-.case-wide {
-  margin-inline: min(0px, calc(50% - min(580px, 50vw - 24px)))
-}
 
 .case-phones {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(190px, 1fr);
+  grid-auto-columns: minmax(170px, 230px);
+  justify-content: start;
+  justify-content: safe center;
   gap: 18px;
   margin: 26px 0 8px;
   padding: 4px 2px 14px;
@@ -4039,9 +4037,18 @@ body {
   margin: 0
 }
 
+/* breaks out of the 880px reading column on wide screens, stays full-width on phones
+   (after the block rules so their margin shorthand doesn't reset it) */
+.case-phones.case-wide,
+.case-fig.case-wide,
+.case-split.case-wide {
+  margin-inline: min(0px, calc(50% - min(580px, 50vw - 24px)))
+}
+
 @media(max-width:640px) {
   .case-phones {
     grid-auto-columns: 68%;
+    justify-content: start;
     gap: 14px
   }
 
@@ -4065,9 +4072,20 @@ body {
   background-image: url(../assets/img/work/doczon.webp)
 }
 
-.visual.img-iwon,
-.shot.img-iwon {
-  background-image: url(../assets/img/work/iwon.webp)
+.visual.img-iwon {
+  background-image: url(../assets/img/work/iwon-wallet.webp)
+}
+
+.visual.img-social {
+  background-image: url(../assets/img/work/iwon-social.webp)
+}
+
+.visual.img-imarket {
+  background-image: url(../assets/img/work/seller-imarket.webp)
+}
+
+.visual.img-ds {
+  background-image: url(../assets/img/work/iwon-ds.webp)
 }
 
 .visual.img-foodee,
