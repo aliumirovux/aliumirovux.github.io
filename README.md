@@ -51,7 +51,7 @@ and a dark theme.
 │       ├── logo-dark.webp / logo-light.webp
 │       ├── team/          # recommendation avatars
 │       ├── tools/         # skill / tool icons
-│       └── work/          # case-study cover shots
+│       └── work/          # case-study covers + per-project galleries (wallet/, social/, imarket/, ds/)
 ├── README.md
 ├── LICENSE
 └── .gitignore
