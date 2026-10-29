@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Page not found — Ali Umirov</title>
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0d0e10" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<link rel="icon" type="image/png" sizes="64x64" href="/assets/img/favicon.png" />
+<style>
+  /* GitHub Pages serves this for any missing path, so every URL here is root-absolute */
+  @font-face {
+    font-family: "Geist";
+    font-weight: 400;
+    font-display: swap;
+    src: url(/assets/fonts/geist-400.woff2) format("woff2")
+  }
+
+  @font-face {
+    font-family: "Geist";
+    font-weight: 700;
+    font-display: swap;
+    src: url(/assets/fonts/geist-700.woff2) format("woff2")
+  }
+
+  :root {
+    --bg: #ffffff;
+    --ink: #101114;
+    --muted: #55575e;
+    --line: #e8e8ea;
+    --accent: #0f62fe;
+    color-scheme: light dark
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d0e10;
+      --ink: #f1f1f3;
+      --muted: #a4a6ad;
+      --line: #242529;
+      --accent: #5b95ff
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0
+  }
+
+  body {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    padding: 24px 16px;
+    background: radial-gradient(60% 50% at 50% 40%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%), var(--bg);
+    color: var(--ink);
+    font-family: "Geist", -apple-system, system-ui, sans-serif;
+    text-align: center
+  }
+
+  .code {
+    font-size: clamp(4.5rem, 18vw, 8rem);
+    font-weight: 700;
+    letter-spacing: -.04em;
+    line-height: 1;
+    color: var(--accent)
+  }
+
+  h1 {
+    margin-top: 18px;
+    font-size: clamp(1.4rem, 4vw, 1.9rem);
+    letter-spacing: -.02em
+  }
+
+  p {
+    margin: 12px auto 0;
+    max-width: 40ch;
+    color: var(--muted);
+    line-height: 1.6
+  }
+
+  a {
+    display: inline-block;
+    margin-top: 28px;
+    padding: 13px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: none;
+    transition: border-color .2s
+  }
+
+  a:hover,
+  a:focus-visible {
+    border-color: var(--accent)
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="code" aria-hidden="true">404</div>
+  <h1>Page not found</h1>
+  <p>This page doesn’t exist or has moved.<br><span lang="uz">Sahifa topilmadi</span> · <span lang="ru">Страница не найдена</span></p>
+  <a href="/">← Back to portfolio</a>
+</main>
+</body>
+</html>

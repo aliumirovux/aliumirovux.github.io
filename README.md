@@ -41,6 +41,8 @@ and a dark theme.
 ├── js/
 │   └── main.js             # i18n, nav & scroll-spy, auto durations, modals, UI
 ├── og-image.png            # social share preview card (1200×630)
+├── 404.html                # custom not-found page (served by GitHub Pages)
+├── robots.txt / sitemap.xml # crawler hints for search engines
 ├── assets/
 │   ├── fonts/              # Geist font (400/500/600/700)
 │   └── img/
