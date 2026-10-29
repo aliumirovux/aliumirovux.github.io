@@ -4037,6 +4037,260 @@ body {
   margin: 0
 }
 
+/* CASE — evidence blocks: audit ledger, decision log, file notes, before/after */
+.case-ledger {
+  margin: 22px 0 6px;
+  border-top: 1px solid var(--line);
+  font-variant-numeric: tabular-nums
+}
+
+.case-ledger .lg-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) 96px minmax(0, 1fr);
+  gap: 18px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line)
+}
+
+.case-ledger .lg-head {
+  padding: 10px 0;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--faint)
+}
+
+.case-ledger .lg-head span {
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  letter-spacing: inherit
+}
+
+.case-ledger .lg-k {
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.45
+}
+
+.case-ledger .lg-a {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  text-align: right;
+  color: var(--ink)
+}
+
+.case-ledger .lg-b {
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.5
+}
+
+.case-src {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: var(--faint)
+}
+
+.case-log {
+  list-style: none;
+  margin: 18px 0 6px;
+  border-left: 1px solid var(--line)
+}
+
+.case-log li {
+  position: relative;
+  padding: 0 0 26px 24px
+}
+
+.case-log li::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: 6px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1.5px solid var(--accent)
+}
+
+.case-log .lg-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin-bottom: 6px;
+  font-size: 12.5px;
+  color: var(--faint)
+}
+
+.case-log time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px
+}
+
+.case-log .lg-tag {
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-weight: 600
+}
+
+.case-log h3 {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  margin-bottom: 5px
+}
+
+.case-log p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 66ch
+}
+
+.case-log code,
+.case-notes code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .88em;
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: var(--surface-2);
+  color: var(--ink)
+}
+
+.case-notes {
+  margin: 20px 0 6px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--line)
+}
+
+.case-notes .nt-src {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  color: var(--faint);
+  margin-bottom: 10px
+}
+
+.case-notes ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px
+}
+
+.case-notes li {
+  position: relative;
+  padding-left: 16px;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.55
+}
+
+.case-notes li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  color: var(--faint)
+}
+
+.case-ba {
+  display: grid;
+  grid-template-columns: 230px 230px minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+  margin: 24px 0 10px
+}
+
+.case-ba figure {
+  margin: 0
+}
+
+.case-ba img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 24px;
+  border: 1px solid var(--line);
+  background: var(--surface-2)
+}
+
+.case-ba .ba-tag {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--faint)
+}
+
+.case-ba .ba-tag.now {
+  color: var(--accent)
+}
+
+.case-ba ol {
+  margin: 30px 0 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.55
+}
+
+.case-ba ol li {
+  padding-left: 4px
+}
+
+.case-ba ol li::before {
+  content: none
+}
+
+.case-ba ol li::marker {
+  color: var(--ink);
+  font-weight: 600
+}
+
+@media(max-width:760px) {
+  .case-ba {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px
+  }
+
+  .case-ba ol {
+    grid-column: 1 / -1;
+    margin-top: 6px
+  }
+
+  .case-ledger .lg-row {
+    grid-template-columns: minmax(0, 1fr) 72px;
+    gap: 4px 14px
+  }
+
+  .case-ledger .lg-b {
+    grid-column: 1 / -1
+  }
+
+  .case-ledger .lg-head .lg-b {
+    display: none
+  }
+}
+
 /* breaks out of the 880px reading column on wide screens, stays full-width on phones
    (after the block rules so their margin shorthand doesn't reset it) */
 .case-phones.case-wide,
