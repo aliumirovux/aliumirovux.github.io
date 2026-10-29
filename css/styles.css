@@ -39,7 +39,7 @@
   --surface-2: #f6f6f7;
   --ink: #101114;
   --muted: #55575e;
-  --faint: #a2a4ab;
+  --faint: #6d6f76;
   --line: #e8e8ea;
   --line-2: #f1f1f3;
   --accent: #0f62fe;
@@ -58,7 +58,7 @@
   --surface-2: #191a1e;
   --ink: #f1f1f3;
   --muted: #a4a6ad;
-  --faint: #5a5c64;
+  --faint: #82848c;
   --line: #242529;
   --line-2: #1a1b1f;
   --accent: #5b95ff;
@@ -630,6 +630,18 @@ type-first */
   width: min(600px, 92vw);
   aspect-ratio: 1;
   margin: 0 auto 42px
+}
+
+/* desktop: size the orbit to the viewport height so the headline lands on the first screen */
+@media(min-width:641px) {
+  .hero {
+    padding-top: clamp(96px, 14vh, 168px)
+  }
+
+  .orbit {
+    width: min(600px, 92vw, max(420px, 100vh - 400px));
+    width: min(600px, 92vw, max(420px, 100svh - 400px))
+  }
 }
 
 .orbit .oring {
@@ -2141,7 +2153,7 @@ honest stat cards */
   font-size: 12px;
   font-weight: 600;
   letter-spacing: .02em;
-  color: var(--faint)
+  color: var(--muted)
 }
 
 .role .chev {
@@ -2662,6 +2674,14 @@ honest stat cards */
   mask-image: linear-gradient(to right, #000 calc(100% - 18px), transparent)
 }
 
+/* two-icon tiles carry a longer label ("Claude & ChatGPT"): wrap instead of clipping */
+.tool:has(.ic-pair) .tool-name {
+  white-space: normal;
+  line-height: 1.2;
+  -webkit-mask-image: none;
+  mask-image: none
+}
+
 .tool .ic-pair {
   display: inline-flex;
   align-items: center;
@@ -2678,6 +2698,16 @@ honest stat cards */
 
 .tool .ic-pair .ic-wl + .ic-wl {
   margin-left: -12px
+}
+
+@media(max-width:560px) {
+  .tool:has(.ic-pair) {
+    gap: 10px
+  }
+
+  .tool .ic-pair .ic-wl + .ic-wl {
+    margin-left: -18px
+  }
 }
 
 /* RECOMMENDATIONS */
