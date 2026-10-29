@@ -2139,6 +2139,21 @@ honest stat cards */
   font-weight: 700
 }
 
+/* employment type next to the company (two concurrent roles) */
+.role .rtype {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-family: var(--fb);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: var(--muted);
+  vertical-align: 2px
+}
+
 .role .rdate {
   font-size: 13.5px;
   color: var(--muted);
