@@ -2139,19 +2139,63 @@ honest stat cards */
   font-weight: 700
 }
 
-/* employment type next to the company (two concurrent roles) */
+/* employment type next to the company (two concurrent roles):
+   tinted glass chip with a status dot — green pulse for full-time, accent for part-time */
 .role .rtype {
-  display: inline-block;
-  margin-left: 8px;
-  padding: 3px 9px;
+  --tc: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: 10px;
+  padding: 4px 11px 4px 9px;
   border-radius: 999px;
-  border: 1px solid var(--line);
+  border: 1px solid color-mix(in srgb, var(--tc) 28%, transparent);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--tc) 16%, transparent), color-mix(in srgb, var(--tc) 6%, transparent));
+  box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 10%, transparent), 0 6px 18px -10px color-mix(in srgb, var(--tc) 60%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   font-family: var(--fb);
   font-size: 11.5px;
   font-weight: 600;
   letter-spacing: .02em;
-  color: var(--muted);
+  line-height: 1.2;
+  color: color-mix(in srgb, var(--tc) 55%, var(--ink));
   vertical-align: 2px
+}
+
+.role .rtype.ft {
+  --tc: var(--pos)
+}
+
+.role .rtype::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--tc);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tc) 22%, transparent)
+}
+
+.role .rtype.ft::before {
+  animation: rtypePulse 2.4s var(--ease-soft) infinite
+}
+
+@keyframes rtypePulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--tc) 55%, transparent)
+  }
+
+  70%,
+  100% {
+    box-shadow: 0 0 0 7px color-mix(in srgb, var(--tc) 0%, transparent)
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .role .rtype.ft::before {
+    animation: none
+  }
 }
 
 .role .rdate {
