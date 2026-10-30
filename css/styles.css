@@ -3967,10 +3967,11 @@ body {
 
 /* CASE — galleries (real product screens) */
 
+/* galleries share the text column's edges — no breakout — so every left edge lines up */
 .case-phones {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(170px, 230px);
+  grid-auto-columns: minmax(140px, 230px);
   justify-content: start;
   justify-content: safe center;
   gap: 18px;
@@ -4366,14 +4367,6 @@ body {
   .case-ledger .lg-head .lg-b {
     display: none
   }
-}
-
-/* breaks out of the 880px reading column on wide screens, stays full-width on phones
-   (after the block rules so their margin shorthand doesn't reset it) */
-.case-phones.case-wide,
-.case-fig.case-wide,
-.case-split.case-wide {
-  margin-inline: min(0px, calc(50% - min(580px, 50vw - 24px)))
 }
 
 @media(max-width:640px) {
