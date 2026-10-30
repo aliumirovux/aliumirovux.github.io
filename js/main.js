@@ -612,6 +612,32 @@
     if (e.key === "Escape") closeCases();
   });
 
+  /* ---- multi-project case: sub-nav scrolls the modal and follows the part in view ---- */
+  document.querySelectorAll(".case-subnav").forEach(function(navEl) {
+    var modal = navEl.closest(".case-modal");
+    var links = navEl.querySelectorAll("a[href^='#']");
+    links.forEach(function(a) {
+      a.addEventListener("click", function(e) {
+        var part = modal.querySelector(a.getAttribute("href"));
+        if (!part) return;
+        e.preventDefault();
+        modal.scrollTo({ top: part.offsetTop - 110, behavior: "smooth" });
+      });
+    });
+    function mark() {
+      var cur = null;
+      links.forEach(function(a) {
+        var part = modal.querySelector(a.getAttribute("href"));
+        if (part && part.getBoundingClientRect().top < 200) cur = a;
+      });
+      links.forEach(function(a) {
+        a.classList.toggle("on", a === cur);
+      });
+    }
+    modal.addEventListener("scroll", mark, { passive: true });
+    mark();
+  });
+
   /* ---- coverflow modal (skills + tools) ---- */
   function initCoverflow(modalId, anchorList) {
     var modal = document.getElementById(modalId);
