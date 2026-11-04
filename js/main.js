@@ -140,7 +140,28 @@
     });
   }
 
-  /* ---- job duration (auto) ---- */
+  /* ---- job duration (auto) ----
+     LinkedIn-style: start and end months both count (Jun 2026 → Nov 2026 = 6 mo).
+     .rtotal = company total, a union of its roles' months (overlaps counted once). */
+  function monthIdx(v) {
+    if (v === "present") {
+      var d = new Date();
+      return d.getFullYear() * 12 + d.getMonth();
+    }
+    var p = v.split("-");
+    return (+p[0]) * 12 + (+p[1]) - 1;
+  }
+
+  function fmtDur(months, U) {
+    if (months < 1) months = 1;
+    var y = Math.floor(months / 12),
+      m = months % 12,
+      parts = [];
+    if (y > 0) parts.push(y + " " + U[0]);
+    if (m > 0) parts.push(m + " " + U[1]);
+    return parts.join(" ");
+  }
+
   function renderDur() {
     var l = docEl.lang || "en";
     var U = {
@@ -149,34 +170,22 @@
       en: ["yr", "mo"]
     } [l] || ["yr", "mo"];
     document.querySelectorAll(".rdate[data-s]").forEach(function(el) {
-      var sp = el.getAttribute("data-s").split("-"),
-        sy = +sp[0],
-        sm = +sp[1];
-      var e = el.getAttribute("data-e"),
-        ey, em;
-      if (e === "present") {
-        var d = new Date();
-        ey = d.getFullYear();
-        em = d.getMonth() + 1;
-      } else {
-        var ep = e.split("-");
-        ey = +ep[0];
-        em = +ep[1];
-      }
-      var months = (ey - sy) * 12 + (em - sm);
-      if (months < 1) months = 1;
-      var y = Math.floor(months / 12),
-        m = months % 12,
-        parts = [];
-      if (y > 0) parts.push(y + " " + U[0]);
-      if (m > 0) parts.push(m + " " + U[1]);
-      if (!parts.length) parts.push("1 " + U[1]);
+      var months = monthIdx(el.getAttribute("data-e")) - monthIdx(el.getAttribute("data-s")) + 1;
       var old = el.querySelector(".rdur");
       if (old) old.remove();
       var span = document.createElement("span");
       span.className = "rdur";
-      span.textContent = "· " + parts.join(" ");
+      span.textContent = "· " + fmtDur(months, U);
       el.appendChild(span);
+    });
+    document.querySelectorAll(".co .rtotal").forEach(function(t) {
+      var seen = {}, n = 0;
+      t.closest(".co").querySelectorAll(".rdate[data-s]").forEach(function(el) {
+        for (var i = monthIdx(el.getAttribute("data-s")), e = monthIdx(el.getAttribute("data-e")); i <= e; i++) {
+          if (!seen[i]) { seen[i] = 1; n++; }
+        }
+      });
+      t.textContent = fmtDur(n, U);
     });
   }
   renderDur();

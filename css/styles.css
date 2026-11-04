@@ -4263,3 +4263,233 @@ textarea {
   -webkit-user-select: text;
   user-select: text
 }
+
+/* ===== experience: LinkedIn-style company groups (logo + nested roles timeline) ===== */
+.role.co {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  column-gap: 18px;
+  padding: 24px 0
+}
+
+.co-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 17px/1 var(--fd);
+  letter-spacing: -.02em;
+  background: var(--surface);
+  color: var(--muted);
+  overflow: hidden
+}
+
+.co-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block
+}
+
+.co-logo.lts {
+  background: #fff;
+  color: #1b1c20
+}
+
+.co-logo.lts i {
+  font-style: normal;
+  color: #d23b3b
+}
+
+.co-logo.iwon {
+  background: #fff;
+  color: #6a4cf5
+}
+
+.co-logo.cargo {
+  background: #ffd43b;
+  color: #111;
+  border-color: transparent;
+  font-size: 22px
+}
+
+.co-head {
+  min-width: 0;
+  align-self: center
+}
+
+.co-name {
+  font: 700 1.08rem/1.3 var(--fd);
+  letter-spacing: -.014em;
+  margin: 0
+}
+
+.co-sub {
+  margin-top: 3px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--ink);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px
+}
+
+.co-meta {
+  margin-top: 3px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--muted)
+}
+
+.co-meta .sep {
+  margin: 0 6px;
+  opacity: .6
+}
+
+.role.co .rtype {
+  margin-left: 0;
+  padding: 3px 10px;
+  vertical-align: 1px
+}
+
+.role .rtype.fl {
+  --tc: #e3a008
+}
+
+/* date is a text line here, not the pill used before */
+.role.co .rdate {
+  display: inline;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  white-space: normal;
+  text-align: left;
+  margin: 0
+}
+
+.role.co .rdur,
+.role.co .rtotal {
+  font-size: inherit;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--muted)
+}
+
+.role.co .rdur {
+  margin-left: 6px;
+  white-space: nowrap
+}
+
+.role.co .rtotal {
+  white-space: nowrap
+}
+
+/* nested roles */
+.co .roles {
+  grid-column: 1 / -1;
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px
+}
+
+.co .rl {
+  position: relative;
+  padding-left: 70px
+}
+
+.co .rl::before {
+  content: "";
+  position: absolute;
+  left: 21px;
+  top: 7px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--faint);
+  box-shadow: 0 0 0 4px var(--surface-2)
+}
+
+.co .rl.now::before {
+  background: var(--pos)
+}
+
+.co .rl:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 25px;
+  top: 24px;
+  bottom: -16px;
+  width: 2px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--faint) 40%, transparent)
+}
+
+.co .rl-title {
+  font: 600 1rem/1.35 var(--fd);
+  letter-spacing: -.01em;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px
+}
+
+/* bullets + view more sit under the text column */
+.role.co .rbody {
+  grid-column: 2 / -1;
+  margin-top: 14px
+}
+
+.role.co > .vmore {
+  grid-column: 2 / -1;
+  justify-self: start;
+  padding-bottom: 0
+}
+
+.role.co.multi .rbody,
+.role.co.multi > .vmore {
+  grid-column: 1 / -1;
+  margin-left: 70px
+}
+
+@media (max-width:640px) {
+  .role.co {
+    grid-template-columns: 44px minmax(0, 1fr);
+    column-gap: 14px;
+    padding: 20px 0
+  }
+
+  .co-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    font-size: 15px
+  }
+
+  .co-logo.cargo {
+    font-size: 19px
+  }
+
+  .co .rl {
+    padding-left: 58px
+  }
+
+  .co .rl::before {
+    left: 17px
+  }
+
+  .co .rl:not(:last-child)::after {
+    left: 21px
+  }
+
+  .role.co.multi .rbody,
+  .role.co.multi > .vmore {
+    margin-left: 58px
+  }
+}
