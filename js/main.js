@@ -594,12 +594,33 @@
     html.style.scrollBehavior = prev;
   }
 
+  var caseTrigger = null;
   function closeCases() {
+    var had = false;
     document.querySelectorAll(".case-modal.open").forEach(function(m) {
       m.classList.remove("open");
+      m.setAttribute("aria-hidden", "true");
+      had = true;
     });
+    if (!had) return;
     unlockScroll();
+    if (caseTrigger && caseTrigger.focus) { try { caseTrigger.focus({ preventScroll: true }); } catch (e) {} }
+    caseTrigger = null;
   }
+  document.querySelectorAll(".case-modal").forEach(function(m) {
+    m.setAttribute("role", "dialog");
+    m.setAttribute("aria-modal", "true");
+    var h1 = m.querySelector(".case-h1");
+    if (h1) { if (!h1.id) h1.id = m.id + "-title"; m.setAttribute("aria-labelledby", h1.id); }
+    m.addEventListener("keydown", function(e) {
+      if (e.key !== "Tab" || !m.classList.contains("open")) return;
+      var f = Array.prototype.filter.call(m.querySelectorAll('a[href],button:not([disabled]),[tabindex="0"],video[controls]'), function(x) { return x.offsetParent !== null; });
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  });
   document.querySelectorAll("[data-case]").forEach(function(btn) {
     btn.addEventListener("keydown", function(e) {
       if (e.key === "Enter" || e.key === " ") {
@@ -610,9 +631,14 @@
     btn.addEventListener("click", function() {
       var m = document.getElementById(btn.getAttribute("data-case"));
       if (m) {
+        if (!m.classList.contains("open")) caseTrigger = btn;
+        document.querySelectorAll(".case-modal.open").forEach(function(o) { if (o !== m) { o.classList.remove("open"); o.setAttribute("aria-hidden", "true"); } });
         m.classList.add("open");
+        m.setAttribute("aria-hidden", "false");
         m.scrollTop = 0;
         lockScroll();
+        var cb = m.querySelector(".case-close");
+        if (cb) setTimeout(function() { try { cb.focus({ preventScroll: true }); } catch (e) { cb.focus(); } }, 60);
       }
     });
   });
@@ -1175,8 +1201,8 @@
       });
     });
     initCoverflow("toolModal", ta);
-    var aboutCard = document.querySelector(".about-card, .how-link");
-    if (aboutCard) initCoverflow("howModal", [{
+    var aboutCard = document.querySelector(".about-card");
+    if (aboutCard && document.getElementById("howModal")) initCoverflow("howModal", [{
       el: aboutCard,
       key: "howiwork"
     }]);
@@ -1680,4 +1706,55 @@
   }
   tick();
   setInterval(tick, 30000);
+})();
+
+
+/* case videos: play only when visible; respect Reduce Motion */
+(function() {
+  var vids = document.querySelectorAll("video[data-auto]");
+  if (!vids.length) return;
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  vids.forEach(function(v) {
+    if (reduce) { v.controls = true; return; }
+    if (!("IntersectionObserver" in window)) { v.play().catch(function() {}); return; }
+    new IntersectionObserver(function(es) {
+      es.forEach(function(e) {
+        if (e.isIntersecting) { v.play().catch(function() {}); } else { v.pause(); }
+      });
+    }, { threshold: 0.4 }).observe(v);
+  });
+})();
+
+/* ---- case study: table of contents (jump + active section) ---- */
+(function() {
+  document.querySelectorAll(".case-toc").forEach(function(nav) {
+    var modal = nav.closest(".case-modal");
+    if (!modal) return;
+    var btns = Array.prototype.slice.call(nav.querySelectorAll("[data-jump]"));
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function setActive(id) {
+      btns.forEach(function(b) {
+        var on = b.getAttribute("data-jump") === id;
+        b.setAttribute("aria-current", on ? "true" : "false");
+        if (on && b.scrollIntoView) {
+          var r = b.getBoundingClientRect(), pr = nav.getBoundingClientRect();
+          if (r.left < pr.left || r.right > pr.right) b.parentNode.scrollLeft += r.left - pr.left - 16;
+        }
+      });
+    }
+    btns.forEach(function(b) {
+      b.addEventListener("click", function() {
+        var el = document.getElementById(b.getAttribute("data-jump"));
+        if (el) el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      });
+    });
+    if (!("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(function(es) {
+      es.forEach(function(e) { if (e.isIntersecting) setActive(e.target.id); });
+    }, { root: modal, rootMargin: "-140px 0px -65% 0px", threshold: 0 });
+    btns.forEach(function(b) {
+      var el = document.getElementById(b.getAttribute("data-jump"));
+      if (el) io.observe(el);
+    });
+  });
 })();
