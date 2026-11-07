@@ -408,6 +408,7 @@
   ];
   var tg = document.getElementById("tools"),
     th = "";
+  if (tg) {
   tools.forEach(function(t) {
     var imgs = Array.isArray(t[1]) ? t[1] : [t[1]];
     var multi = imgs.length > 1;
@@ -417,6 +418,7 @@
     th += '<span class="tool">' + (multi ? '<span class="ic-pair">' + ics + '</span>' : ics) + '<span class="tool-name">' + t[0] + '</span></span>';
   });
   tg.innerHTML = th;
+  }
 
   /* ---- reveal on scroll ---- */
   if ("IntersectionObserver" in window) {
@@ -1173,7 +1175,7 @@
       });
     });
     initCoverflow("toolModal", ta);
-    var aboutCard = document.querySelector(".about-card");
+    var aboutCard = document.querySelector(".about-card, .how-link");
     if (aboutCard) initCoverflow("howModal", [{
       el: aboutCard,
       key: "howiwork"
@@ -1664,4 +1666,18 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' && modal.classList.contains('open')) close();
   });
+})();
+
+
+/* hero v2: Tashkent local time */
+(function() {
+  var els = document.querySelectorAll(".h2-clock");
+  if (!els.length) return;
+  function tick() {
+    var t = "";
+    try { t = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Tashkent" }).format(new Date()); } catch (e) {}
+    els.forEach(function(el) { el.textContent = t; });
+  }
+  tick();
+  setInterval(tick, 30000);
 })();
