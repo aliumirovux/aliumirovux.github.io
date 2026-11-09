@@ -4730,3 +4730,61 @@ a.xcs{text-decoration:none}
 .sol-grid.zon-also{grid-template-columns:repeat(2,1fr)}
 @media(max-width:760px){.sol-grid.zon-also{grid-template-columns:1fr}}
 #case-zon .case-fig{margin-top:14px}
+
+/* ===== Work: own products (Nov 2026) ===== */
+.own-work{margin-top:48px}
+.own-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px 24px;flex-wrap:wrap;margin-bottom:14px}
+.own-head .more-h{margin-bottom:0}
+.own-note{margin:0;font-size:14px;color:var(--muted);max-width:52ch}
+.own-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.own-card{display:flex;flex-direction:column;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:24px;overflow:hidden;background:color-mix(in srgb,var(--surface-2) 72%,transparent);transition:border-color .2s var(--ease)}
+.own-card:hover{border-color:color-mix(in srgb,var(--ink) 22%,transparent)}
+.own-card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.own-img{display:block;aspect-ratio:16/10;overflow:hidden;border-bottom:1px solid var(--line);background:var(--bg)}
+.own-img img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.own-card:hover .own-img img{transform:scale(1.02)}
+.own-body{display:flex;flex-direction:column;gap:8px;padding:16px 18px 18px}
+.own-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.own-t{font-size:18px;font-weight:600;letter-spacing:-.01em}
+.own-host{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--faint)}
+.own-ic{width:16px;height:16px}
+.own-card:hover .own-host{color:var(--ink)}
+.own-d{font-size:14px;color:var(--muted);line-height:1.45}
+.own-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.own-tag{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 10px;background:var(--bg)}
+@media(max-width:760px){.own-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.own-card:hover .own-img img{transform:none}}
+
+/* CARGOSYS case */
+.visual.img-cargo,.shot.img-cargo{background-image:url(../assets/img/work/cargosys.webp)}
+.cg-pills{display:grid;gap:10px;margin-top:16px}
+.cg-grp{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.cg-lb{width:118px;font-size:12.5px;color:var(--faint)}
+@media(max-width:520px){.cg-lb{width:100%}}
+.cg-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 9px;border:1px solid var(--line);border-radius:99px;font-size:13px;color:var(--ink);background:var(--bg)}
+.cg-pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
+
+/* Side projects section */
+.side{padding:0 0 64px}
+.own-grid3{grid-template-columns:repeat(3,1fr);margin-top:14px}
+.own-grid3 .own-t{font-size:16px}
+@media(max-width:900px){.own-grid3{grid-template-columns:1fr}}
+
+/* Side project cases */
+button.own-card{font:inherit;text-align:left;padding:0;cursor:pointer;width:100%;appearance:none}
+.pc-links{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 8px}
+.pc-links .btn svg{width:16px;height:16px}
+.nb-how.n3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:900px){.nb-how.n3{grid-template-columns:1fr}}
+
+/* Sayr — Figma process */
+.sf-h{font-size:18px;font-weight:600;letter-spacing:-.01em;margin:36px 0 10px}
+.sf-stats{margin:18px 0 6px}
+.sf-map{display:grid;justify-items:center;gap:0;margin:22px 0 8px;padding:22px;border:1px solid var(--line);border-radius:20px;background:var(--surface-2)}
+.sf-node{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--bg);min-width:0}
+.sf-node b{font-size:14px;font-weight:600}
+.sf-node span{font-size:12.5px;color:var(--muted);line-height:1.4}
+.sf-root{border-color:color-mix(in srgb,var(--ink) 30%,transparent);text-align:center;min-width:260px}
+.sf-arrow{width:1px;height:22px;background:color-mix(in srgb,var(--ink) 30%,transparent)}
+.sf-kids{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;position:relative;padding-top:12px;border-top:1px solid color-mix(in srgb,var(--ink) 30%,transparent)}
+@media(max-width:700px){.sf-kids{grid-template-columns:1fr 1fr}.sf-root{min-width:0;width:100%}}
