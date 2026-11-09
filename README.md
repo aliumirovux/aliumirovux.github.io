@@ -2,7 +2,7 @@
 
 Personal portfolio of **Ali Umirov**, Product Designer (Fintech & E-commerce).
 
-🔗 **Live:** https://aliumirovux.github.io
+🔗 **Live:** https://aliumirov.uz
 
 ---
 
@@ -73,7 +73,7 @@ python3 -m http.server 8000
 ## Deployment
 
 Pushing to the `main` branch of `aliumirovux/aliumirovux.github.io`
-automatically publishes to https://aliumirovux.github.io via GitHub Pages.
+automatically publishes to https://aliumirov.uz via GitHub Pages.
 
 ## Contact
 
